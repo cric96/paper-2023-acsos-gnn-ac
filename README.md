@@ -9,17 +9,17 @@
 ### Brainstoarming
 In this document I will discuss the idea behind the work that I had started here in Aarhus.
 The general idea is summirised in this figure:
-
-![idea-1](https://user-images.githubusercontent.com/23448811/192795427-a95dfc2c-af8d-4fec-8500-fe6d6c6ef617.png)
+![idea-1](https://user-images.githubusercontent.com/23448811/192802282-2662a2b2-5821-4c14-b918-bdeda065c83c.png)
 
 ### Neural Network
-![idea-2](https://user-images.githubusercontent.com/23448811/192795560-645c052f-2a6d-4f0d-bc47-c0a0a49649d5.png)
+![idea-2](https://user-images.githubusercontent.com/23448811/192802346-6fdc57c9-0d4e-43fc-81d2-2a4441358168.png)
+
 
 ### Training Schema
-![idea-3](https://user-images.githubusercontent.com/23448811/192796765-07415369-036e-4891-9bdf-2e166cee3215.png)
+![idea-3](https://user-images.githubusercontent.com/23448811/192802423-36cbb91e-5f6e-4623-8505-f6a7d99de766.png)
 
 ### Training Data
-![idea-4](https://user-images.githubusercontent.com/23448811/192800930-428e40bc-3fe3-46f3-bf7a-afbb02b2d0d8.png)
+![idea-4](https://user-images.githubusercontent.com/23448811/192802500-ad29cd52-8934-4c11-ba38-a495935125ef.png)
 
 ### Aggregate Computing & Neural Networks
-![idea-5](https://user-images.githubusercontent.com/23448811/192800877-fba680f0-682b-49f8-b8a8-346cec698f20.png)
+![idea-5](https://user-images.githubusercontent.com/23448811/192802570-48968263-1bbb-42e2-889b-62ecd5d1991a.png)
