@@ -23,3 +23,9 @@ The general idea is summirised in this figure:
 
 ### Aggregate Computing & Neural Networks
 ![idea-5](https://user-images.githubusercontent.com/23448811/192802570-48968263-1bbb-42e2-889b-62ecd5d1991a.png)
+
+### Library used
+- [ScalaPy](https://scalapy.dev/): to make possible the interaction between Scala and Python
+- [Pytorch](https://pytorch.org/): main framework for traning the neural network
+- [Pytorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/): library used for managin the spatial data (graphs)
+- [Pytorch Geometric Temporal](https://pytorch-geometric-temporal.readthedocs.io/en/latest/): library used for the temporal extension of PyTorch geometric (kind of unstable currently, and with a unclean API)
