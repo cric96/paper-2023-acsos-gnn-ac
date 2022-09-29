@@ -15,7 +15,7 @@ In this work, we consider *Cyber-Physical Swarms* as a system of reference: they
 
 Particularly, here we wanna explore a *distributed* *collective* tracking approach: the nodes should follow spatiotemporal phenomena over time (e.g., fire in a forest, school of fish, moving people), in a way in which the nodes can cover the phenomenon of interest. 
 Moreover, the nodes should cover the space since they can control the whole selected region somehow.
-The tracking concerns both the movement (i.e., the nodes should physically follow the changing data) both the data acquisition (i.e., the nodes should have a clear vision of the tracked sensing).
+The tracking concerns either the movement (i.e., the nodes should physically follow the changing data) and the data acquisition (i.e., the nodes should have a clear vision of the tracked sensing). 
 The latter is relevant to understand the distribution and making action using that information (i.e., in case of fire, the system should understand the centre and the border of it).
 
 In this paper we would follow the following approach:
