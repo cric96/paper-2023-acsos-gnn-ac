@@ -2,7 +2,8 @@
 % LLNCS macro package for Springer Computer Science proceedings;
 % Version 2.20 of 2018/03/10
 %
-\documentclass[runningheads]{llncs}
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
 
 \usepackage[T1]{fontenc}
 \def\doi#1{\href{https://doi.org/\detokenize{#1}}{\url{https://doi.org/\detokenize{#1}}}}
@@ -25,18 +26,36 @@
 % or: Field-Informed Reinforcement Learning: A Scalable and Effective Method for Collective Intelligence
 % or: A Novel Approach to Reinforcement Learning for Adaptive Collective Systems
 %
-\author{Gianluca Aguzzi\inst{1}\orcidID{todox} \and
-%Roberto Casadei\inst{1}\orcidID{todox} \and
-Mirko Viroli \inst{1}\orcidID{todox} \and
-Lukas Esterle \inst{2} \orcidID{todox} 
+
+\author{
+\IEEEauthorblockN{Gianluca Aguzzi}
+\IEEEauthorblockA{
+%\textit{Department of Computer Science and Engineering} \\
+\textit{%Alma Mater Studiorum--
+University of Bologna}\\
+Cesena, Italy\\
+gianluca.aguzzi@unibo.it
 }
-%
-\authorrunning{G. Aguzzi et al.}
-% First names are abbreviated in the running head.
-% If there are more than two authors, 'et al.' is used.
-%
-\institute{ALMA MATER STUDIORUM --- Università di Bologna, Cesena, Italy \and
-Aarhus University, Aarhus, Denmark}
+
+\and
+%\linebreakand %\and
+\IEEEauthorblockN{Mirko Viroli}
+\IEEEauthorblockA{
+%\textit{Department of Computer Science and Engineering} \\
+\textit{%Alma Mater Studiorum--
+University of Bologna}\\
+Cesena, Italy\\
+mirko.viroli@unibo.it % 0000−0003−2702−5702
+}
+\and
+\IEEEauthorblockN{Lukas Esterle}
+\IEEEauthorblockA{
+%\textit{Department of Computer Science and Engineering} \\
+\textit{%Alma Mater Studiorum--
+Aarhus University}\\
+Aarhus, Denmark\\
+lukas.esterle@ece.au.dk}
+}
 
 %
 \maketitle              % typeset the header of the contribution
@@ -59,8 +78,11 @@ This allows us to create distributed controllers informed by a collective knowle
 % 
 We demonstrate the effectiveness of this new approach in several case studies 
  where coordination tasks are successfully solved.
-\keywords{Aggregate Computing  \and Graph Neural Network \and Cyber-Physical Swarms.}
 \end{abstract}
+
+\begin{IEEEkeywords}
+aggregate computing, Graph Neural Network, Cyber-Physical Swarms.
+\end{IEEEkeywords}
 %
 \section{Introduction}
 
