@@ -19,10 +19,6 @@
 %
 \usepackage{listings}
 \lstset{language=Pascal}
-% Please use the
-
-\newcommand{\lukas}[1]{{\color{purple}\textbf{Lukas:} #1}}
-
 \begin{document}
 %
 \title{Field-informed Reinforcement Learning for Learnining Large Scale Collective Tasks} %% Todo improve
@@ -59,12 +55,20 @@ Aarhus University}\\
 Aarhus, Denmark\\
 lukas.esterle@ece.au.dk}
 }
-
 %
 \maketitle              % typeset the header of the contribution
 %
+
+%%% Comment command, to be removed before submission
+\newcommand{\meta}[3]{\textcolor{#1}{\textbf{#2}: #3}}
+\newcommand{\ga}[1]{\meta{red}{GA}{#1}}
+\newcommand{\lukas}[1]{\meta{purple}{Lukas}{#1}}
+\newcommand{\mv}[1]{\meta{green}{MV}{#1}}
+\ga{Page limit: 10 pages (include refs)}
+
+
 \begin{abstract}
-Coordinatinating a group of smart agents in multi-agent systems 
+Coordinatinating a group of intelligent agents in multi-agent systems 
  is a research problem that has been addressed for a long time, 
  due to the challenges posed by distribution and of the definition of distributed intelligence. 
 %
@@ -73,8 +77,8 @@ The problem is even more evident in collective adaptive systems,
 
 In this paper we consider a new reinforcement learning approach 
   for the definition of intelligent agents called \emph{Field-Informed reinforcement learning}, 
-  where we use computational fields to manage the interaction between them in a stigmergic way 
-  and Graph Neural Networks to learn the intelligence necessary to solve collective tasks. 
+  where we use computational \emph{computational fields} to manage the interaction between agents 
+  in stigmergically and Graph Neural Networks to learn a local behaviour necessary to solve collective tasks. 
 %
 This allows us to create distributed controllers informed by a collective knowledge 
  distilled during learning but that use only local information at runtime.
@@ -98,15 +102,27 @@ This leads to several questions
 	\item How to move sensors when the phenomena moves to ensure good coverage?
 \end{enumerate} \lukas{refine and rework these questions}
 
-In this paper, we propose a novel approach combining aggregate computing~\cite{Beal2015Computer} with Graph Neural Networks~\cite{Zhou2020AIOpen} to focus on the relevant areas. We further combine this with reinforcement learning techniques to respond to changing conditions in the environment.
+In this paper, we propose a novel approach combining aggregate computing
+~\cite{Beal2015Computer} with Graph Neural Networks
+~\cite{Zhou2020AIOpen} to focus on the relevant areas. We further combine this with reinforcement learning techniques to respond to changing conditions in the environment.
 Specifically, we will show... \lukas{more info...}
 
 The remainder of this paper is structured as follows. First we introduce the relevant background and problem formulation. Afterwards we introduce our approach in Section~\ref{sec:approach}. Section~\ref{sec:eval} outlines the performed experiments and discusses the obtained results. Finally, we will present our conclusions in Section~\ref{sec:conclusion}.
 
 \section{Background}
 \label{sec:background}
+\ga{Page budget: 1 page}
 
-%% Todo find a good name for the main contribution
+\section{Background and Motivation}
+\ga{Page budget: 1 page}
+\ga{Plan: discussed the problem of coordination in multi-agent systems 
+and the need for a scalable approach. In doing this, we will discuss some of the existing approaches}
+\subsection{Field Coordination Approaches}
+\subsection{Many-Agent Reinforcement Learning}
+\subsection{Graph Neural Network}
+
+
+\section{Field-informed Reinforcement Learning}
 
 \section{Approach}
 \label{sec:approach}
@@ -114,9 +130,13 @@ The remainder of this paper is structured as follows. First we introduce the rel
 \section{Evaluation}
 \label{sec:eval}
 \subsection{Simulation setup}
+\subsection{Scenario}
 
+\paragraph*{Variant A}
+\paragraph*{Variant B}
+\paragraph*{Variant C}
 
-\section{Conclusion}
+\section{Conclusion and Future Work}
 \label{sec:conclusion}
 
 \bibliographystyle{IEEEtran}
