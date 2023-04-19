@@ -6,6 +6,7 @@
 \IEEEoverridecommandlockouts
 
 \usepackage[T1]{fontenc}
+\usepackage{xcolor}
 \def\doi#1{\href{https://doi.org/\detokenize{#1}}{\url{https://doi.org/\detokenize{#1}}}}
 %
 \usepackage{graphicx}
@@ -19,6 +20,8 @@
 \usepackage{listings}
 \lstset{language=Pascal}
 % Please use the
+
+\newcommand{\lukas}[1]{{\color{purple}\textbf{Lukas:} #1}}
 
 \begin{document}
 %
@@ -77,7 +80,7 @@ This allows us to create distributed controllers informed by a collective knowle
  distilled during learning but that use only local information at runtime.
 % 
 We demonstrate the effectiveness of this new approach in several case studies 
- where coordination tasks are successfully solved.
+ where coordination tasks are successfully solved. \lukas{do we really have multiple case studies?} 
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -85,14 +88,38 @@ aggregate computing, Graph Neural Network, Cyber-Physical Swarms.
 \end{IEEEkeywords}
 %
 \section{Introduction}
+Various phenomena in the real world are not evenly distributed across the environment such as watershed, wild fires, traffic, human crowd movement, or wild life movement from insects, fish, birds, and mammals.
+To acquire appropriate information about such phenomena, we also need to distribute the sensors accordingly to cover all aspects sufficiently. While manual deployment will mitigate the problem, not all phenomena are known exactly \emph{a priori} and would require maintenance and adjustment during runtime. Even worse, with phenomena able to change their location, size, and distribution---as it is the case with crowds, wild life, or wild fires---an adaptation of the collective sensors is required in order to keep the required information. 
+
+This leads to several questions 
+\begin{enumerate}
+	\item How to distribute sensors to ensure good attainment of information?
+	\item How to maintain knowledge about the phenomena and unlearn irrelevant information?
+	\item How to move sensors when the phenomena moves to ensure good coverage?
+\end{enumerate} \lukas{refine and rework these questions}
+
+In this paper, we propose a novel approach combining aggregate computing~\cite{Beal2015Computer} with Graph Neural Networks to focus on the relevant areas. We further combine this with reinforcement learning techniques to respond to changing conditions in the environment.
+Specifically, we will show... \lukas{more info...}
+
+The remainder of this paper is structured as follows. First we introduce the relevant background and problem formulation. Afterwards we introduce our approach in Section~\ref{sec:approach}. Section~\ref{sec:eval} outlines the performed experiments and discusses the obtained results. Finally, we will present our conclusions in Section~\ref{sec:conclusion}.
 
 \section{Background}
+\label{sec:background}
 
 %% Todo find a good name for the main contribution
 
+\section{Approach}
+\label{sec:approach}
+
 \section{Evaluation}
+\label{sec:eval}
 \subsection{Simulation setup}
 
 
 \section{Conclusion}
+\label{sec:conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{bibliography}
+
 \end{document}
