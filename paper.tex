@@ -7,6 +7,7 @@
 
 \usepackage[T1]{fontenc}
 \usepackage{xcolor}
+\usepackage{cleveref}
 \def\doi#1{\href{https://doi.org/\detokenize{#1}}{\url{https://doi.org/\detokenize{#1}}}}
 %
 \usepackage{graphicx}
@@ -19,10 +20,6 @@
 %
 \usepackage{listings}
 \lstset{language=Pascal}
-% Please use the
-
-\newcommand{\lukas}[1]{{\color{purple}\textbf{Lukas:} #1}}
-
 \begin{document}
 %
 \title{Field-informed Reinforcement Learning for Learnining Large Scale Collective Tasks} %% Todo improve
@@ -59,12 +56,20 @@ Aarhus University}\\
 Aarhus, Denmark\\
 lukas.esterle@ece.au.dk}
 }
-
 %
 \maketitle              % typeset the header of the contribution
 %
+
+%%% Comment command, to be removed before submission
+\newcommand{\meta}[3]{\textcolor{#1}{\textbf{#2}: #3}}
+\newcommand{\ga}[1]{\meta{red}{GA}{#1}}
+\newcommand{\lukas}[1]{\meta{purple}{Lukas}{#1}}
+\newcommand{\mv}[1]{\meta{green}{MV}{#1}}
+\ga{Page limit: 10 pages (include refs)}
+
+
 \begin{abstract}
-Coordinatinating a group of smart agents in multi-agent systems 
+Coordinatinating a group of intelligent agents in multi-agent systems 
  is a research problem that has been addressed for a long time, 
  due to the challenges posed by distribution and of the definition of distributed intelligence. 
 %
@@ -73,8 +78,8 @@ The problem is even more evident in collective adaptive systems,
 
 In this paper we consider a new reinforcement learning approach 
   for the definition of intelligent agents called \emph{Field-Informed reinforcement learning}, 
-  where we use computational fields to manage the interaction between them in a stigmergic way 
-  and Graph Neural Networks to learn the intelligence necessary to solve collective tasks. 
+  where we use computational \emph{computational fields} to manage the interaction between agents 
+  in stigmergically and Graph Neural Networks to learn a local behaviour necessary to solve collective tasks. 
 %
 This allows us to create distributed controllers informed by a collective knowledge 
  distilled during learning but that use only local information at runtime.
@@ -98,25 +103,59 @@ This leads to several questions
 	\item How to move sensors when the phenomena moves to ensure good coverage?
 \end{enumerate} \lukas{refine and rework these questions}
 
-In this paper, we propose a novel approach combining aggregate computing~\cite{Beal2015Computer} with Graph Neural Networks~\cite{Zhou2020AIOpen} to focus on the relevant areas. We further combine this with reinforcement learning techniques to respond to changing conditions in the environment.
+In this paper, we propose a novel approach combining aggregate computing
+~\cite{Beal2015Computer} with Graph Neural Networks
+~\cite{Zhou2020AIOpen} to focus on the relevant areas. We further combine this with reinforcement learning techniques to respond to changing conditions in the environment.
 Specifically, we will show... \lukas{more info...}
 
-The remainder of this paper is structured as follows. First we introduce the relevant background and problem formulation. Afterwards we introduce our approach in Section~\ref{sec:approach}. Section~\ref{sec:eval} outlines the performed experiments and discusses the obtained results. Finally, we will present our conclusions in Section~\ref{sec:conclusion}.
+The remainder of this paper is structured as follows. First we introduce the relevant background and problem formulation in \Cref{sec:background}. Afterwards we introduce our approach in Section~\ref{sec:approach}. Section~\ref{sec:eval} outlines the performed experiments and discusses the obtained results. Finally, we will present our conclusions in Section~\ref{sec:conclusion}.
 
-\section{Background}
+
+\section{Background and Motivation}
 \label{sec:background}
+\ga{Page budget: 1/2 page \\}
+\ga{Plan: discussion about the problem of coordination in multi-agent systems 
+and the need for a scalable approach. In doing this, we will discuss some of the existing approaches (declarative, RL and )}
+\subsection{Field Coordination Approaches}
+\ga{discussion about field used as a coordination mechanism in multi-agent systems. Introduction to AC}
+\subsection{Graph Neural Networks for Multi-Agent Systems}
+\subsection{Many-Agent Reinforcement Learning}
+\ga{plan: we could discuss briefly about standard appraoch (few agents), mean field approach (many agents). This will led to our approach, which is a combination of DQN (or any Deep RL approach) and GNN.}
 
-%% Todo find a good name for the main contribution
-
-\section{Approach}
+\section{Field-informed Reinforcement Learning}
 \label{sec:approach}
-
+\ga{Page budget: 2/3 pages \\}
+\ga{Plan: we should discuss the approach in detail, including the system model, the learning dynamics.
+Particularly, I would like to highlight how the each node in the graph is a local controller,
+but it could be see as a global evolution, therefore we can use global information to inform the local controller.}
+\subsection{System model}
+\ga{Plan: 
+  discussion about typical AC evalaution model, specifying how GNN (with 1-hop information diffusion)
+  can be easily integrate with this distributed model
+}
+\subsection{Learning dynamics}
+\ga{
+  Plan: discuss about the choosing approach, that is Centralised Training and Distributed Execution.
+  Particularly, we use DQN in which the neural network is a GNN. So, the dataset consist in a set of graphs,
+  where each graph is a snapshot of the system. 
+  The target is the Q-value of the action taken in the current state.
+  Explain how this can be then use for distributed controller.
+}
 \section{Evaluation}
 \label{sec:eval}
-\subsection{Simulation setup}
+\ga{Page budget: 2 pages \\}
+\ga{Plan: we should discuss the robot aggregation scenario, specifiying the state space, the action space, the reward function.
+I dunno if it makes sense to discuss the variants (i.e., fixed area, two ares and moving area). We will see.
+}
+\subsection{Scenario}
 
+\paragraph*{Variant A}
+\paragraph*{Variant B}
+\paragraph*{Variant C}
 
-\section{Conclusion}
+\subsection{Discussion and Results}
+\section{Conclusion and Future Work}
+\ga{Page budget: 0.5}
 \label{sec:conclusion}
 
 \bibliographystyle{IEEEtran}
