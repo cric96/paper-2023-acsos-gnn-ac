@@ -8,6 +8,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{xcolor}
 \usepackage{cleveref}
+\usepackage{acronym}
 \def\doi#1{\href{https://doi.org/\detokenize{#1}}{\url{https://doi.org/\detokenize{#1}}}}
 %
 \usepackage{graphicx}
@@ -67,6 +68,7 @@ lukas.esterle@ece.au.dk}
 \newcommand{\mv}[1]{\meta{green}{MV}{#1}}
 \ga{Page limit: 10 pages (include refs)}
 
+\acrodef{DecPOMDP}[DecPOMDP]{decentralized partially observable Markov decision processes}
 
 \begin{abstract}
 Coordinatinating a group of intelligent agents in multi-agent systems 
@@ -108,7 +110,7 @@ In this paper, we propose a novel approach combining aggregate computing
 ~\cite{Zhou2020AIOpen} to focus on the relevant areas. We further combine this with reinforcement learning techniques to respond to changing conditions in the environment.
 Specifically, we will show... \lukas{more info...}
 
-The remainder of this paper is structured as follows. First we introduce the relevant background and problem formulation in \Cref{sec:background}. Afterwards we introduce our approach in Section~\ref{sec:approach}. Section~\ref{sec:eval} outlines the performed experiments and discusses the obtained results. Finally, we will present our conclusions in Section~\ref{sec:conclusion}.
+The remainder of this paper is structured as follows. First we introduce the relevant background and problem formulation in \Cref{sec:background}. Afterwards we introduce our approach in Section~\Cref{sec:approach}. Section~\Cref{sec:eval} outlines the performed experiments and discusses the obtained results. Finally, we will present our conclusions in Section~\Cref{sec:conclusion}.
 
 
 \section{Background and Motivation}
@@ -122,6 +124,45 @@ and the need for a scalable approach. In doing this, we will discuss some of the
 \subsection{Many-Agent Reinforcement Learning}
 \ga{plan: we could discuss briefly about standard appraoch (few agents), mean field approach (many agents). This will led to our approach, which is a combination of DQN (or any Deep RL approach) and GNN.}
 
+Reinforcement learning (RL) has gained a lot of interest recently, 
+ thanks to its successful application in various scenarios, 
+ ranging from video games (such as Alpha Go and Atari) 
+ to chatbots (like ChatGPT). 
+% 
+In RL, an agent (i.e., a smart entity capable of making decisions) 
+ performs actions in an environment (i.e., everything outside the agent) according to a policy, 
+ with the goal of maximizing long-term rewards.
+
+One interesting application of RL is when there are multiple learning agents involved. 
+ Such scenarios are referred to as multi-agent reinforcement learning (MARL). 
+ While standard RL approaches use Markov decision processes to model the world, 
+ in MARL for distributed systems, the notion of 
+ \acp{DecPOMDP} is used.
+
+A \ac{DecPOMDP} represents a sequential game, 
+ in which each agent receives a local observation about the world they 
+ inhabit and receives a joint immediate reward in response to the actions they take. 
+% 
+\ga{Improve, if necessary, the following paragraph.}
+Formally, a DecPOMDP is defined as a tuple $<N, S, \{A_i\}, P, R, \{\Omega_i\}, O, \gamma>$, 
+ where $N$ is the total number of agents that live in the environment, 
+ $S$ is the state set of the environment, 
+ $\{A_i\}$ is the set of actions for agent $i$ and $A$ is the joint action space, 
+ $P$ is the probability transition function, 
+ $R$ is the immediate joint reward function, and 
+ $\{\Omega_i\}$ is the set observation function for the agent $i$,
+ $O$ is the observation space, and finally $\gamma$ is the discount factor.
+%
+On top of this model, each agent try to learn a policy $\pi_i$ in order 
+ to maximise the long term join reward signal.
+
+In base of some of this concept, 
+ we have several different MARL, like cooperative MARL (i.e., the reward function incetivize collective outcomes)
+ heterogenous MARL (i.e., the agents have different action space and policy) and
+ homogenous MARL (i.e., the agents have the same action space and policy).
+%  
+In particular, in this work we consider homogenous many agent RL, 
+ where, N >> 2 and action space of each agent and the policy is the same (i.e., the agents are interchangeable)
 \section{Field-informed Reinforcement Learning}
 \label{sec:approach}
 \ga{Page budget: 2/3 pages \\}
