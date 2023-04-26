@@ -69,7 +69,8 @@ lukas.esterle@ece.au.dk}
 \ga{Page limit: 10 pages (include refs)}
 
 \acrodef{DecPOMDP}[DecPOMDP]{decentralized partially observable Markov decision processes}
-
+\acrodef{RL}[RL]{reinforcement learning}
+\acrodef{MARL}[MARL]{multi-agent reinforcement learning}
 \begin{abstract}
 Coordinatinating a group of intelligent agents in multi-agent systems 
  is a research problem that has been addressed for a long time, 
@@ -124,27 +125,27 @@ and the need for a scalable approach. In doing this, we will discuss some of the
 \subsection{Many-Agent Reinforcement Learning}
 \ga{plan: we could discuss briefly about standard appraoch (few agents), mean field approach (many agents). This will led to our approach, which is a combination of DQN (or any Deep RL approach) and GNN.}
 
-Reinforcement learning (RL) has gained a lot of interest recently, 
+\Ac{RL} has gained a lot of interest recently, 
  thanks to its successful application in various scenarios, 
- ranging from video games (such as Alpha Go and Atari) 
- to chatbots (like ChatGPT). 
+ ranging from video games (such as Alpha Go~\cite{Silver2016Go} and Atari~\cite{Atari2016DQN}) 
+ to chatbots (like ChatGPT~\cite{ChatGPT2023}). 
 % 
-In RL, an agent (i.e., a smart entity capable of making decisions) 
+In \ac{RL}, an agent (i.e., a smart entity capable of making decisions) 
  performs actions in an environment (i.e., everything outside the agent) according to a policy, 
  with the goal of maximizing long-term rewards.
 
-One interesting application of RL is when there are multiple learning agents involved. 
- Such scenarios are referred to as multi-agent reinforcement learning (MARL). 
- While standard RL approaches use Markov decision processes to model the world, 
+One interesting application of \ac{RL} is when there are multiple learning agents involved. 
+ Such scenarios are referred to as multi-agent reinforcement learning (MARL)~\cite{zhang2019marl}. 
+ While standard \ac{RL} approaches use Markov decision processes to model the world, 
  in MARL for distributed systems, the notion of 
- \acp{DecPOMDP} is used.
+ \acp{DecPOMDP}~\cite{Decpomdp2000} is used.
 
 A \ac{DecPOMDP} represents a sequential game, 
  in which each agent receives a local observation about the world they 
  inhabit and receives a joint immediate reward in response to the actions they take. 
 % 
 \ga{Improve, if necessary, the following paragraph.}
-Formally, a DecPOMDP is defined as a tuple $\langle N, S, \{A_i\}, P, R, \{\Omega_i\}, O, \gamma \rangle$, 
+Formally, a \ac{DecPOMDP} is defined as a tuple $\langle N, S, \{A_i\}, P, R, \{\Omega_i\}, O, \gamma \rangle$, 
  where $N$ is the total number of agents that live in the environment, 
  $S$ is the state set of the environment, 
  $\{A_i\}$ is the set of actions for agent $i$ and $A$ is the joint action space, 
@@ -154,15 +155,39 @@ Formally, a DecPOMDP is defined as a tuple $\langle N, S, \{A_i\}, P, R, \{\Omeg
  $O$ is the observation space, and finally $\gamma$ is the discount factor.
 %
 On top of this model, each agent try to learn a policy $\pi_i$ in order 
- to maximise the long term join reward signal.
-
-In base of some of this concept, 
- we have several different MARL, like cooperative MARL (i.e., the reward function incetivize collective outcomes)
- heterogenous MARL (i.e., the agents have different action space and policy) and
- homogenous MARL (i.e., the agents have the same action space and policy).
+ to maximise the long term joint reward signal.
+In base of some of these concepts, 
+ there are several approaches/classifications in literature, 
+ like cooperative (i.e., the reward function incetivize collective outcomes)
+ heterogenous (i.e., the agents have different action space and policy) and
+ homogenous (i.e., the agents have the same action space and policy) settings.
 %  
-In particular, in this work we consider homogenous many agent RL, 
- where, $N \geq 2$ and action space of each agent and the policy is the same (i.e., the agents are interchangeable)
+In particular, in this work we consider homogenous many agent RL~\cite{yang2021many}, 
+ where $N \gg 2$ and each agent is interchangeable and indistinguishable.
+%
+This research area is relevant in the context of in large-scale systems 
+ when the incentive of the individual is reduced compared to the collective behavior of the system, 
+ which is found in collective adaptive systems such as swarm robotics.
+
+In fact, the first works in this direction were discussed precisely in the last field, 
+ exploring new models (e.g., swarMDP~\cite{DBLP:conf/atal/SosicKZK17}) and learning algorithms capable of extrapolating 
+ a policy equal for the entire system. 
+Modern approaches, however, 
+ have started to consider the use of deep learning approaches to try 
+ to synthesize robust controllers capable of generalizing to new tasks. 
+In this context, mean-field reinforcement learning~\cite{pmlr-v80-yang18d} is certainly noteworthy. 
+ Mean-field RL is a technique for learning approximate inference in large-scale systems, 
+ where the interactions between the agents can be decoupled into a 
+ single conditional probability distribution function for each agent, 
+ thus simplifying the learning process and reducing the computational cost.
+%
+Some known approaches using mean-field reinforcement learning include Q-mean, 
+ which is an extension of Q-learning to mean-field settings, 
+ and actor-critic mean-field, which combines actor-critic algorithms with mean-field approximations. 
+%
+These approaches have shown promising results in various domains, such as multi-agent coordination 
+ and decentralized control, and are actively being researched and developed for further applications
+
 \section{Field-informed Reinforcement Learning}
 \label{sec:approach}
 \ga{Page budget: 2/3 pages \\}
