@@ -73,6 +73,8 @@ lukas.esterle@ece.au.dk}
 \acrodef{DecPOMDP}[DecPOMDP]{decentralized partially observable Markov decision processes}
 \acrodef{RL}[RL]{reinforcement learning}
 \acrodef{MARL}[MARL]{multi-agent reinforcement learning}
+\acrodef{MAARL}[ManyRL]{many-agent reinforcement learning}
+
 \acrodef{MLP}[MLP]{multi-layer perceptron}
 \acrodef{GNN}[GNN]{graph neural network}
 \acrodef{CNN}[CNN]{convolutional neural network}
@@ -120,15 +122,26 @@ This leads to several questions
 	\item How to move sensors when the phenomena moves to ensure good coverage?
 \end{enumerate} \lukas{refine and rework these questions}
 
-In this paper, we propose a novel approach combining aggregate computing
-~\cite{Beal2015Computer} with Graph Neural Networks
-~\cite{Zhou2020AIOpen} to focus on the relevant areas. We further combine this with reinforcement learning techniques to respond to changing conditions in the environment.
-Specifically, we will show... \lukas{more info...}
-
+In this paper, we propose a novel approach combining aggregate computing~\cite{Beal2015Computer} with Graph Neural Networks~\cite{Zhou2020AIOpen} to focus on the relevant areas. We further combine this with reinforcement learning techniques to respond to changing conditions in the environment.
+%Specifically, we will show... \lukas{more info...}
+Specifically, 
+ our approach utilizes aggregate computing to disseminate information by manipulating a computational field, 
+ which is a distributed data structure that maps devices to information. 
+ This field functions as a dynamic environment in which information is continuously updated and diffused throughout the system. 
+ By leveraging this layer, we can build collective distributed intelligence using \ac{GNN},
+  which uses the information in the field to determine the best action for a given task.
+\ga{first draft, need a refinement}
 The remainder of this paper is structured as follows. First, we introduce the relevant background and problem formulation in \Cref{sec:background}. Afterwards, we introduce our approach in Section~\Cref{sec:approach}. Section~\Cref{sec:eval} outlines the performed experiments and discusses the obtained results. Finally, we will present our conclusions in Section~\Cref{sec:conclusion}.
 
 
 \section{Background and Motivation}
+Field-based RL draws upon research areas that were not previously considered in traditional RL. 
+%
+This section provides an overview of three key concepts that underpin this approach, 
+ namely 
+ field-based coordination --i.e., coordinating multi-agent systems through computational fields--, 
+ \ac{GNN} --i.e., a novel type of neural network architecture designed to process graph-structured data--, 
+ and \ac{MAARL} ---i.e., a large number of agents learning a collective policy to achieve a global goal.
 \label{sec:background}
 \ga{Page budget: 1/2 page \\}
 \ga{Plan: discussion about the problem of coordination in multi-agent systems 
