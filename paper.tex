@@ -7,11 +7,12 @@
 
 \usepackage[T1]{fontenc}
 \usepackage{xcolor}
-\usepackage{cleveref}
 \usepackage{acronym}
+\usepackage{amsmath}
 \def\doi#1{\href{https://doi.org/\detokenize{#1}}{\url{https://doi.org/\detokenize{#1}}}}
 %
 \usepackage{graphicx}
+
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
 %
@@ -20,6 +21,8 @@
 % \renewcommand\UrlFont{\color{blue}\rmfamily}
 %
 \usepackage{listings}
+
+\usepackage{cleveref}
 \lstset{language=Pascal}
 \begin{document}
 %
@@ -67,7 +70,6 @@ lukas.esterle@ece.au.dk}
 \newcommand{\lukas}[1]{\meta{purple}{Lukas}{#1}}
 \newcommand{\mv}[1]{\meta{green}{MV}{#1}}
 \ga{Page limit: 10 pages (include refs)}
-
 \acrodef{DecPOMDP}[DecPOMDP]{decentralized partially observable Markov decision processes}
 \acrodef{RL}[RL]{reinforcement learning}
 \acrodef{MARL}[MARL]{multi-agent reinforcement learning}
@@ -95,6 +97,13 @@ We demonstrate the effectiveness of this new approach in several case studies
 aggregate computing, Graph Neural Network, Cyber-Physical Swarms.
 \end{IEEEkeywords}
 %
+\ga{Paper levels:
+\begin{itemize}
+  \item Distributed collective intelligence
+  \item GNN and field coordination
+  \item Spatial tracking
+\end{itemize}
+}
 \section{Introduction}
 Various phenomena in the real world are not evenly distributed across the environment such as watershed, wild fires, traffic, human crowd movement, or wild life movement from insects, fish, birds, and mammals.
 To acquire appropriate information about such phenomena, we also need to distribute the sensors accordingly to cover all aspects sufficiently. While manual deployment will mitigate the problem, not all phenomena are known exactly \emph{a priori} and would require maintenance and adjustment during runtime. Even worse, with phenomena able to change their location, size, and distribution---as it is the case with crowds, wild life, or wild fires---an adaptation of the collective sensors is required in order to keep the required information. 
@@ -121,7 +130,39 @@ The remainder of this paper is structured as follows. First we introduce the rel
 and the need for a scalable approach. In doing this, we will discuss some of the existing approaches (declarative, RL and )}
 \subsection{Field Coordination Approaches}
 \ga{discussion about field used as a coordination mechanism in multi-agent systems. Introduction to AC}
-\subsection{Graph Neural Networks for Multi-Agent Systems}
+\subsection{Graph Neural Networks}
+Over the years, several different neural networks have been proposed to solve specific tasks. 
+%
+Whereas Convolutional Neural Networks are designed to be used with image and spatial-like data (e.g., audio),
+ Graph Neural Networks (GNNs) are a novel model used to process graph-structured data. 
+%
+Let $ G = (V, E) $ be a graph, where $ V $ is the set of nodes and $ E $ is the set of edges. 
+%
+Given $X_v$ a feature vector associated to each node $v \in V$, 
+ the goal of a GNN is to learn the node embedding $X'_v$ for each node $v \in V$.
+ In modern GNNs, the node embedding $X'_v$ is computed by aggregating information from the node's neighbors $N(v)$,
+  and then combining it with the node's current embedding $X_v$.
+% 
+Formally, a GNN can be defined by two phases:
+\begin{equation}
+a_{v}^{(k)}=\operatorname{AGGREGATE}^{(k)}\left(\left\{h_{u}^{(k-1)}: u \in \mathcal{N}(v)\right\}\right)   
+\end{equation}
+\begin{equation}
+h_{v}^{(k)}=\operatorname{COMBINE}^{(k)}\left(h_{v}^{(k-1)}, a_{v}^{(k)}\right)
+\end{equation}
+where $h_{v}^{k}$ is the embedding of node $v$ at the $k$-th layer, 
+ $\mathcal{N}(v)$ is the set of neighbors of node $v$ computed from $E$.
+%
+The differential part come into play in the $\operatorname{COMBINE}$ function, 
+ which is usually a differentiable function such as a neural network layer.
+%
+$\operatorname{AGGREGATE} $ instea is a function that aggregates the information from the neighbors of a node $v$
+  and it could be a simple sum or a more complex function such as a neural network layer.
+%
+This formulation allows GNNs to effectively process and extract features from graph-structured data by iteratively aggregating and transforming information from the node's neighbors.
+
+GNN are used in several fields such as social network analysis, chemistry, and physics.
+In this paper, we use GNNs to learn a local behavior for each agent in a multi-agent system (more details in Section~\ref{sec:approach}).
 \subsection{Many-Agent Reinforcement Learning}
 \ga{plan: we could discuss briefly about standard appraoch (few agents), mean field approach (many agents). This will led to our approach, which is a combination of DQN (or any Deep RL approach) and GNN.}
 
