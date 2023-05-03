@@ -69,19 +69,24 @@ lukas.esterle@ece.au.dk}
 \newcommand{\ga}[1]{\meta{red}{GA}{#1}}
 \newcommand{\lukas}[1]{\meta{purple}{Lukas}{#1}}
 \newcommand{\mv}[1]{\meta{green}{MV}{#1}}
-\ga{Page limit: 10 pages (include refs)}
+%% ACRONYMS
 \acrodef{DecPOMDP}[DecPOMDP]{decentralized partially observable Markov decision processes}
 \acrodef{RL}[RL]{reinforcement learning}
 \acrodef{MARL}[MARL]{multi-agent reinforcement learning}
+\acrodef{MLP}[MLP]{multi-layer perceptron}
+\acrodef{GNN}[GNN]{graph neural network}
+\acrodef{CNN}[CNN]{convolutional neural network}
+\ga{Page limit: 10 pages (include refs)}
+
 \begin{abstract}
 Coordinatinating a group of intelligent agents in multi-agent systems 
  is a research problem that has been addressed for a long time, 
- due to the challenges posed by distribution and of the definition of distributed intelligence. 
+ due to the challenges posed by distribution and the definition of distributed intelligence. 
 %
 The problem is even more evident in collective adaptive systems, 
- where the scale of the systems considered makes the definition of collective behaviors even more challenging. 
+ where the scale of the systems considered makes the definition of collective behaviours even more challenging. 
 
-In this paper we consider a new reinforcement learning approach 
+In this paper, we consider a new reinforcement learning approach 
   for the definition of intelligent agents called \emph{Field-Informed reinforcement learning}, 
   where we use computational \emph{computational fields} to manage the interaction between agents 
   in stigmergically and Graph Neural Networks to learn a local behaviour necessary to solve collective tasks. 
@@ -120,7 +125,7 @@ In this paper, we propose a novel approach combining aggregate computing
 ~\cite{Zhou2020AIOpen} to focus on the relevant areas. We further combine this with reinforcement learning techniques to respond to changing conditions in the environment.
 Specifically, we will show... \lukas{more info...}
 
-The remainder of this paper is structured as follows. First we introduce the relevant background and problem formulation in \Cref{sec:background}. Afterwards we introduce our approach in Section~\Cref{sec:approach}. Section~\Cref{sec:eval} outlines the performed experiments and discusses the obtained results. Finally, we will present our conclusions in Section~\Cref{sec:conclusion}.
+The remainder of this paper is structured as follows. First, we introduce the relevant background and problem formulation in \Cref{sec:background}. Afterwards, we introduce our approach in Section~\Cref{sec:approach}. Section~\Cref{sec:eval} outlines the performed experiments and discusses the obtained results. Finally, we will present our conclusions in Section~\Cref{sec:conclusion}.
 
 
 \section{Background and Motivation}
@@ -131,16 +136,17 @@ and the need for a scalable approach. In doing this, we will discuss some of the
 \subsection{Field Coordination Approaches}
 \ga{discussion about field used as a coordination mechanism in multi-agent systems. Introduction to AC}
 \subsection{Graph Neural Networks}
-Over the years, several different neural networks have been proposed to solve specific tasks. 
+Over the years, several different neural networks have been proposed to solve specific tasks, ranging from 
+  simple \ac{MLP} to \ac{CNN}~\cite{oshea2015introduction}.
 %
-Whereas Convolutional Neural Networks are designed to be used with image and spatial-like data (e.g., audio),
- Graph Neural Networks (GNNs) are a novel model used to process graph-structured data. 
+Whereas \ac{CNN} is designed to be used with image and spatial-like data (e.g., audio),
+ \ac{GNN} is a novel model used to process graph-structured data. 
 %
 Let $ G = (V, E) $ be a graph, where $ V $ is the set of nodes and $ E $ is the set of edges. 
 %
 Given $X_v$ a feature vector associated to each node $v \in V$, 
  the goal of a GNN is to learn the node embedding $X'_v$ for each node $v \in V$.
- In modern GNNs, the node embedding $X'_v$ is computed by aggregating information from the node's neighbors $N(v)$,
+ In modern GNNs, the node embedding $X'_v$ is computed by aggregating information from the node's neighbours $N(v)$,
   and then combining it with the node's current embedding $X_v$.
 % 
 Formally, a GNN can be defined by two phases:
@@ -156,15 +162,16 @@ where $h_{v}^{k}$ is the embedding of node $v$ at the $k$-th layer,
 The differential part come into play in the $\operatorname{COMBINE}$ function, 
  which is usually a differentiable function such as a neural network layer.
 %
-$\operatorname{AGGREGATE} $ instea is a function that aggregates the information from the neighbors of a node $v$
+$\operatorname{AGGREGATE} $ instead is a function that aggregates the information from the neighbours of a node $v$
   and it could be a simple sum or a more complex function such as a neural network layer.
 %
-This formulation allows GNNs to effectively process and extract features from graph-structured data by iteratively aggregating and transforming information from the node's neighbors.
+This formulation allows GNNs to effectively process and extract features from graph-structured data by iteratively aggregating and transforming information from the node's neighbours.
 
-GNN are used in several fields such as social network analysis, chemistry, and physics.
-In this paper, we use GNNs to learn a local behavior for each agent in a multi-agent system (more details in Section~\ref{sec:approach}).
+\acp{GNN} are used in several fields such as social network analysis, chemistry, and physics.
+In this paper, we use GNNs to learn a local behaviour for each agent in a multi-agent system (more details in Section~\ref{sec:approach}).
 \subsection{Many-Agent Reinforcement Learning}
-\ga{plan: we could discuss briefly about standard appraoch (few agents), mean field approach (many agents). This will led to our approach, which is a combination of DQN (or any Deep RL approach) and GNN.}
+\ga{plan: we could discuss briefly about standard approach (few agents), and mean-field approach (many agents). 
+This will lead to our approach, which is a combination of DQN (or any Deep RL approach) and GNN.}
 
 \Ac{RL} has gained a lot of interest recently, 
  thanks to its successful application in various scenarios, 
@@ -173,7 +180,7 @@ In this paper, we use GNNs to learn a local behavior for each agent in a multi-a
 % 
 In \ac{RL}, an agent (i.e., a smart entity capable of making decisions) 
  performs actions in an environment (i.e., everything outside the agent) according to a policy, 
- with the goal of maximizing long-term rewards.
+ to maximize long-term rewards.
 
 One interesting application of \ac{RL} is when there are multiple learning agents involved. 
  Such scenarios are referred to as multi-agent reinforcement learning (MARL)~\cite{zhang2019marl}. 
@@ -195,31 +202,30 @@ Formally, a \ac{DecPOMDP} is defined as a tuple $\langle N, S, \{A_i\}, P, R, \{
  $\{\Omega_i\}$ is the set observation function for the agent $i$,
  $O$ is the observation space, and finally $\gamma$ is the discount factor.
 %
-On top of this model, each agent try to learn a policy $\pi_i$ in order 
- to maximise the long term joint reward signal.
-In base of some of these concepts, 
- there are several approaches/classifications in literature, 
- like cooperative (i.e., the reward function incetivize collective outcomes)
- heterogenous (i.e., the agents have different action space and policy) and
+On top of this model, each agent tries to learn a policy $\pi_i$ in order 
+ to maximise the long-term joint reward signal.
+In the case of some of these concepts, 
+ there are several approaches/classifications in the literature, 
+ like cooperative (i.e., the reward function incentivizes collective outcomes)
+ heterogeneous (i.e., the agents have different action spaces and policies) and
  homogenous (i.e., the agents have the same action space and policy) settings.
 %  
-In particular, in this work we consider homogenous many agent RL~\cite{yang2021many}, 
+In particular, in this work, we consider homogenous many agent RL~\cite{yang2021many}, 
  where $N \gg 2$ and each agent is interchangeable and indistinguishable.
 %
-This research area is relevant in the context of in large-scale systems 
- when the incentive of the individual is reduced compared to the collective behavior of the system, 
+This research area is relevant in the context of large-scale systems 
+ when the incentive of the individual is reduced compared to the collective behaviour of the system, 
  which is found in collective adaptive systems such as swarm robotics.
 
 In fact, the first works in this direction were discussed precisely in the last field, 
  exploring new models (e.g., swarMDP~\cite{DBLP:conf/atal/SosicKZK17}) and learning algorithms capable of extrapolating 
- a policy equal for the entire system. 
+ a policy equal to the entire system. 
 Modern approaches, however, 
  have started to consider the use of deep learning approaches to try 
  to synthesize robust controllers capable of generalizing to new tasks. 
 In this context, mean-field reinforcement learning~\cite{pmlr-v80-yang18d} is certainly noteworthy. 
  Mean-field RL is a technique for learning approximate inference in large-scale systems, 
- where the interactions between the agents can be decoupled into a 
- single conditional probability distribution function for each agent, 
+ where the interactions between the agents can be decoupled into a single conditional probability distribution function for each agent, 
  thus simplifying the learning process and reducing the computational cost.
 %
 Some known approaches using mean-field reinforcement learning include Q-mean, 
@@ -232,27 +238,27 @@ These approaches have shown promising results in various domains, such as multi-
 \section{Field-informed Reinforcement Learning}
 \label{sec:approach}
 \ga{Page budget: 2/3 pages \\}
-\ga{Plan: we should discuss the approach in detail, including the system model, the learning dynamics.
-Particularly, I would like to highlight how the each node in the graph is a local controller,
-but it could be see as a global evolution, therefore we can use global information to inform the local controller.}
+\ga{Plan: we should discuss the approach in detail, including the system model, and the learning dynamics.
+Particularly, I would like to highlight how each node in the graph is a local controller,
+but it could be seen as a global evolution, therefore we can use global information to inform the local controller.}
 \subsection{System model}
 \ga{Plan: 
-  discussion about typical AC evalaution model, specifying how GNN (with 1-hop information diffusion)
-  can be easily integrate with this distributed model
+  discussion about typical AC evaluation model, specifying how GNN (with 1-hop information diffusion)
+  can be easily integrated with this distributed model
 }
 \subsection{Learning dynamics}
 \ga{
-  Plan: discuss about the choosing approach, that is Centralised Training and Distributed Execution.
-  Particularly, we use DQN in which the neural network is a GNN. So, the dataset consist in a set of graphs,
+  Plan: discuss the chosen approach, that is Centralised Training and Distributed Execution.
+  Particularly, we use DQN in which the neural network is a GNN. So, the dataset consists in a set of graphs,
   where each graph is a snapshot of the system. 
   The target is the Q-value of the action taken in the current state.
-  Explain how this can be then use for distributed controller.
+  Explain how this can be then used for distributed controllers.
 }
 \section{Evaluation}
 \label{sec:eval}
 \ga{Page budget: 2 pages \\}
-\ga{Plan: we should discuss the robot aggregation scenario, specifiying the state space, the action space, the reward function.
-I dunno if it makes sense to discuss the variants (i.e., fixed area, two ares and moving area). We will see.
+\ga{Plan: we should discuss the robot aggregation scenario, specifying the state space, the action space, and the reward function.
+I dunno if it makes sense to discuss the variants (i.e., fixed area, two areas and moving area). We will see.
 }
 \subsection{Scenario}
 
