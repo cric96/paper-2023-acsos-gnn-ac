@@ -135,17 +135,40 @@ The remainder of this paper is structured as follows. First, we introduce the re
 
 
 \section{Background and Motivation}
-Field-based RL draws upon research areas that were not previously considered in traditional RL. 
-%
-This section provides an overview of three key concepts that underpin this approach, 
- namely 
- field-based coordination --i.e., coordinating multi-agent systems through computational fields--, 
- \ac{GNN} --i.e., a novel type of neural network architecture designed to process graph-structured data--, 
- and \ac{MAARL} ---i.e., a large number of agents learning a collective policy to achieve a global goal.
 \label{sec:background}
+In this section, we aim to provide a concise overview of the system we intend to address, 
+ starting with a system definition. 
+%
+We then proceed to discuss relevant research areas that inform our approach. 
+%
+Finally, we present a formalization of the problem and a discussion of the motivations behind our proposed work.
+%Field-based RL draws upon research areas that were not previously considered in traditional RL. 
+%
+%This section provides an overview of three key concepts that underpin this approach, 
+% namely 
+% field-based coordination --i.e., coordinating multi-agent systems through computational fields--, 
+% \ac{GNN} --i.e., a novel type of neural network architecture designed to process graph-structured data--, 
+% and \ac{MAARL} ---i.e., a large number of agents learning a collective policy to achieve a global goal.
+
 \ga{Page budget: 1/2 page \\}
 \ga{Plan: discussion about the problem of coordination in multi-agent systems 
 and the need for a scalable approach. In doing this, we will discuss some of the existing approaches (declarative, RL and )}
+\subsection{Problem definition}
+This article focuses on the definition of decentralized collective intelligence within the context of large-scale distributed systems. 
+%
+Specifically, we consider the case where agents can interact through 1-hop neighbourhood connections and have a local perception of the environment, 
+ which is typical in systems such as swarm robotics or large-scale IoT. 
+
+We model the system at a given time instance as a graph, $G = (V, E)$, 
+ where $E$ defines the neighbourhood relations for each participating node, 
+ and $V$ identifies the nodes present in the graph at that time. 
+% 
+Each node $v$ is associated with an observation (or feature set), $o_v$, 
+ which can come from sensors installed on it and messages received from the neighbourhood in the previous step.
+
+Our goal is to find a homogeneously distributed controller $\pi$ that, 
+ starting from only local configurations, leads 
+ the system to achieve a graph $G_T$ that satisfies certain collective requirements through cooperation, such as spatial area coverage, phenomena tracking, and robot aggregation.
 \subsection{Field Coordination Approaches}
 \ga{discussion about field used as a coordination mechanism in multi-agent systems. Introduction to AC}
 \subsection{Graph Neural Networks}
@@ -155,12 +178,12 @@ Over the years, several different neural networks have been proposed to solve sp
 Whereas \ac{CNN} is designed to be used with image and spatial-like data (e.g., audio),
  \ac{GNN} is a novel model used to process graph-structured data. 
 %
-Let $ G = (V, E) $ be a graph, where $ V $ is the set of nodes and $ E $ is the set of edges. 
+Let $ G $ be the above-defined graph.
 %
-Given $X_v$ a feature vector associated to each node $v \in V$, 
- the goal of a GNN is to learn the node embedding $X'_v$ for each node $v \in V$.
- In modern GNNs, the node embedding $X'_v$ is computed by aggregating information from the node's neighbours $N(v)$,
-  and then combining it with the node's current embedding $X_v$.
+Given $o_v$ a feature vector associated with each node $v \in V$, 
+ the goal of a GNN is to learn the node embedding $h_v$ for each node $v \in V$.
+ In modern GNNs, the node embedding $h_v$ is computed by aggregating information from the node's neighbours $N(v)$,
+  and then combining it with the node's current embedding $h_v$.
 % 
 Formally, a GNN can be defined by two phases:
 \begin{equation}
@@ -169,7 +192,7 @@ a_{v}^{(k)}=\operatorname{AGGREGATE}^{(k)}\left(\left\{h_{u}^{(k-1)}: u \in \mat
 \begin{equation}
 h_{v}^{(k)}=\operatorname{COMBINE}^{(k)}\left(h_{v}^{(k-1)}, a_{v}^{(k)}\right)
 \end{equation}
-where $h_{v}^{k}$ is the embedding of node $v$ at the $k$-th layer, 
+where $h_{v}^{k}$ is the embedding of node $v$ at the $k$-th layer ($h_v^0 = o_v$), 
  $\mathcal{N}(v)$ is the set of neighbors of node $v$ computed from $E$.
 %
 The differential part come into play in the $\operatorname{COMBINE}$ function, 
