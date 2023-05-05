@@ -6,6 +6,7 @@
 \IEEEoverridecommandlockouts
 
 \usepackage[T1]{fontenc}
+\usepackage{amsfonts}
 \usepackage{xcolor}
 \usepackage{acronym}
 \usepackage{amsmath}
@@ -74,7 +75,7 @@ lukas.esterle@ece.au.dk}
 \acrodef{RL}[RL]{reinforcement learning}
 \acrodef{MARL}[MARL]{multi-agent reinforcement learning}
 \acrodef{MAARL}[ManyRL]{many-agent reinforcement learning}
-
+\acrodef{MDP}[MDP]{Markov Decision Process}
 \acrodef{MLP}[MLP]{multi-layer perceptron}
 \acrodef{GNN}[GNN]{graph neural network}
 \acrodef{CNN}[CNN]{convolutional neural network}
@@ -154,21 +155,30 @@ Finally, we present a formalization of the problem and a discussion of the motiv
 \ga{Plan: discussion about the problem of coordination in multi-agent systems 
 and the need for a scalable approach. In doing this, we will discuss some of the existing approaches (declarative, RL and )}
 \subsection{Problem definition}
-This article focuses on the definition of decentralized collective intelligence within the context of large-scale distributed systems. 
+This article focuses on the definition of \emph{decentralized collective intelligence} within the context of \emph{large-scale} distributed systems. 
 %
-Specifically, we consider the case where agents can interact through 1-hop neighbourhood connections and have a local perception of the environment, 
- which is typical in systems such as swarm robotics or large-scale IoT. 
-
-We model the system at a given time instance as a graph, $G = (V, E)$, 
- where $E$ defines the neighbourhood relations for each participating node, 
- and $V$ identifies the nodes present in the graph at that time. 
-% 
-Each node $v$ is associated with an observation (or feature set), $o_v$, 
- which can come from sensors installed on it and messages received from the neighbourhood in the previous step.
-
-Our goal is to find a homogeneously distributed controller $\pi$ that, 
- starting from only local configurations, leads 
- the system to achieve a graph $G_T$ that satisfies certain collective requirements through cooperation, such as spatial area coverage, phenomena tracking, and robot aggregation.
+Specifically, we consider systems of \emph{devices} (or nodes) equipped with \emph{sensors} and \emph{actuator}
+ each of which can only interact with the \emph{1-hop} neighbourhood that can 
+ be logical (i.e., a communication network) or physical (i.e., a spatial neighbourhood).
+%
+Each node executes a \emph{local} controller that can only access the information available to its \emph{context}
+ that is the information available in the neighbourhood and the information available from its sensors.
+%
+After each program evaluation, 
+ the node can send messages to its neighbourhood about its current evaluation and update its internal state.
+%
+This general model can be adapted to several different scenarios, 
+ such as a network of sensors, a network of robots (e.g., swarm robotics), or a network of mobile phones.
+%
+Our goal is to find a \emph{homogeneously} distributed controller $\pi$ (i.e., the same controller for the whole system) that, 
+ starting from \emph{only} local configurations, leads 
+ the system to achieve a certain \emph{collective} requirements through \emph{cooperation}, 
+ such as spatial area coverage, phenomena tracking, and robot aggregation.
+%
+The homogeneity of the controller is a key requirement to ensure the \emph{scalability} of the approach, 
+ as it allows us to avoid the need for a centralised controller that would be a bottleneck for the system,
+ and it is the typical choice in swarm-like systems~\cite{brambilla2013swarm,yang2021many,pmlr-v80-yang18d,DBLP:conf/aaai/ZhengYCZZWY18}.
+%
 \subsection{Field Coordination Approaches}
 \ga{discussion about field used as a coordination mechanism in multi-agent systems. Introduction to AC}
 \subsection{Graph Neural Networks}
@@ -178,14 +188,18 @@ Over the years, several different neural networks have been proposed to solve sp
 Whereas \ac{CNN} is designed to be used with image and spatial-like data (e.g., audio),
  \ac{GNN} is a novel model used to process graph-structured data. 
 %
-Let $ G $ be the above-defined graph.
+Let $G = (V, E)$ a graph  
+where $E$ defines the neighbourhood relations for each participating node, 
+and $V$ identifies the nodes present in the graph at that time. 
+% 
+Each node $v$ is associated with an observation (or feature set), $o_v$, 
 %
 Given $o_v$ a feature vector associated with each node $v \in V$, 
- the goal of a GNN is to learn the node embedding $h_v$ for each node $v \in V$.
- In modern GNNs, the node embedding $h_v$ is computed by aggregating information from the node's neighbours $N(v)$,
+ the goal of a \ac{GNN} is to learn the node embedding $h_v$ for each node $v \in V$.
+ In modern \acp{GNN}, the node embedding $h_v$ is computed by aggregating information from the node's neighbours $N(v)$,
   and then combining it with the node's current embedding $h_v$.
 % 
-Formally, a GNN can be defined by two phases:
+Formally, a \ac{GNN} can be defined by two phases:
 \begin{equation}
 a_{v}^{(k)}=\operatorname{AGGREGATE}^{(k)}\left(\left\{h_{u}^{(k-1)}: u \in \mathcal{N}(v)\right\}\right)   
 \end{equation}
@@ -270,7 +284,48 @@ Some known approaches using mean-field reinforcement learning include Q-mean,
 %
 These approaches have shown promising results in various domains, such as multi-agent coordination 
  and decentralized control, and are actively being researched and developed for further applications
+\subsection{Problem formalisation}
+Given the homogeneity and large scale considered and the \emph{locality} (i,e., each agent can only observe its neighbours), 
+ the problem can be modelled through the SwarMDP model~\cite{DBLP:conf/atal/SosicKZK17} -- 
+ an extension of the \ac{DecPOMDP}~\cite{Decpomdp2000} model to swarm-like systems. \ga{todo: define swarm-like systems}
+% 
+A SwarMDP is characterized by a \emph{swarming agent} ($\mathbb{A}$) and the dynamics of the environment ($\mathbb{E}$).
+Specifically, $\mathbb{A}$ is a tuple ($\mathcal{S}, \mathcal{O}, \mathcal{A}, \mathcal{R}, \pi$) where:
+\begin{itemize}
+  \item $\mathcal{S, O, A}$ are the set of local states, observations (or features), and actions, respectively;
+  \item $\mathcal{R}: \mathcal{S} \rightarrow \mathbb{R}$ is the reward function, which is influenced by the environment;
+  \item $\pi: \mathcal{O} \rightarrow \mathcal{A}$ is the policy function, which maps the observations to the actions. It could be deterministic or stochastic.
+\end{itemize}
+Starting from this definition, the environment $\mathbb{E}$ is defined as a tuple ($\mathcal{P}, \mathbb{A}, \mathcal{T}, \xi$), where:
+\begin{itemize}
+  \item $\mathcal{P}$ is the total number of agents in the systems (the agent population), which is assumed to be fixed;
+  \item $\mathbb{A}$ is the above defined agent prototype that rules each agent $v \in P$;
+  \item $\mathcal{T}: \mathcal{S}^P \times \mathcal{A}^P \times \mathcal{S}^P \rightarrow \mathbb{R}$ is the transition  global function, which is influenced by the actions of the agents and returns a collective reward -- this is typically not known by the swarming agents;
+  \item $\xi: \mathcal{S^P} \rightarrow \mathcal{O^P}$ is the global observation model of the systems.
+\end{itemize}
+In swarMDP, the neighbourhood is not directly defined, but it is implicitly defined by the observation model $\xi$.
+Since in our case, the agents can only interact with 1-hop neighbourhoods and they aren't directly influenced by other 
+  agent observations, we restrict the observation model as follows:
+\begin{equation}
+\xi(v): \{s_j, j \in \mathcal{N}^v\} \rightarrow O
+\end{equation}
+\begin{equation}
+\xi = \{\xi(v), v \in \mathcal{P}\}
+\end{equation}
+where $\mathcal{N}^v$ is the set of neighbours of $v$.
 
+This model can be used then to express the evolution of the system in time.
+Specifically, starting from a global state $\mathcal{S}^P_t$, the next state $\mathcal{S}^P_{t+1}$ is defined as:
+\begin{equation}
+\mathcal{A}^P_t = \pi(\xi(S^P_t))
+\end{equation}
+\begin{equation}
+\mathcal{S}^P_{t+1} = \mathcal{T}(\mathcal{S}^P_t, \mathcal{A}^P_t)
+\end{equation}
+Given a time $t$, the system can be also represented as a graph $G_t = (V_t, E_t)$, 
+  where $E_t$ is built from $\mathcal{N}$.
+  Each node is then decorated with the local observation $o_v$. 
+  Therefore, this graph can be used for being processed by a \ac{GNN} as done in~\cite{DBLP:conf/corl/TolstayaGPP0R19,tolstaya2020learning,DBLP:conf/icra/GosrichMLPYR022}.
 \section{Field-informed Reinforcement Learning}
 \label{sec:approach}
 \ga{Page budget: 2/3 pages \\}
