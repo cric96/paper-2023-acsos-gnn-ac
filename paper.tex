@@ -143,21 +143,13 @@ In this section, we aim to provide a concise overview of the system we intend to
 We then proceed to discuss relevant research areas that inform our approach. 
 %
 Finally, we present a formalization of the problem and a discussion of the motivations behind our proposed work.
-%Field-based RL draws upon research areas that were not previously considered in traditional RL. 
-%
-%This section provides an overview of three key concepts that underpin this approach, 
-% namely 
-% field-based coordination --i.e., coordinating multi-agent systems through computational fields--, 
-% \ac{GNN} --i.e., a novel type of neural network architecture designed to process graph-structured data--, 
-% and \ac{MAARL} ---i.e., a large number of agents learning a collective policy to achieve a global goal.
-
 \ga{Page budget: 1/2 page \\}
 \ga{Plan: discussion about the problem of coordination in multi-agent systems 
 and the need for a scalable approach. In doing this, we will discuss some of the existing approaches (declarative, RL and )}
 \subsection{System definition}
-This article focuses on the definition of \emph{decentralized collective intelligence} within the context of \emph{large-scale} distributed systems. 
-%
-Specifically, we consider systems of \emph{devices} (or nodes) equipped with \emph{sensors} and \emph{actuator}
+This article focuses on the definition of \emph{decentralized collective intelligence} within the context of \emph{large-scale} distributed systems, 
+ specifically what we call \emph{Cyber-Physical Swarms} or \emph{swarm-like systems}
+ that are systems of \emph{devices} (or nodes) equipped with \emph{sensors} and \emph{actuator}
  each of which can only interact with the \emph{1-hop} neighbourhood that can 
  be logical (i.e., a communication network) or physical (i.e., a spatial neighbourhood).
 %
@@ -234,32 +226,7 @@ In \ac{RL}, an agent (i.e., a smart entity capable of making decisions)
 
 One interesting application of \ac{RL} is when there are multiple learning agents involved. 
  Such scenarios are referred to as multi-agent reinforcement learning (MARL)~\cite{zhang2019marl}. 
-% While standard \ac{RL} approaches use Markov decision processes to model the world, 
-% in MARL for distributed systems, the notion of 
-% \acp{DecPOMDP}~\cite{Decpomdp2000} is used.
 %
-%A \ac{DecPOMDP} represents a sequential game, 
-% in which each agent receives a local observation about the world they 
-% inhabit and receives a joint immediate reward in response to the actions they take. 
-% 
-%\ga{Improve, if necessary, the following paragraph.}
-%Formally, a \ac{DecPOMDP} is defined as a tuple $\langle N, S, \{A_i\}, P, R, \{\Omega_i\}, O, \gamma \rangle$, 
-% where $N$ is the total number of agents that live in the environment, 
-% $S$ is the state set of the environment, 
-% $\{A_i\}$ is the set of actions for agent $i$ and $A$ is the joint action space, 
-% $P$ is the probability transition function, 
-% $R$ is the immediate joint reward function, and 
-% $\{\Omega_i\}$ is the set observation function for the agent $i$,
-% $O$ is the observation space, and finally $\gamma$ is the discount factor.
-%
-%On top of this model, each agent tries to learn a policy $\pi_i$ in order 
-% to maximise the long-term joint reward signal.
-%In the case of some of these concepts, 
-% there are several approaches/classifications in the literature, 
-% like cooperative (i.e., the reward function incentivizes collective outcomes)
-% heterogeneous (i.e., the agents have different action spaces and policies) and
-% homogenous (i.e., the agents have the same action space and policy) settings.
-%  
 In particular, in this work, we consider homogenous \ac{MAARL}~\cite{yang2021many}, 
  where $N \gg 2$ and each agent is interchangeable and indistinguishable.
 %
@@ -287,7 +254,7 @@ These approaches have shown promising results in various domains, such as multi-
 \subsection{Problem formalisation}
 Given the homogeneity and large scale considered and the \emph{locality} (i,e., each agent can only observe its neighbours), 
  the problem can be modelled through the SwarMDP model~\cite{DBLP:conf/atal/SosicKZK17} -- 
- an extension of the \ac{DecPOMDP}~\cite{Decpomdp2000} model to swarm-like systems. \ga{todo: define swarm-like systems}
+ an extension of the \ac{DecPOMDP}~\cite{Decpomdp2000} model to swarm-like systems.
 % 
 A SwarMDP is characterized by a \emph{swarming agent} ($\mathbb{A}$) and the dynamics of the environment ($\mathbb{E}$).
 Specifically, $\mathbb{A}$ is a tuple ($\mathcal{S}, \mathcal{O}, \mathcal{A}, \mathcal{R}, \pi$) where:
@@ -333,7 +300,7 @@ The definition of distributed controllers for intelligent systems can be divided
  Our work lies between these two approaches, particularly in the areas of field-based coordination and \ac{MAARL} with the use of \acp{GNN}.
 
 Compared to earlier works, 
- our approach builds on the concept of co-fields, 
+ our approach builds on the concept of co-fields~\cite{DBLP:journals/pervasive/MameiZL04}, 
  where agents exploit the field as a stigmergic medium to receive system-wide information and apply reasoning to this data.
 %  
 We present a subsequent approach where agent intelligence is synthesized through \ac{MAARL} and the use of \ac{GNN} to learn a local representation from the neighbourhood.
