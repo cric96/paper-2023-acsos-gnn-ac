@@ -154,7 +154,7 @@ Finally, we present a formalization of the problem and a discussion of the motiv
 \ga{Page budget: 1/2 page \\}
 \ga{Plan: discussion about the problem of coordination in multi-agent systems 
 and the need for a scalable approach. In doing this, we will discuss some of the existing approaches (declarative, RL and )}
-\subsection{Problem definition}
+\subsection{System definition}
 This article focuses on the definition of \emph{decentralized collective intelligence} within the context of \emph{large-scale} distributed systems. 
 %
 Specifically, we consider systems of \emph{devices} (or nodes) equipped with \emph{sensors} and \emph{actuator}
@@ -234,31 +234,31 @@ In \ac{RL}, an agent (i.e., a smart entity capable of making decisions)
 
 One interesting application of \ac{RL} is when there are multiple learning agents involved. 
  Such scenarios are referred to as multi-agent reinforcement learning (MARL)~\cite{zhang2019marl}. 
- While standard \ac{RL} approaches use Markov decision processes to model the world, 
- in MARL for distributed systems, the notion of 
- \acp{DecPOMDP}~\cite{Decpomdp2000} is used.
-
-A \ac{DecPOMDP} represents a sequential game, 
- in which each agent receives a local observation about the world they 
- inhabit and receives a joint immediate reward in response to the actions they take. 
-% 
-\ga{Improve, if necessary, the following paragraph.}
-Formally, a \ac{DecPOMDP} is defined as a tuple $\langle N, S, \{A_i\}, P, R, \{\Omega_i\}, O, \gamma \rangle$, 
- where $N$ is the total number of agents that live in the environment, 
- $S$ is the state set of the environment, 
- $\{A_i\}$ is the set of actions for agent $i$ and $A$ is the joint action space, 
- $P$ is the probability transition function, 
- $R$ is the immediate joint reward function, and 
- $\{\Omega_i\}$ is the set observation function for the agent $i$,
- $O$ is the observation space, and finally $\gamma$ is the discount factor.
+% While standard \ac{RL} approaches use Markov decision processes to model the world, 
+% in MARL for distributed systems, the notion of 
+% \acp{DecPOMDP}~\cite{Decpomdp2000} is used.
 %
-On top of this model, each agent tries to learn a policy $\pi_i$ in order 
- to maximise the long-term joint reward signal.
-In the case of some of these concepts, 
- there are several approaches/classifications in the literature, 
- like cooperative (i.e., the reward function incentivizes collective outcomes)
- heterogeneous (i.e., the agents have different action spaces and policies) and
- homogenous (i.e., the agents have the same action space and policy) settings.
+%A \ac{DecPOMDP} represents a sequential game, 
+% in which each agent receives a local observation about the world they 
+% inhabit and receives a joint immediate reward in response to the actions they take. 
+% 
+%\ga{Improve, if necessary, the following paragraph.}
+%Formally, a \ac{DecPOMDP} is defined as a tuple $\langle N, S, \{A_i\}, P, R, \{\Omega_i\}, O, \gamma \rangle$, 
+% where $N$ is the total number of agents that live in the environment, 
+% $S$ is the state set of the environment, 
+% $\{A_i\}$ is the set of actions for agent $i$ and $A$ is the joint action space, 
+% $P$ is the probability transition function, 
+% $R$ is the immediate joint reward function, and 
+% $\{\Omega_i\}$ is the set observation function for the agent $i$,
+% $O$ is the observation space, and finally $\gamma$ is the discount factor.
+%
+%On top of this model, each agent tries to learn a policy $\pi_i$ in order 
+% to maximise the long-term joint reward signal.
+%In the case of some of these concepts, 
+% there are several approaches/classifications in the literature, 
+% like cooperative (i.e., the reward function incentivizes collective outcomes)
+% heterogeneous (i.e., the agents have different action spaces and policies) and
+% homogenous (i.e., the agents have the same action space and policy) settings.
 %  
 In particular, in this work, we consider homogenous many agent RL~\cite{yang2021many}, 
  where $N \gg 2$ and each agent is interchangeable and indistinguishable.
