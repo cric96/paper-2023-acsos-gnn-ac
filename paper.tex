@@ -92,12 +92,12 @@ The problem is even more evident in collective adaptive systems,
 In this paper, we consider a new reinforcement learning approach 
   for the definition of intelligent agents called \emph{Field-Informed reinforcement learning}, 
   where we use computational \emph{computational fields} to manage the interaction between agents 
-  in stigmergically and Graph Neural Networks to learn a local behaviour necessary to solve collective tasks. 
+  and Graph Neural Networks to learn a local behaviour necessary to solve collective tasks. 
 %
 This allows us to create distributed controllers informed by a collective knowledge 
  distilled during learning but that use only local information at runtime.
 % 
-We demonstrate the effectiveness of this new approach in several case studies 
+We demonstrate the effectiveness of this new approach in a simulated use case 
  where coordination tasks are successfully solved. \lukas{do we really have multiple case studies?} 
 \end{abstract}
 
@@ -260,7 +260,7 @@ One interesting application of \ac{RL} is when there are multiple learning agent
 % heterogeneous (i.e., the agents have different action spaces and policies) and
 % homogenous (i.e., the agents have the same action space and policy) settings.
 %  
-In particular, in this work, we consider homogenous many agent RL~\cite{yang2021many}, 
+In particular, in this work, we consider homogenous \ac{MAARL}~\cite{yang2021many}, 
  where $N \gg 2$ and each agent is interchangeable and indistinguishable.
 %
 This research area is relevant in the context of large-scale systems 
@@ -326,6 +326,28 @@ Given a time $t$, the system can be also represented as a graph $G_t = (V_t, E_t
   where $E_t$ is built from $\mathcal{N}$.
   Each node is then decorated with the local observation $o_v$. 
   Therefore, this graph can be used for being processed by a \ac{GNN} as done in~\cite{DBLP:conf/corl/TolstayaGPP0R19,tolstaya2020learning,DBLP:conf/icra/GosrichMLPYR022}.
+\subsection{Motivation}
+The definition of distributed controllers for intelligent systems can be divided into two major approaches: 
+ \emph{manual design}, where the application is conceived and described through a programming language, 
+ and \emph{automatic design}~\cite{brambilla2013swarm}, which employs machine learning techniques to synthesize distributed controllers. 
+ Our work lies between these two approaches, particularly in the areas of field-based coordination and \ac{MAARL} with the use of \acp{GNN}.
+
+Compared to earlier works, 
+ our approach builds on the concept of co-fields, 
+ where agents exploit the field as a stigmergic medium to receive system-wide information and apply reasoning to this data.
+%  
+We present a subsequent approach where agent intelligence is synthesized through \ac{MAARL} and the use of \ac{GNN} to learn a local representation from the neighbourhood.
+%
+By learning a smart policy directly in the environment, the agent becomes capable of adapting its behaviour to new situations.
+
+The use of \acp{GNN} as part of a distributed controller has been explored in previous literature, 
+ where it was shown that they could be used to break down the evaluation of local and distributed systems. 
+%
+However, in these works, communication was left entirely to the neural network, 
+ making the learning process potentially more complex and unstable. 
+ In our approach, the \ac{GNN} is \emph{informed} by computational fields that collect the necessary information to compute a certain task, 
+ limiting learning to only the specific task defined by a collective reward function.
+ This will speed up the learning process and make it more stable.
 \section{Field-informed Reinforcement Learning}
 \label{sec:approach}
 \ga{Page budget: 2/3 pages \\}
