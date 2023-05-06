@@ -173,6 +173,21 @@ The homogeneity of the controller is a key requirement to ensure the \emph{scala
 %
 \subsection{Field Coordination Approaches}
 \ga{discussion about field used as a coordination mechanism in multi-agent systems. Introduction to AC}
+The field-based coordination approaches utilize a concept of \emph{computational fields} 
+ (or simply \emph{fields}), 
+ which are \emph{distributed} data structures that associate locations with values and evolve over time. 
+%
+A modern field-coordination approach called \emph{aggregate computing}~\cite{Beal2015Computer}
+ is rooted in earlier work on \emph{artificial potential fields}~\cite{DBLP:conf/icra/Warren89} and \emph{co-fields}~\cite{DBLP:journals/pervasive/MameiZL04}. 
+% 
+ In this \emph{macro-programming}~\cite{DBLP:journals/corr/abs-2201-03473} paradigm is possible to devise collective and self-organizing behaviour through a composition of functions operating on fields. 
+%
+The fields map a set of individual agents to computational values, 
+ allowing them to associate what they sense, process, and actuate. 
+%
+Fields are computed locally but subject to a global viewpoint, 
+ enabling emergent collective behaviour through the interplay of the system model (similar to the above described) 
+ and the \emph{programming model} known as field calculus.
 \subsection{Graph Neural Networks}
 Over the years, several different neural networks have been proposed to solve specific tasks, ranging from 
   simple \ac{MLP} to \ac{CNN}~\cite{oshea2015introduction}.
