@@ -10,6 +10,8 @@
 \usepackage{xcolor}
 \usepackage{acronym}
 \usepackage{amsmath}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
 \def\doi#1{\href{https://doi.org/\detokenize{#1}}{\url{https://doi.org/\detokenize{#1}}}}
 %
 \usepackage{graphicx}
@@ -79,6 +81,8 @@ lukas.esterle@ece.au.dk}
 \acrodef{MLP}[MLP]{multi-layer perceptron}
 \acrodef{GNN}[GNN]{graph neural network}
 \acrodef{CNN}[CNN]{convolutional neural network}
+\acrodef{CTDE}[CTDE]{centralized training and decentralized execution}
+\acrodef{DQN}[DQN]{Deep Q-Learning}
 \ga{Page limit: 10 pages (include refs)}
 
 \begin{abstract}
@@ -339,12 +343,40 @@ However, in these works, communication was left entirely to the neural network,
 \ga{Plan: we should discuss the approach in detail, including the system model, and the learning dynamics.
 Particularly, I would like to highlight how each node in the graph is a local controller,
 but it could be seen as a global evolution, therefore we can use global information to inform the local controller.}
-\subsection{System model}
+\begin{figure*}
+  \includegraphics[width=\textwidth]{images/architecture.pdf}
+  \label{fig:architecture}
+  \caption{High-level description of Field-Informed reinforcement learning dynamics}
+\end{figure*}
+In this section, we aim to clarify the components involved in our proposed solution (i.e., architecture), how these components interact with each other to bring the system to perform the collective behavior (i.e dynamics), and finally, we will detail the learning algorithm designed and used to synthesize the policy (learning algorithm).
+\subsection{Architecture and System dynamics}
 \ga{Plan: 
   discussion about the typical AC evaluation model, specifying how GNN (with 1-hop information diffusion)
   can be easily integrated with this distributed model
 }
-\subsection{Learning dynamics}
+The proposed solution consists mainly of two parts, 
+\emph{i)} the aggregate program used to create part of the observation and 
+\emph{ii)} the policy $\pi_{gnn}$ learned through \ac{GNN}-based learning. 
+%
+Let $\Gamma$ be the aggregate program that runs against $G_t$. 
+%
+The evaluation of $\Gamma$  produce a field value $\theta^v_t$ for each node $v$ in $G_t$. 
+The feature vector $o_v$ of which is composed the graph $G'_t$ used by the policy $\pi_{gnn}$ is described by:
+ $o_v = (\theta^v_t, \omega)$.
+ where $\omega$ are other local information gather from sensors (like temperature, distances from neighbourhood, etc.). 
+%
+The policy $\pi_{gnn}$ is then evaluated for each node, 
+ producing an action $a_t$ that will then modify the global state of the system.
+ \ga{todo: put pseudo code to express this dynamics}
+%
+Despite appearing centralized, this system proposes a completely decentralized execution. 
+%
+In fact, the program $\Gamma$ is proactively executed at every node, 
+and the \ac{GNN} can be locally evaluated using only neighborhood information. 
+%
+We want to emphasize that, in this case, the \acp{GNN} must be 1-hop; 
+otherwise, they could not have a local interpretation for each node, according to our system model.
+\subsection{Learning algorithm}
 \ga{
   Plan: discuss the chosen approach, that is Centralised Training and Distributed Execution.
   Particularly, we use DQN in which the neural network is a GNN. So, the dataset consists in a set of graphs,
@@ -352,6 +384,35 @@ but it could be seen as a global evolution, therefore we can use global informat
   The target is the Q-value of the action taken in the current state.
   Explain how this can be then used for distributed controllers.
 }
+In swarm-like systems, 
+ the typical approach for learning follows a strategy known as \ac{CTDE}. \ga{perhaps it should be introduced in many RL} 
+The idea is to learn a policy at simulation time where there is a collective view of the system, 
+ and then at runtime use the policy found with global information. 
+This approach allows policies that are influenced by global information but only require local information to function at runtime. 
+%
+The typical approach in such cases is based on actor-critic systems~\cite{DBLP:conf/nips/LoweWTHAM17,wu2022more,song2022ctds,song2022centralized},
+  where the \emph{actor} is the distributed policy (with only local information) and the critic is a neural network that takes the overall system state.
+
+In our case, we leveraged the property of \ac{GNN}s to have a dual interpretation, i.e., to function globally over the entire graph and locally only over the neighborhood. 
+%
+Therefore, we relied on the value-based approach \ac{DQN}~\cite{mnih2015playing} \ga{to introduce in many rl??} with two major modifications: 
+\begin{enumerate}
+  \item experience replay stores experiences in the form of \emph{graphs},
+  \item the neural network used to compute the Q function is based on a \ac{GNN} with an \ac{MLP} downstream.
+\end{enumerate}
+The first point is a natural extension due to the fact that we work on graphs rather than simple values. 
+%
+For the second point,
+ the use of \acp{GNN} allows us to define policies on a variable neighborhood  that is essential in such systems as this can vary based on the neighborhood policy,
+ and it is known that \acp{GNN} have a certain ability to generalize to new structures and scale with different nodes. 
+% 
+Additionally, 
+ using the overall graph compared to local experiences makes learning more stable as it reduces the non-stationarity of the environment perceived by each node.
+% 
+ During learning, it is as if we have a \emph{single} agent collectively choosing which action to take (i.e., resulting action graph). 
+%
+The algorithm is described in the following pseudocode.
+
 \section{Evaluation}
 \label{sec:eval}
 \ga{Page budget: 2 pages \\}
