@@ -123,7 +123,9 @@ This leads to several questions
 	\item How to move sensors when the phenomena moves to ensure good coverage?
 \end{enumerate} \lukas{refine and rework these questions}
 
-In this paper, we propose a novel approach combining aggregate computing~\cite{Beal2015Computer} with Graph Neural Networks~\cite{Zhou2020AIOpen} to focus on the relevant areas. We further combine this with reinforcement learning techniques to respond to changing conditions in the environment.
+In this paper, we propose a novel approach combining aggregate computing~\cite{Beal2015Computer} with Graph Neural Networks~\cite{Zhou2020AIOpen} to focus on the relevant areas. We further combine this with reinforcement learning techniques to respond to changing conditions in the environment. 
+%
+This follow a novel trends in which high-level declarative programming language are mixed with machine learning technique in order to synthesise robust collective controllers~\cite{DBLP:conf/acsos/Aguzzi21,DBLP:conf/icdcs/AguzziCV22,DBLP:conf/coordination/AguzziCV22}.
 %Specifically, we will show... \lukas{more info...}
 Specifically, 
  our approach utilizes aggregate computing to disseminate information by manipulating a computational field, 
@@ -187,10 +189,10 @@ The fields map a set of individual agents to computational values,
 %
 Fields are computed locally but subject to a global viewpoint, 
  enabling emergent collective behaviour through the interplay of the system model (similar to the above described) 
- and the \emph{programming model} known as field calculus.
+ and the \emph{programming model} known as field calculus~\cite{DBLP:conf/esocc/ViroliDB13,DBLP:journals/corr/ViroliADPB16,DBLP:journals/tocl/AudritoVDPB19}.
 \subsection{Graph Neural Networks}
 Over the years, several different neural networks have been proposed to solve specific tasks, ranging from 
-  simple \ac{MLP} to \ac{CNN}~\cite{oshea2015introduction}.
+  simple \ac{MLP}~\cite{werbos1975beyond} to \ac{CNN}~\cite{oshea2015introduction}.
 %
 Whereas \ac{CNN} is designed to be used with image and spatial-like data (e.g., audio),
  \ac{GNN} is a novel model used to process graph-structured data. 
@@ -312,9 +314,10 @@ Given a time $t$, the system can be also represented as a graph $G_t = (V_t, E_t
 The definition of distributed controllers for intelligent systems can be divided into two major approaches: 
  \emph{manual design}, where the application is conceived and described through a programming language, 
  and \emph{automatic design}~\cite{brambilla2013swarm}, which employs machine learning techniques to synthesize distributed controllers. 
- Our work lies between these two approaches, particularly in the areas of field-based coordination and \ac{MAARL} with the use of \acp{GNN}.
+%
+Our work lies between these two approaches, specifically in the areas of field-based coordination and \ac{MAARL} with the use of \acp{GNN}.
 
-Compared to earlier works, 
+Compared to earlier works on field-based coordination, 
  our approach builds on the concept of co-fields~\cite{DBLP:journals/pervasive/MameiZL04}, 
  where agents exploit the field as a stigmergic medium to receive system-wide information and apply reasoning to this data.
 %  
@@ -322,7 +325,7 @@ We present a subsequent approach where agent intelligence is synthesized through
 %
 By learning a smart policy directly in the environment, the agent becomes capable of adapting its behaviour to new situations.
 
-The use of \acp{GNN} as part of a distributed controller has been explored in previous literature, 
+The use of \acp{GNN} as part of a distributed controller has been explored in previous literature~\cite{DBLP:conf/icra/GosrichMLPYR022,DBLP:conf/corl/TolstayaGPP0R19}, 
  where it was shown that they could be used to break down the evaluation of local and distributed systems. 
 %
 However, in these works, communication was left entirely to the neural network, 
