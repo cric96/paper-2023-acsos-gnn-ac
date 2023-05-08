@@ -448,7 +448,72 @@ Additionally,
 \ga{Plan: we should discuss the robot aggregation scenario, specifying the state space, the action space, and the reward function.
 I dunno if it makes sense to discuss the variants (i.e., fixed area, two areas and moving area). We will see.
 }
+To test the effectiveness of the proposed approach, 
+ we decided to experiment with a case study related to swarm robotics, 
+ specifically the tracking and coverage of a spatiotemporal phenomenon, cf. tracking a wildfire 
+ or monitoring the water levels in a canal.
+
 \subsection{Scenario}
+The proposed simulation consists 
+ of a set of robots placed in a 2D space capable of perceiving the intensity 
+ of the phenomenon of interest through an installed sensor $\zeta_v$ with $v \in \mathbb{V}$. 
+ (e.g., camera, temperature sensor, etc.). 
+%
+Additionally, each node has a coverage range $\omega$ 
+ that describes the area it can monitor. 
+ Each drone can only communicate directly with its own neighborhood $\mathcal{N}$, 
+ which in this case depends on a $\mathbb{O}$ range,
+From the neighbourhood, 
+ each node can also perceive the direction of the other nodes.
+%
+Each node moves following a certain action composed of two components ($\alpha$, $\theta$) 
+ which respectively describe the angle and intensity of the movement (i.e., the velocity vector).
+\subsection{Goal}
+ The objective of this scenario is to:
+\begin{itemize}
+\item Maximize the number of drones within the phenomena
+\item Minimize the number of drones without a neighbourhood
+\item Maximize the coverage of the system
+\end{itemize}
+ 
+As we are modelling a reinforcement learning system, 
+ these three components must be encoded in a reward function 
+ that provides an estimate of the current action taken by a given robot.
+ 
+ Regarding the first point, the reward function is simple and is defined as:
+ 
+ \begin{equation*}
+ R^a_{v} = \begin{cases}
+  1 & \text{if } \zeta_v > 0 \\
+  0 & \text{otherwise} 
+ \end{cases}
+ \end{equation*}
+ 
+This will lead the system to prefer a configuration in which every node is present in the system. 
+%
+The second point is important because if the system breaks into many scattered drones, 
+ they are not able to move in the environment due to the reduced observability of the system. 
+ In this case, the reward is defined as:
+ 
+ \begin{equation*}
+ R^{\mathcal{N}}_{v} = \begin{cases}
+  1 & \text{if } \mathcal{N} > 0 \\
+  0 & \text{otherwise} 
+ \end{cases}
+ \end{equation*}
+ 
+ Finally, to maximize the coverage, 
+  we decided to calculate the maximum and minimum distance of the neighbourhood and give more value in case these two values are similar. 
+%
+This means that the average distance will tend towards the one expressed by the viewing range of each node:
+% 
+\begin{equation*}
+R^{C}_{v} = \frac{d_{max} - d_{min}}{\mathbb{O}}
+\end{equation*}
+The final reward function is defined as:
+\begin{equation*}
+R_{v} = R^a_{v} + R^{\mathcal{N}}_{v} + R^{C}_{v}
+\end{equation*}
 
 \paragraph*{Variant A}
 \paragraph*{Variant B}
