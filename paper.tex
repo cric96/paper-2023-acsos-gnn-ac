@@ -254,33 +254,34 @@ One interesting application of \ac{RL} is when there are multiple learning agent
  Such scenarios are referred to as multi-agent reinforcement learning (MARL)~\cite{zhang2019marl}. 
 %
 In particular, in this work, we consider homogenous \ac{MAARL}~\cite{yang2021many}, 
- where $N \gg 2$ and each agent is interchangeable and indistinguishable.
+ where the set of agents $N \gg 2$ and each agent is interchangeable and indistinguishable.
 %
 This research area is relevant in the context of large-scale systems 
  when the incentive of the individual is reduced compared to the collective behaviour of the system, 
  which is found in collective adaptive systems such as swarm robotics.
+ \lukas{i am not sure i understand the previous sentence.}
 
-In fact, the first works in this direction were discussed precisely in the last field, 
+In fact, the first works in this direction were discussed precisely in the last field, \lukas{what does this mean `in the last field'?}
  exploring new models (e.g., swarMDP~\cite{DBLP:conf/atal/SosicKZK17}) and learning algorithms capable of extrapolating 
- a policy equal to the entire system. 
-Modern approaches, however, 
- have started to consider the use of deep learning approaches to try 
+ a policy equal to \lukas{maybe `valid to' or `representing' instead of `equal to'?}  the entire system. 
+%Modern approaches, however, 
+% have started to consider the use of 
+ Recently, deep learning approaches have been considered 
  to synthesise robust controllers capable of generalizing to new tasks. 
-In this context, mean-field reinforcement learning~\cite{pmlr-v80-yang18d} is certainly noteworthy. 
- Mean-field RL is a technique for learning approximate inference in large-scale systems, 
- where the interactions between the agents can be decoupled into a single conditional probability distribution function for each agent, 
+%In this context, mean-field reinforcement learning~\cite{pmlr-v80-yang18d} is certainly noteworthy. 
+ Mean-field RL~\cite{pmlr-v80-yang18d}  is a technique for learning approximate inference in large-scale systems. Here, the interactions between the agents can be decoupled into a single conditional probability distribution function for each agent, 
  thus simplifying the learning process and reducing the computational cost.
 %
 Some known approaches using mean-field reinforcement learning include Q-mean, 
- which is an extension of Q-learning to mean-field settings, 
- and actor-critic mean-field, which combines actor-critic algorithms with mean-field approximations. 
+ which is an extension of Q-learning to mean-field settings~\cite{}, 
+ and actor-critic mean-field~\cite{}, which combines actor-critic algorithms with mean-field approximations. 
 %
 These approaches have shown promising results in various domains, such as multi-agent coordination 
- and decentralised control, and are actively being researched and developed for further applications
+ and decentralised control, and are actively being researched and developed for further applications.
 \subsection{Problem formalisation}
-Given the homogeneity and large scale considered and the \emph{locality} (i,e., each agent can only observe its neighbours), 
+Given the homogeneity, large system scale, and the \emph{locality} (i,e., each agent can only observe its neighbours), 
  the problem can be modelled through the SwarMDP model~\cite{DBLP:conf/atal/SosicKZK17} -- 
- an extension of the \ac{DecPOMDP}~\cite{Decpomdp2000} model to swarm-like systems.
+ an extension of the \ac{DecPOMDP}~\cite{Decpomdp2000} model for swarm-like systems.
 % 
 A SwarMDP is characterised by a \emph{swarming agent} ($\mathbb{A}$) and the dynamics of the environment ($\mathbb{E}$).
 Specifically, $\mathbb{A}$ is a tuple ($\mathcal{S}, \mathcal{O}, \mathcal{A}, \mathcal{R}, \pi$) where:
@@ -292,13 +293,12 @@ Specifically, $\mathbb{A}$ is a tuple ($\mathcal{S}, \mathcal{O}, \mathcal{A}, \
 Starting from this definition, the environment $\mathbb{E}$ is defined as a tuple ($\mathcal{P}, \mathbb{A}, \mathcal{T}, \xi$), where:
 \begin{itemize}
   \item $\mathcal{P}$ is the total number of agents in the systems (the agent population), which is assumed to be fixed;
-  \item $\mathbb{A}$ is the above defined agent prototype that rules each agent $v \in P$;
+  \item $\mathbb{A}$ is the defined agent prototype that rules each agent $v \in P$;
   \item $\mathcal{T}: \mathcal{S}^P \times \mathcal{A}^P \times \mathcal{S}^P \rightarrow \mathbb{R}$ is the transition  global function, which is influenced by the actions of the agents and returns a collective reward -- this is typically not known by the swarming agents;
   \item $\xi: \mathcal{S^P} \rightarrow \mathcal{O^P}$ is the global observation model of the systems.
 \end{itemize}
 In swarMDP, the neighbourhood is not directly defined, but it is implicitly defined by the observation model $\xi$.
-Since in our case, the agents can only interact with 1-hop neighbourhoods and they aren't directly influenced by other 
-  agent observations, we restrict the observation model as follows:
+In our specific case, the agents can only interact with 1-hop neighbourhoods and are not directly influenced by other agent observations. We can therefore restrict the observation model as follows:
 \begin{equation}
 \xi(v): \{s_j, j \in \mathcal{N}^v\} \rightarrow O
 \end{equation}
