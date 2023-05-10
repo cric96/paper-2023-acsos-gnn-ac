@@ -343,7 +343,7 @@ However, in these works, communication was left entirely to the neural network,
 Particularly, I would like to highlight how each node in the graph is a local controller,
 but it could be seen as a global evolution, therefore we can use global information to inform the local controller.}
 \begin{figure*}
-  \includegraphics[width=\textwidth]{images/architecture.pdf}
+  \includegraphics[width=\textwidth]{imgs/architecture.pdf}
   \label{fig:architecture}
   \caption{High-level description of Field-Informed reinforcement learning dynamics}
 \end{figure*}
@@ -412,7 +412,7 @@ Additionally,
 %
 \ga{todo: describe the algorithm with the modifications}
 \begin{algorithm}
-  \KwIn{Environment $\mathcal{E}$, graph replay buffer $\mathcal{D}$, target network $\theta^{-}$, current network $\theta$, exploration strategy $\epsilon$}
+  \KwIn{Environment $\mathbb{E}$, graph replay buffer $\mathcal{D}$, target network $\theta^{-}$, current network $\theta$, exploration strategy $\epsilon$}
   \KwOut{Trained DQN model $\theta$}
 
   Initialize $\mathcal{D}$ with random initial transitions;
@@ -422,24 +422,31 @@ Additionally,
   Set $\theta^{-} \leftarrow \theta$;
 
   \While{not done}{
-  Observe current state $s$;
+  Observe current graph observations $G_o$;
 
-  With probability $\epsilon$ select a random action $a$, otherwise select $a = \arg\max_{a'} Q(s,a';\theta)$;
+  With probability $\epsilon$ select a random graph action $G_a$, 
+  otherwise select $G_a =$ 
+  $\{ v \in V, argmax_{a'v} Q(G_o, \theta)[v, a'v]\ ,  E \in G_o \}$;
 
-  Execute action $a$ in the environment $\mathcal{E}$ and observe the reward $r$ and the next state $s'$;
+  Execute the collective action $G_a$ in the environment $\mathbb{E}$ and observe a graph-level reward $G_r$ and the next state $G_o'$;
 
-  Store transition $(s,a,r,s')$ in $\mathcal{D}$;
+  Store transition $(G_o,G_a,G_r, G_o')$ in $\mathcal{D}$;
 
-  Sample a batch of transitions $(s_i,a_i,r_i,s'i)$ from $\mathcal{D}$;
+  Sample a batch of graph transitions $(G^i_o,G^i_a,G^i_r,G^i_o)$ 
+   from $\mathcal{D}$ and merge them in $(G_o,G_a,G_r,G_o)$;
 
-  Compute the target Q-value for each transition: $y_i = r_i + \gamma \max{a'} Q(s'i,a';\theta^{-})$;
+  Compute the target Q-value for each node in the graph: 
+  $y = G_r + \gamma * \max{a'} Q(s'i,a';\theta^{-})$;
+  
+  Compute the current expetected value for each node in the graph:
+  $y^* = Q(s'i,a';\theta)$;
 
-  Update the current network weights using gradient descent: $\theta \leftarrow \theta - \alpha \nabla{\theta} \frac{1}{N} \sum_i (y_i - Q(s_i,a_i;\theta))^2$;
+  Update the current network weights using gradient descent: $\theta \leftarrow \theta - \alpha \nabla{\theta} \frac{1}{|G_o|} (y - y^*)^2$;
 
   Every $C$ steps, update the target network weights: $\theta^{-} \leftarrow \theta$
   ;
   }
-  \caption{Deep Q-Network (DQN)}
+  \caption{Deep Q-Network (DQN) with GNN and Graph Replay Buffer}
   \end{algorithm}
     
 \section{Evaluation}
