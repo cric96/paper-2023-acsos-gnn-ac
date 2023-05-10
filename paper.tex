@@ -91,11 +91,14 @@ Coordinatinating a group of intelligent agents in multi-agent systems
 %
 The problem is even more evident in collective adaptive systems, 
  where the scale of the systems considered makes the definition of collective behaviours even more challenging. 
-
-In this paper, we consider a new reinforcement learning approach 
-  for the definition of intelligent agents called \emph{Field-Informed reinforcement learning}, 
+% 
+Thus far, two main macro approaches have been proposed for creating distributed controllers: 
+ \emph{manual design}, in which programmers build the controllers directly, and 
+ \emph{automatic design}, which involves synthesizing programs using machine learning methods.
+%
+In this paper, we consider a new \emph{hybrid} approach called  \emph{Field-Informed reinforcement learning}, 
   where we use computational \emph{computational fields} to manage the interaction between agents 
-  and Graph Neural Networks to learn a local behaviour necessary to solve collective tasks. 
+  and \emph{Graph Neural Networks} to learn a local behaviour necessary to solve collective tasks. 
 %
 This allows us to create distributed controllers informed by a collective knowledge 
  distilled during learning but that use only local information at runtime.
@@ -351,7 +354,11 @@ but it could be seen as a global evolution, therefore we can use global informat
 \begin{figure*}
   \includegraphics[width=\textwidth]{imgs/architecture.pdf}
   \label{fig:architecture}
-  \caption{High-level description of Field-Informed reinforcement learning dynamics}
+  \caption{High-level description of Field-Informed reinforcement learning dynamics. 
+  For each time step, a graph is constructed from the environment, and it will associate each node with a local feature (hexagons in the picture). 
+  Using this feature, an aggregate program computes spatio-temporal information that enhances the feature set of each node, depicted as colours in the middle graph. 
+  Finally, utilizing the GNN, actions are computed for each node in the system to be performed against the environment, enabling advancement in the simulations according to swarMDP rules.
+}
 \end{figure*}
 In this section, we aim to clarify the components involved in our proposed solution (i.e., architecture), how these components interact with each other to bring the system to perform the collective behavior (i.e dynamics), and finally, we will detail the learning algorithm designed and used to synthesise the policy (learning algorithm).
 \subsection{Architecture and System dynamics}
