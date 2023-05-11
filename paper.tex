@@ -104,7 +104,7 @@ This allows us to create distributed controllers informed by a collective knowle
  distilled during learning but that use only local information at runtime.
 % 
 We demonstrate the effectiveness of this new approach in a simulated use case 
- where coordination tasks are successfully solved. \lukas{do we really have multiple case studies?} 
+ where coordination tasks are successfully solved. %\lukas{do we really have multiple case studies?} 
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -149,7 +149,7 @@ The remainder of this paper is structured as follows. First, we introduce the re
 \section{Background and Motivation}
 \label{sec:background}
 In this section, we aim to provide a concise overview of the system we intend to address, 
- starting with a system definition. 
+ starting with a high-level system model. 
 %
 We then proceed to discuss relevant research areas that inform our approach. 
 %
@@ -157,7 +157,7 @@ Finally, we present a formalization of the problem and a discussion of the motiv
 \ga{Page budget: 1/2 page \\}
 \ga{Plan: discussion about the problem of coordination in multi-agent systems 
 and the need for a scalable approach. In doing this, we will discuss some of the existing approaches (declarative, RL and )}
-\subsection{System definition}
+\subsection{Swarm systems}
 This article focuses on the definition of \emph{decentralised collective intelligence} within the context of \emph{large-scale} distributed systems.
  Specifically, we focus on \emph{Cyber-Physical Swarms} or \emph{swarm-like systems}, i.e.,  systems consisting of \emph{devices} (or nodes) equipped with \emph{sensors} and \emph{actuator} able to interact with the real world.
  Each of these nodes can interact with its direct neighbours, either based on physical (e.g. communication range) or logical distance (e.g. 1-hop neighbourhood).
@@ -182,7 +182,7 @@ The homogeneity of the controller is a key requirement to ensure the \emph{scala
  as it allows us to avoid the need for a centralised controller that would be a bottleneck for the system,
  and it is the typical choice in swarm-like systems~\cite{brambilla2013swarm,yang2021many,pmlr-v80-yang18d,DBLP:conf/aaai/ZhengYCZZWY18}.
 %
-\lukas{not really a system definition - maybe we rename this to \emph{Swarm Systems}?}
+%\lukas{not really a system definition - maybe we rename this to \emph{Swarm Systems}?}
 \subsection{Field-based Coordination}
 \ga{discussion about field used as a coordination mechanism in multi-agent systems. Introduction to AC}
 The field-based coordination approaches utilise a concept of \emph{computational fields} 
