@@ -529,8 +529,15 @@ R^{C}_{v} = \frac{d_{max} - d_{min}}{\mathbb{O}}
 \end{equation*}
 The final reward function is defined as:
 \begin{equation*}
-R_{v} = R^a_{v} + R^{\mathcal{N}}_{v} + R^{C}_{v}
+R_{v} = \frac{R^a_{v} + R^{\mathcal{N}}_{v} + R^{C}_{v}}{3}
 \end{equation*}
+Specifically, we decided to express the signal as a \emph{regret}
+  as it is a more general measure of the quality of the action taken by the agent.
+It is simplify evaluated as:
+\begin{equation*}
+R^e_{v} = 1 - R_v
+\end{equation*}
+%
 
 %\paragraph*{Variant A}
 %\paragraph*{Variant B}
