@@ -349,10 +349,10 @@ but it could be seen as a global evolution, therefore we can use global informat
   \includegraphics[width=\linewidth]{imgs/architecture.pdf}
   \label{fig:architecture}
   \caption{High-level description of Field-Informed reinforcement learning dynamics. 
-  For each time step, a graph is constructed from the environment, and it will associate each node with a local feature (hexagons in the picture). 
+  For each time step $t$, a graph is constructed from the environment, and it will associate each node with a local feature (hexagons in the picture). 
   Using this feature, an aggregate program computes spatio-temporal information that enhances the feature set of each node, depicted as colours in the middle graph. 
   Finally, utilizing the GNN, actions are computed for each node in the system to be performed against the environment, enabling advancement in the simulations according to swarMDP rules.
-  \lukas{should we have numbers at each step in the figure (and then referring in the caption and text)?}
+  %\lukas{should we have numbers at each step in the figure (and then referring in the caption and text)?}
   \lukas{also, i think we can have the AC and GNN box a bit smaller but increase the size of the networks slightly - and put it on column width ot save space}
 }
 \end{figure*}
