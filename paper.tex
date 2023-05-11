@@ -218,7 +218,8 @@ Given $o_v$, %a feature vector associated with each node $v \in V$,
  the goal of a \ac{GNN} is to learn the node embedding $h_v$ for each node $v \in V$. The node embedding $h_v$ describes the node in the network and summarises the geometric properties of the graph in this location, allowing for comparison of various nodes in the graph.
  In modern \acp{GNN}, the node embedding $h_v$ is computed by aggregating information from the node's neighbours $N(v)$,
   and then combining it with the node's current embedding $h_v$.
-  \lukas{maybe add:``The graph is further partitioned into layers with the node $v$ at its bottom layer $0$. With each traversal of an edge $e \in E$ from $v$, the number of layers increased.''}
+ The graph is further partitioned into layers with the node $v$ at its bottom layer $0$. With each traversal of an edge $e \in E$ from $v$, the number of layers increased
+%\lukas{maybe add:``The graph is further partitioned into layers with the node $v$ at its bottom layer $0$. With each traversal of an edge $e \in E$ from $v$, the number of layers increased.''}
 % 
 Formally, a \ac{GNN} can be defined by two phases:
 \begin{equation}
