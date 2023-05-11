@@ -65,7 +65,8 @@ lukas.esterle@ece.au.dk}
 %
 \maketitle              % typeset the header of the contribution
 %
-
+\input{scala.tex}
+\lstset{language={scafi}}
 %%% Comment command, to be removed before submission
 \newcommand{\meta}[3]{\textcolor{#1}{\textbf{#2}: #3}}
 \newcommand{\ga}[1]{\meta{red}{GA}{#1}}
@@ -154,8 +155,7 @@ We then proceed to discuss relevant research areas that inform our approach.
 %
 Finally, we present a formalization of the problem and a discussion of the motivations behind our proposed work.
 \ga{Page budget: 1/2 page \\}
-\ga{Plan: discussion about the problem of coordination in multi-agent systems 
-and the need for a scalable approach. In doing this, we will discuss some of the existing approaches (declarative, RL and )}
+%\ga{Plan: discussion about the problem of coordination in multi-agent systems and the need for a scalable approach. In doing this, we will discuss some of the existing approaches (declarative, RL and )}
 \subsection{Swarm systems}
 This article studies intelligent \emph{collective behaviours} within the context of \emph{large-scale} distributed systems.
  Specifically, we focus on \emph{Cyber-Physical Swarms} or \emph{swarm-like systems}, i.e.,  systems consisting of \emph{devices} (or nodes) equipped with \emph{sensors} and \emph{actuator} able to interact with the real world.
@@ -180,7 +180,7 @@ The homogeneity of the controller is a key requirement to ensure the \emph{scala
  and it is the typical choice in swarm-like systems~\cite{brambilla2013swarm,yang2021many,pmlr-v80-yang18d,DBLP:conf/aaai/ZhengYCZZWY18}.
 %
 \subsection{Field-based Coordination}
-\ga{discussion about field used as a coordination mechanism in multi-agent systems. Introduction to AC}
+%\ga{discussion about field used as a coordination mechanism in multi-agent systems. Introduction to AC}
 The field-based coordination approaches utilise a concept of \emph{computational fields} 
  (or simply \emph{fields}), 
  which are \emph{distributed} data structures that associate locations with values and evolve over time. 
@@ -211,8 +211,32 @@ The proactive and iterative execution of the round by each agent leads to the em
 
 The programming model is ruled by the \emph{field calculus}~\cite{DBLP:conf/esocc/ViroliDB13,DBLP:journals/corr/ViroliADPB16,DBLP:journals/tocl/AudritoVDPB19}, 
  a core language that allows the expression of collective behaviours through the composition of \emph{functions} operating on fields.
+%
+Field calculus includes main operators for expressing \emph{spatio-temporal} compotations that allow for 
+\emph{i)} the progression of values over time, achieved by transforming a value computed in a previous round into a new value; 
+\emph{ii)} the exchange of data with neighbouring fields, where received data is validated by adjacent fields; and 
+\emph{iii)} the conditional division of computation into distinct domains of collective computation. 
+%
+We avoid presenting here the full details of these operators since they are not essential to the contribution. 
+For further elaboration on the actual field calculus, please refer to the work of~\cite{DBLP:journals/jlap/ViroliBDACP19}.
 
-
+On these minimal operators, 
+ it is then possible to build \emph{self-organizing} coordination blocks.
+ One of the founding blocks is the \emph{gradient} essential for 
+ \emph{information} flows~\cite{DBLP:conf/saso/WolfH07}.
+%
+This operator generates a numerical field that represents the minimum distance from a source zone. 
+%
+In other words, it maps a Boolean field (where ``true'' indicates the presence of a source node and ``false'' indicates its absence) to a distance field that indicates the proximity to the nearest source. In ScaFi (a scala implementation of aggregate computing) it is simply expressed as:
+\begin{lstlisting}
+def gradient(source: Boolean): Double
+\end{lstlisting}
+Along the gradient, it is possible to cast information within the system, accumulating value during the programming. This pattern is called \emph{gradient-cast} (or \emph{G}) 
+\begin{lstlisting}
+def G[V](source: Boolean, value: V, acc: V => V): V
+\end{lstlisting}
+\ga{more description here}
+this is used in the use case to accumulate the distance from the phenomena that is tracked
 \lukas{still not sure how the coordination works or if it has been explained in the above paragraph.}
 \subsection{Graph Neural Networks}
 %Over the years, several different neural networks have been proposed to solve specific tasks, ranging from 
@@ -256,8 +280,8 @@ This formulation allows GNNs to effectively process and extract features from gr
 \acp{GNN} are used in several application areas such as social network analysis, chemistry, and physics.
 In this paper, we use GNNs to learn a local behaviour for each agent in a multi-agent system (more details in Section~\ref{sec:approach}).
 \subsection{Many-Agent Reinforcement Learning}
-\ga{plan: we could discuss briefly about standard approach (few agents), and mean-field approach (many agents). 
-This will lead to our approach, which is a combination of DQN (or any Deep RL approach) and GNN.}
+%\ga{plan: we could discuss briefly about standard approach (few agents), and mean-field approach (many agents). 
+%This will lead to our approach, which is a combination of DQN (or any Deep RL approach) and GNN.}
 
 \Ac{RL} has gained a lot of interest recently, 
  thanks to its successful application in various scenarios, 
@@ -360,9 +384,7 @@ However, in these works, communication was left entirely to the neural network,
 \section{Field-informed Reinforcement Learning}
 \label{sec:approach}
 \ga{Page budget: 2/3 pages \\}
-\ga{Plan: we should discuss the approach in detail, including the system model, and the learning dynamics.
-Particularly, I would like to highlight how each node in the graph is a local controller,
-but it could be seen as a global evolution, therefore we can use global information to inform the local controller.}
+%\ga{Plan: we should discuss the approach in detail, including the system model, and the learning dynamics. Particularly, I would like to highlight how each node in the graph is a local controller, but it could be seen as a global evolution, therefore we can use global information to inform the local controller.}
 \begin{figure}
   \includegraphics[width=\linewidth]{imgs/architecture.pdf}
   \label{fig:architecture}
@@ -376,10 +398,10 @@ but it could be seen as a global evolution, therefore we can use global informat
 \end{figure}
 In this section, we aim to clarify the components involved in our proposed solution (i.e., architecture), how these components interact with each other to bring the system to perform the collective behaviour (i.e dynamics), and finally, we will detail the learning algorithm designed and used to synthesise the policy (learning algorithm).
 \subsection{Architecture and System dynamics}
-\ga{Plan: 
-  discussion about the typical AC evaluation model, specifying how GNN (with 1-hop information diffusion)
-  can be easily integrated with this distributed model
-}
+%\ga{Plan: 
+%  discussion about the typical AC evaluation model, specifying how GNN (with 1-hop information diffusion)
+%  can be easily integrated with this distributed model
+%}
 The proposed solution consists mainly of two parts, 
 \emph{i)} the aggregate program used to create part of the observation and 
 \emph{ii)} the policy $\pi_{gnn}$ learned through \ac{GNN}-based approach. 
@@ -404,13 +426,13 @@ and the \ac{GNN} can be locally evaluated using only neighbourhood information.
 We want to emphasise that, in this case, the \acp{GNN} must be 1-hop; 
 otherwise, they could not have a local interpretation for each node, according to our system model.
 \subsection{Learning algorithm}
-\ga{
-  Plan: discuss the chosen approach, that is Centralised Training and Distributed Execution.
-  Particularly, we use DQN in which the neural network is a GNN. So, the dataset consists in a set of graphs,
-  where each graph is a snapshot of the system. 
-  The target is the Q-value of the action taken in the current state.
-  Explain how this can be then used for distributed controllers.
-}
+%\ga{
+%  Plan: discuss the chosen approach, that is Centralised Training and Distributed Execution.
+%  Particularly, we use DQN in which the neural network is a GNN. So, the dataset consists in a set of graphs,
+%  where each graph is a snapshot of the system. 
+%  The target is the Q-value of the action taken in the current state.
+%  Explain how this can be then used for distributed controllers.
+%}
 In swarm-like systems, 
  the typical approach for learning follows a strategy known as \ac{CTDE}. \ga{perhaps it should be introduced in many RL} 
 The idea is to learn a policy at simulation time where there is a collective view of the system, 
@@ -480,9 +502,8 @@ Additionally,
 \section{Evaluation}
 \label{sec:eval}
 \ga{Page budget: 2 pages \\}
-\ga{Plan: we should discuss the robot aggregation scenario, specifying the state space, the action space, and the reward function.
-I dunno if it makes sense to discuss the variants (i.e., fixed area, two areas and moving area). We will see.
-}
+%\ga{Plan: we should discuss the robot aggregation scenario, specifying the state space, the action space, and the reward function.
+%I dunno if it makes sense to discuss the variants (i.e., fixed area, two areas and moving area). We will see.}
 To test the effectiveness of the proposed approach, 
  we decided to experiment with a case study related to swarm robotics, 
  specifically the tracking and coverage of a spatio-temporal phenomenon, cf. tracking a wildfire 
