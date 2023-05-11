@@ -187,14 +187,32 @@ The field-based coordination approaches utilise a concept of \emph{computational
 %
 \emph{Aggregate computing}~\cite{Beal2015Computer}, a modern field-coordination approach, is rooted in earlier work on \emph{artificial potential fields}~\cite{DBLP:conf/icra/Warren89} and \emph{co-fields}~\cite{DBLP:journals/pervasive/MameiZL04}. 
 % 
-Within aggregate computing, the  \emph{macro-programming}~\cite{DBLP:journals/corr/abs-2201-03473} paradigm can be realised to devise collective and self-organizing behaviour through a composition of functions operating on fields. 
+This \emph{macro-programming}~\cite{DBLP:journals/corr/abs-2201-03473} paradigm can be realised to devise collective and self-organizing behaviour through a composition of functions operating on fields. 
 %
 The fields map a set of individual agents to computational values, 
  allowing them to associate what they sense, process, and actuate. 
 %
 Fields are computed locally but subject to a global viewpoint, 
- enabling emergent collective behaviour through the interplay of the system model (similar to the above described) 
- and the \emph{programming model} known as field calculus~\cite{DBLP:conf/esocc/ViroliDB13,DBLP:journals/corr/ViroliADPB16,DBLP:journals/tocl/AudritoVDPB19}.
+ enabling emergent collective behaviour through the interplay of the \emph{system model} (i.e., structure and dynamics of the systems)
+ and the \emph{programming model} (i.e., how collective behaviours are expressed) known as field calculus~\cite{DBLP:conf/esocc/ViroliDB13,DBLP:journals/corr/ViroliADPB16,DBLP:journals/tocl/AudritoVDPB19}.
+%
+The foster is structurally similar to \emph{swarm-like systems}, 
+ as it is composed of a set of \emph{agents} 
+ that interact with each other through a \emph{network} of \emph{neighbourhood relations}.
+%
+The dynamics of each agent follow a local control loop called \emph{round}
+ that comprises the following steps:
+\begin{enumerate}
+  \item \emph{Sense}: the agent acquires information from the environment and collects the messages of its neighbourhood, building a \emph{context};
+  \item \emph{Compute}: the agent executes a \emph{program} that computes an \emph{export}, that is a set of values to be sent to the neighbourhood;
+  \item \emph{Act}: the agent sends the export to its neighbourhood and updates its internal state acting on the environment.
+\end{enumerate}
+The proactive and iterative execution of the round by each agent leads to the emergence of collective behaviour specified by the program.
+
+The programming model is ruled by the \emph{field calculus}~\cite{DBLP:conf/esocc/ViroliDB13,DBLP:journals/corr/ViroliADPB16,DBLP:journals/tocl/AudritoVDPB19}, 
+ a core language that allows the expression of collective behaviours through the composition of \emph{functions} operating on fields.
+
+
 \lukas{still not sure how the coordination works or if it has been explained in the above paragraph.}
 \subsection{Graph Neural Networks}
 %Over the years, several different neural networks have been proposed to solve specific tasks, ranging from 
@@ -404,12 +422,12 @@ The typical approach in such cases is based on actor-critic systems~\cite{DBLP:c
 
 In our case, we leveraged the property of \ac{GNN}s to have a dual interpretation, i.e., to function globally over the entire graph and locally only over the neighbourhood. 
 %
-Therefore, we relied on the value-based approach \ac{DQN}~\cite{mnih2015playing} \ga{to introduce in many rl??} with two major modifications: 
+Therefore, we relied on the value-based approach \ac{DQN}~\cite{mnih2015playing} \ga{to introduce in many rl??} with two major modifications (see \Cref{alg:dqn}): 
 \begin{enumerate}
   \item experience replay stores experiences in the form of \emph{graphs},
   \item the neural network used to compute the Q function is based on a \ac{GNN} with an \ac{MLP} downstream.
 \end{enumerate}
-The first point is a natural extension due to the fact that we work on graphs rather than simple values. 
+The first point is a natural extension because we work on graphs rather than simple values. 
 %
 For the second point,
  the use of \acp{GNN} allows us to define policies on a variable neighbourhood  that is essential in such systems as this can vary based on the neighbourhood policy,
@@ -420,7 +438,6 @@ Additionally,
 % 
  During learning, it is as if we have a \emph{single} agent collectively choosing which action to take (i.e., resulting action graph). 
 %
-\ga{todo: describe the algorithm with the modifications}
 \begin{algorithm}
   \KwIn{Environment $\mathbb{E}$, graph replay buffer $\mathcal{D}$, target network $\theta^{-}$, current network $\theta$, exploration strategy $\epsilon$}
   \KwOut{Trained DQN model $\theta$}
@@ -457,6 +474,7 @@ Additionally,
   ;
   }
   \caption{Deep Q-Network (DQN) with GNN and Graph Replay Buffer}
+  \label{alg:dqn}
   \end{algorithm}
     
 \section{Evaluation}
