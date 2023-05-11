@@ -104,7 +104,7 @@ This allows us to create distributed controllers informed by a collective knowle
  distilled during learning but that use only local information at runtime.
 % 
 We demonstrate the effectiveness of this new approach in a simulated use case 
- where coordination tasks are successfully solved. %\lukas{do we really have multiple case studies?} 
+ where coordination tasks are successfully solved. 
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -135,7 +135,6 @@ This leads to several questions
 In this paper, we propose a novel approach combining aggregate computing~\cite{Beal2015Computer} with Graph Neural Networks~\cite{Zhou2020AIOpen} to focus on the relevant areas. We further combine this with reinforcement learning techniques to respond to changing conditions in the environment. 
 %
 This follows a novel trend in which high-level declarative programming languages are mixed with machine learning techniques in order to synthesise robust collective controllers~\cite{DBLP:conf/acsos/Aguzzi21,DBLP:conf/icdcs/AguzziCV22,DBLP:conf/coordination/AguzziCV22}.
-%Specifically, we will show... \lukas{more info...}
 Specifically, 
  our approach utilises aggregate computing to disseminate information by manipulating a computational field, 
  which is a distributed data structure that maps devices to information. 
@@ -158,11 +157,9 @@ Finally, we present a formalization of the problem and a discussion of the motiv
 \ga{Plan: discussion about the problem of coordination in multi-agent systems 
 and the need for a scalable approach. In doing this, we will discuss some of the existing approaches (declarative, RL and )}
 \subsection{Swarm systems}
-This article aims in defining intelligent \emph{collective behaviours} within the context of \emph{large-scale} distributed systems.
+This article studies intelligent \emph{collective behaviours} within the context of \emph{large-scale} distributed systems.
  Specifically, we focus on \emph{Cyber-Physical Swarms} or \emph{swarm-like systems}, i.e.,  systems consisting of \emph{devices} (or nodes) equipped with \emph{sensors} and \emph{actuator} able to interact with the real world.
  Each of these nodes can interact with its direct neighbours, either based on physical (e.g. communication range) or logical distance (e.g. 1-hop neighbourhood).
- %\lukas{does the article focus on the definition of decentralised collective intelligence?}
- % \lukas{distributed or decentralised?}
  
 %
 Each node is governed by an autonomous software agent, executing a \emph{local} control loop. In each iteration of this loop, the agent can access the information available within its own \emph{context}. This context is comprised by information acquired by the node directly through its sensors and the information received from its neighbours. 
@@ -182,7 +179,6 @@ The homogeneity of the controller is a key requirement to ensure the \emph{scala
  as it allows us to avoid the need for a centralised controller that would be a bottleneck for the system,
  and it is the typical choice in swarm-like systems~\cite{brambilla2013swarm,yang2021many,pmlr-v80-yang18d,DBLP:conf/aaai/ZhengYCZZWY18}.
 %
-%\lukas{not really a system definition - maybe we rename this to \emph{Swarm Systems}?}
 \subsection{Field-based Coordination}
 \ga{discussion about field used as a coordination mechanism in multi-agent systems. Introduction to AC}
 The field-based coordination approaches utilise a concept of \emph{computational fields} 
@@ -213,14 +209,13 @@ where $E$ defines the neighbourhood relations for each participating node,
 and $V$ identifies the nodes present in the graph. %at that time.  \lukas{no time in the definition}
 % 
 Each node $v \in V$ is associated with an observation (or feature set) $o_v$.
+\lukas{Over time this graph $G$ can change and therefore we define $G_t$ as the graph $G$ at a specific time $t$.} 
 %
 Given $o_v$, %a feature vector associated with each node $v \in V$, 
  the goal of a \ac{GNN} is to learn the node embedding $h_v$ for each node $v \in V$. The node embedding $h_v$ describes the node in the network and summarises the geometric properties of the graph in this location, allowing for comparison of various nodes in the graph.
  In modern \acp{GNN}, the node embedding $h_v$ is computed by aggregating information from the node's neighbours $N(v)$,
   and then combining it with the node's current embedding $h_v$.
  The graph is further partitioned into layers with the node $v$ at its bottom layer $0$. With each traversal of an edge $e \in E$ from $v$, the number of layers increased
-%\lukas{maybe add:``The graph is further partitioned into layers with the node $v$ at its bottom layer $0$. With each traversal of an edge $e \in E$ from $v$, the number of layers increased.''}
-% 
 Formally, a \ac{GNN} can be defined by two phases:
 \begin{equation}
 a_{v}^{(k)}=\operatorname{AGGREGATE}^{(k)}\left(\left\{h_{u}^{(k-1)}: u \in \mathcal{N}(v)\right\}\right)   
@@ -238,6 +233,7 @@ $\operatorname{AGGREGATE} $ instead is a function that aggregates the informatio
   and it could be a simple sum, max or sum of products. More complex aggregation functions are available~\cite{pellegrini2020learning}.
 %
 This formulation allows GNNs to effectively process and extract features from graph-structured data by iteratively aggregating and transforming information from the node's neighbours.
+\lukas{do we need definitions of $o_v$, $h_v^*$ over time $t$?}
 
 \acp{GNN} are used in several application areas such as social network analysis, chemistry, and physics.
 In this paper, we use GNNs to learn a local behaviour for each agent in a multi-agent system (more details in Section~\ref{sec:approach}).
@@ -262,13 +258,9 @@ In particular, in this work, we consider homogenous \ac{MAARL}~\cite{yang2021man
 %
 This research area is relevant in the context of large-scale systems 
  where collective intelligence emerges from local and repeated interaction of simple entities, like in swarm robotics.
-%\lukas{i am not sure i understand the previous sentence.}
 
 In fact, the first works in this direction were discussed precisely swarm robotics, %\lukas{what does this mean `in the last field'?}
- exploring new models (e.g., swarMDP~\cite{DBLP:conf/atal/SosicKZK17}) and learning algorithms capable of extrapolating 
- a policy representing 
- %\lukas{maybe `valid to' or `representing' instead of `equal to'?} 
- the entire system. 
+ exploring new models (e.g., swarMDP~\cite{DBLP:conf/atal/SosicKZK17}) and learning algorithms capable of extrapolating a policy representing  the entire system.  \lukas{This sentence still needs rework.}
 %Modern approaches, however, 
 % have started to consider the use of 
  Recently, deep learning approaches have been considered 
@@ -278,8 +270,8 @@ In fact, the first works in this direction were discussed precisely swarm roboti
  thus simplifying the learning process and reducing the computational cost.
 %
 Some known approaches using mean-field reinforcement learning include Q-mean, 
- which is an extension of Q-learning to mean-field settings~\cite{}, 
- and actor-critic mean-field~\cite{}, which combines actor-critic algorithms with mean-field approximations. 
+ which is an extension of Q-learning to mean-field settings~\cite{yang2018mean}, 
+ and actor-critic mean-field~\cite{frikha2023actor}, which combines actor-critic algorithms with mean-field approximations. 
 %
 These approaches have shown promising results in various domains, such as multi-agent coordination 
  and decentralised control, and are actively being researched and developed for further applications.
@@ -354,12 +346,14 @@ However, in these works, communication was left entirely to the neural network,
 Particularly, I would like to highlight how each node in the graph is a local controller,
 but it could be seen as a global evolution, therefore we can use global information to inform the local controller.}
 \begin{figure*}
-  \includegraphics[width=\textwidth]{imgs/architecture.pdf}
+  \includegraphics[width=\linewidth]{imgs/architecture.pdf}
   \label{fig:architecture}
   \caption{High-level description of Field-Informed reinforcement learning dynamics. 
   For each time step, a graph is constructed from the environment, and it will associate each node with a local feature (hexagons in the picture). 
   Using this feature, an aggregate program computes spatio-temporal information that enhances the feature set of each node, depicted as colours in the middle graph. 
   Finally, utilizing the GNN, actions are computed for each node in the system to be performed against the environment, enabling advancement in the simulations according to swarMDP rules.
+  \lukas{should we have numbers at each step in the figure (and then referring in the caption and text)?}
+  \lukas{also, i think we can have the AC and GNN box a bit smaller but increase the size of the networks slightly - and put it on column width ot save space}
 }
 \end{figure*}
 In this section, we aim to clarify the components involved in our proposed solution (i.e., architecture), how these components interact with each other to bring the system to perform the collective behavior (i.e dynamics), and finally, we will detail the learning algorithm designed and used to synthesise the policy (learning algorithm).
@@ -370,9 +364,9 @@ In this section, we aim to clarify the components involved in our proposed solut
 }
 The proposed solution consists mainly of two parts, 
 \emph{i)} the aggregate program used to create part of the observation and 
-\emph{ii)} the policy $\pi_{gnn}$ learned through \ac{GNN}-based learning. 
+\emph{ii)} the policy $\pi_{gnn}$ learned through \ac{GNN}-based approach. 
 %
-Let $\Gamma$ be the aggregate program that runs against $G_t$. 
+Let $\Gamma$ be the aggregate program that runs against $G_t$.  \lukas{$G_t$ is not defined. also, not sure what `runs against' means - take $G_t$ as input?}
 %
 The evaluation of $\Gamma$  produce a field value $\theta^v_t$ for each node $v$ in $G_t$. 
 The feature vector $o_v$ of which is composed the graph $G'_t$ used by the policy $\pi_{gnn}$ is described by:
