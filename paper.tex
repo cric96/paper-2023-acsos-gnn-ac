@@ -311,16 +311,31 @@ In particular, in this work, we consider homogenous \ac{MAARL}~\cite{yang2021man
 %
 This research area is relevant in the context of large-scale systems 
  where collective intelligence emerges from local and repeated interaction of simple entities, like in swarm robotics.
-
-In fact, the first works in this direction were discussed precisely swarm robotics, %\lukas{what does this mean `in the last field'?}
- exploring new models (e.g., swarMDP~\cite{DBLP:conf/atal/SosicKZK17}) and learning algorithms capable of extrapolating a policy representing the entire system.  \lukas{This sentence still needs rework.}
+%
+In such many-agent scenarios, 
+ the implementation of fully decentralized learning is often unfeasible due to the large number of learning agents, 
+ which renders the system non-stationary and difficult to manage. 
+%
+Conversely, a centralized controller capable of coordinating 
+ the entire system may not be a viable solution due to scalability concerns. 
+ To address this challenge, a practical solution is the adoption of \ac{CTDE}.
+%
+The idea is to learn a policy at simulation time where there is a collective view of the system, 
+ and then at runtime use the policy found with global information. 
+This approach allows policies that are influenced by global information but only require local information to function at runtime. 
+%
+The typical approach in such cases is based on actor-critic systems~\cite{DBLP:conf/nips/LoweWTHAM17,wu2022more,song2022ctds,song2022centralized},
+  where the \emph{actor} is the distributed policy (with only local information) and the critic is a neural network that takes the overall system state.
+%
+%In fact, the first works in this direction were discussed precisely swarm robotics, %\lukas{what does this mean `in the last field'?}
+% exploring new models (e.g., swarMDP~\cite{DBLP:conf/atal/SosicKZK17}) and learning algorithms capable of extrapolating a policy representing the entire system.  \lukas{This sentence still needs rework.}
 %Modern approaches, however, 
 % have started to consider the use of 
- Recently, deep learning approaches have been considered 
- to synthesise robust controllers capable of generalizing to new tasks. 
+% Recently, deep learning approaches have been considered 
+% to synthesise robust controllers capable of generalizing to new tasks. 
 %In this context, mean-field reinforcement learning~\cite{pmlr-v80-yang18d} is certainly noteworthy. 
- Mean-field RL~\cite{pmlr-v80-yang18d}  is a technique for learning approximate inference in large-scale systems. Here, the interactions between the agents can be decoupled into a single conditional probability distribution function for each agent, 
- thus simplifying the learning process and reducing the computational cost.
+Mean-field RL~\cite{pmlr-v80-yang18d} is one of such concrete applications of \ac{CTDE} 
+ where the interactions among the population of agents are estimated by considering either the effect of a single agent and the average impact of the entire population or the influence of neighbouring agents.
 %
 Some known approaches using mean-field reinforcement learning include Q-mean, 
  which is an extension of Q-learning to mean-field settings~\cite{yang2018mean}, 
@@ -445,18 +460,22 @@ otherwise, they could not have a local interpretation for each node, according t
 %  The target is the Q-value of the action taken in the current state.
 %  Explain how this can be then used for distributed controllers.
 %}
-In swarm-like systems, 
- the typical approach for learning follows a strategy known as \ac{CTDE}. \ga{perhaps it should be introduced in many RL} 
-The idea is to learn a policy at simulation time where there is a collective view of the system, 
- and then at runtime use the policy found with global information. 
-This approach allows policies that are influenced by global information but only require local information to function at runtime. 
+Since we consider swarm-like systems, that are an example of many-agent systems, 
+ the proposed approach follows a \ac{CDTE} learning pattern,
+ but differently from mean-field approaches and actor-critic solutions,
+ we use a value-based approach combined with a \ac{GNN} as a function approximator.
+%In swarm-like systems, 
+% the typical approach for learning follows a strategy known as \ac{CTDE}. \ga{perhaps it should be introduced in many RL} 
+%The idea is to learn a policy at simulation time where there is a collective view of the system, 
+% and then at runtime use the policy found with global information. 
+%This approach allows policies that are influenced by global information but only require local information to function at runtime. 
 %
-The typical approach in such cases is based on actor-critic systems~\cite{DBLP:conf/nips/LoweWTHAM17,wu2022more,song2022ctds,song2022centralized},
-  where the \emph{actor} is the distributed policy (with only local information) and the critic is a neural network that takes the overall system state.
-
-In our case, we leveraged the property of \ac{GNN}s to have a dual interpretation, i.e., to function globally over the entire graph and locally only over the neighbourhood. 
+%The typical approach in such cases is based on actor-critic systems~\cite{DBLP:conf/nips/LoweWTHAM17,wu2022more,song2022ctds,song2022centralized},
+%  where the \emph{actor} is the distributed policy (with only local information) and the critic is a neural network that takes the overall system state.
 %
-Therefore, we relied on the value-based approach \ac{DQN}~\cite{mnih2015playing} \ga{to introduce in many rl??} with two major modifications (see \Cref{alg:dqn}): 
+Specifically, we leveraged the property of \ac{GNN}s to have a dual interpretation, i.e., to function globally over the entire graph and locally only over the neighbourhood. 
+%
+As value-based algorithm we relied on \ac{DQN}~\cite{mnih2015playing} \ga{to introduce in many rl??} with two major modifications (see \Cref{alg:dqn}): 
 \begin{enumerate}
   \item experience replay stores experiences in the form of \emph{graphs},
   \item the neural network used to compute the Q function is based on a \ac{GNN} with an \ac{MLP} downstream.
