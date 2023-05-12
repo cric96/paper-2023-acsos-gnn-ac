@@ -109,8 +109,7 @@ In this context, two main approaches have been proposed for creating distributed
  \emph{automatic design}, which involves synthesizing programs using machine learning methods.
 %
 In this paper, we consider a new \emph{hybrid} approach called  \emph{Field-Informed reinforcement learning}, 
-  which uses manually designed \emph{computational fields} (globally distributed data structures) to manage the interaction between agents 
-  and \emph{Graph Neural Networks} to learn the local behaviour necessary to solve collective tasks. 
+  which uses manually designed \emph{computational fields} (globally distributed data structures) to manage the interaction between agents and a \emph{reinforcement learning technique} in combination with \emph{Graph Neural Networks} to learn the local behaviour necessary to solve collective tasks. 
 %
 This allows us to create distributed controllers informed by a collective knowledge 
  that has been distilled during learning, but that uses only local information at runtime.
@@ -262,7 +261,7 @@ where $E$ defines the neighbourhood relations for each participating node,
 and $V$ identifies the nodes present in the graph. %at that time.  \lukas{no time in the definition}
 % 
 Each node $v \in V$ is associated with an observation (or feature set) $o_v$.
-\lukas{Over time this graph $G$ can change and therefore we define $G_t$ as the graph $G$ at a specific time $t$.} 
+%\lukas{Over time this graph $G$ can change and therefore we define $G_t$ as the graph $G$ at a specific time $t$.} 
 %
 Given $o_v$, %a feature vector associated with each node $v \in V$, 
  the goal of a \ac{GNN} is to learn the node embedding $h_v$ for each node $v \in V$. The node embedding $h_v$ describes the node in the network and summarises the geometric properties of the graph in this location, allowing for comparison of various nodes in the graph.
