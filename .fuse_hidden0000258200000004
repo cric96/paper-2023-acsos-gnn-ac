@@ -86,25 +86,26 @@ lukas.esterle@ece.au.dk}
 \ga{Page limit: 10 pages (include refs)}
 
 \begin{abstract}
-Coordinating a multi-agent system of intelligent situated agents is a traditional research problem, 
-impacted by the challenges posed by the very notion of distributed intelligence. 
+Coordinatinating a group of intelligent agents in multi-agent systems 
+ is a research problem that has been addressed for a long time, 
+ due to the challenges posed by distribution and the definition of distributed intelligence. 
 %
-The problem is even more evident in large-scale collective adaptive systems, 
- where agent interactions are necessarily proximity-based, thus making the emergence of controlled global collective behaviour harder.
+The problem is even more evident in collective adaptive systems, 
+ where the scale of the systems considered makes the definition of collective behaviours even more challenging. 
 % 
-In this context, two main approaches have been proposed for creating distributed controllers out of macro-level task/goal descriptions: 
+Thus far, two main macro approaches have been proposed for creating distributed controllers: 
  \emph{manual design}, in which programmers build the controllers directly, and 
  \emph{automatic design}, which involves synthesizing programs using machine learning methods.
 %
 In this paper, we consider a new \emph{hybrid} approach called  \emph{Field-Informed reinforcement learning}, 
-  which uses manually designed \emph{computational fields} (globally distributed data structures) to manage the interaction between agents 
-  and \emph{Graph Neural Networks} to learn the local behaviour necessary to solve collective tasks. 
+  where we use computational \emph{computational fields} to manage the interaction between agents 
+  and \emph{Graph Neural Networks} to learn a local behaviour necessary to solve collective tasks. 
 %
 This allows us to create distributed controllers informed by a collective knowledge 
- that has been distilled during learning, but that uses only local information at runtime.
+ distilled during learning but that use only local information at runtime.
 % 
-We demonstrate the effectiveness of this new approach in simulated use cases 
- where tracking and covering tasks for swarm robotics are successfully solved. 
+We demonstrate the effectiveness of this new approach in a simulated use case 
+ where coordination tasks are successfully solved. 
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -261,7 +262,6 @@ Formally, a \ac{GNN} can be defined by two phases:
 \begin{equation}
 a_{v}^{(k)}=\operatorname{AGGREGATE}^{(k)}\left(\left\{h_{u}^{(k-1)}: u \in \mathcal{N}(v)\right\}\right)   
 \end{equation}
-
 \begin{equation}
 h_{v}^{(k)}=\operatorname{COMBINE}^{(k)}\left(h_{v}^{(k-1)}, a_{v}^{(k)}\right)
 \end{equation}
@@ -283,7 +283,7 @@ In this paper, we use GNNs to learn a local behaviour for each agent in a multi-
 %\ga{plan: we could discuss briefly about standard approach (few agents), and mean-field approach (many agents). 
 %This will lead to our approach, which is a combination of DQN (or any Deep RL approach) and GNN.}
 
- \Ac{RL} learning has gained a lot of interest recently, 
+\Ac{RL} has gained a lot of interest recently, 
  thanks to its successful application in various scenarios, 
  ranging from video games (such as Alpha Go~\cite{Silver2016Go} and Atari~\cite{Atari2016DQN}) 
  to chatbots (like ChatGPT~\cite{ChatGPT2023}). 
