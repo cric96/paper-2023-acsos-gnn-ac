@@ -86,20 +86,23 @@ lukas.esterle@ece.au.dk}
 \ga{Page limit: 10 pages (include refs)}
 
 \begin{abstract}
-Coordinatinating a group of intelligent agents in multi-agent systems 
- is a research problem that has been addressed for a long time, 
- due to the challenges posed by distribution and the definition of distributed intelligence. 
+Coordinating a group of autonomous intelligent agents in multi-agent systems to achieve a common, global goal requires them to acquire information locally, share their knowledge, and act accordingly on their environment. This shared knowledge leads to distributed intelligence, enabling the collective of agents to operate together.
+With the rising number of such autonomous agents within these systems, sharing knowledge becomes a dedicated challenge. Here, the individual agents need to control how they share their knowledge in order to not overburden the network or other agents with unnecessary information.
+
+% is a research problem that has been addressed for a long time, 
+% due to the challenges posed by distribution and the definition of distributed intelligence. 
 %
-The problem is even more evident in collective adaptive systems, 
- where the scale of the systems considered makes the definition of collective behaviours even more challenging. 
+%The problem is even more evident in collective adaptive systems, 
+% where the scale of the systems considered makes the definition of collective behaviours even more challenging. 
 % 
-Thus far, two main macro approaches have been proposed for creating distributed controllers: 
+Thus far, two main approaches have been proposed for creating such distributed controllers: 
  \emph{manual design}, in which programmers build the controllers directly, and 
  \emph{automatic design}, which involves synthesizing programs using machine learning methods.
 %
 In this paper, we consider a new \emph{hybrid} approach called  \emph{Field-Informed reinforcement learning}, 
   where we use computational \emph{computational fields} to manage the interaction between agents 
-  and \emph{Graph Neural Networks} to learn a local behaviour necessary to solve collective tasks. 
+  and \emph{Graph Neural Networks} to learn a local behaviour necessary to solve collective tasks.
+   \lukas{are you considering computational fields as `manual design'} 
 %
 This allows us to create distributed controllers informed by a collective knowledge 
  distilled during learning but that use only local information at runtime.
