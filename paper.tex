@@ -104,7 +104,7 @@ impacted by the challenges posed by the very notion of distributed intelligence,
 %
 The problem is even more evident in large-scale collective adaptive systems, 
 where agent interactions are necessarily proximity-based, thus making the emergence of controlled global collective behaviour harder, since the individual agents need to control how they share their knowledge in order to not overburden the network or other agents with unnecessary information. %\lukas{what does it make harder?}
-% 
+
 In this context, two main approaches have been proposed for creating distributed controllers out of macro-level task/goal descriptions: 
  \emph{manual design}, in which programmers build the controllers directly, and 
  \emph{automatic design}, which involves synthesizing programs using machine learning methods.
@@ -299,9 +299,9 @@ In this paper, we use GNNs to learn a local behaviour for each agent in a multi-
  ranging from video games (such as Alpha Go~\cite{Silver2016Go} and Atari~\cite{Atari2016DQN}) 
  to chatbots (like ChatGPT~\cite{ChatGPT2023}). 
 % 
-In \ac{RL}, an agent (i.e., a smart entity capable of making decisions) 
- performs actions in an environment (i.e., everything outside the agent) according to a policy, 
- to maximise long-term rewards (or minimise a regret).
+In \ac{RL}, an \emph{agent} (i.e., a smart entity capable of making decisions) 
+ performs \emph{actions} in an \emph{environment} (i.e., everything outside the agent) according to a \emph{policy}, 
+ to maximise long-term \emph{reward signal} (or minimise a \emph{regret}).
 
 One interesting application of \ac{RL} is when there are multiple learning agents involved. 
  Such scenarios are referred to as multi-agent reinforcement learning (MARL)~\cite{zhang2019marl}. 
@@ -404,7 +404,7 @@ However, in these works, communication was left entirely to the neural network,
   Using this feature, an aggregate program computes spatio-temporal information that enhances the feature set of each node, depicted as colours in the middle graph. 
   Finally, utilizing the GNN, actions are computed for each node in the system to be performed against the environment, enabling advancement in the simulations according to swarMDP rules.
   %\lukas{should we have numbers at each step in the figure (and then referring in the caption and text)?}
-  \lukas{also, i think we can have the AC and GNN box a bit smaller but increase the size of the networks slightly - and put it on column width ot save space}
+  %\lukas{also, i think we can have the AC and GNN box a bit smaller but increase the size of the networks slightly - and put it on column width ot save space}
 }
 \end{figure}
 In this section, we aim to clarify the components involved in our proposed solution (i.e., architecture), how these components interact with each other to bring the system to perform the collective behaviour (i.e dynamics), and finally, we will detail the learning algorithm designed and used to synthesise the policy (learning algorithm).
@@ -419,7 +419,7 @@ The proposed solution consists mainly of two parts,
 %
 Let $\Gamma$ be the aggregate program that takes $G_t$ as input. 
 % \lukas{$G_t$ is not defined. also, not sure what `runs against' means - take $G_t$ as input?}
-\ga{In the problem formalization, I defined $G_t$, but it may be more appropriate to define it directly in the GNN, as suggested. I made this choice since GNNs typically only receive a graph as input, without regard for time, I included the definition of $G_t$ in the problem formalization as it pertains to the dynamics of the overall system. Specifically, when discussing the system's dynamics at a given time t, it's necessary to define the corresponding graph. I hope this clarifies my reasoning. Let me know!}
+%\ga{In the problem formalization, I defined $G_t$, but it may be more appropriate to define it directly in the GNN, as suggested. I made this choice since GNNs typically only receive a graph as input, without regard for time, I included the definition of $G_t$ in the problem formalization as it pertains to the dynamics of the overall system. Specifically, when discussing the system's dynamics at a given time t, it's necessary to define the corresponding graph. I hope this clarifies my reasoning. Let me know!}
 %
 The evaluation of $\Gamma$ produces a field value $\theta^v_t$ for each node $v$ in $G_t$. 
 The feature vector $o_v$ of which is composed the graph $G'_t$ used by the policy $\pi_{gnn}$ is described by:
