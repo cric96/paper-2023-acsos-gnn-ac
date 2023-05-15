@@ -260,10 +260,10 @@ Let $G = (V, E)$ a graph
 where $E$ defines the neighbourhood relations for each participating node, 
 and $V$ identifies the nodes present in the graph. %at that time.  \lukas{no time in the definition}
 % 
-Each node $v \in V$ is associated with an observation (or feature set) $o_v$.
+Each node $v \in V$ is associated with an observation (or feature set) $f_v$.
 %\lukas{Over time this graph $G$ can change and therefore we define $G_t$ as the graph $G$ at a specific time $t$.} 
 %
-Given $o_v$, %a feature vector associated with each node $v \in V$, 
+Given $f_v$, %a feature vector associated with each node $v \in V$, 
  the goal of a \ac{GNN} is to learn the node embedding $h_v$ for each node $v \in V$. The node embedding $h_v$ describes the node in the network and summarises the geometric properties of the graph in this location, allowing for comparison of various nodes in the graph.
  In modern \acp{GNN}, the node embedding $h_v$ is computed by aggregating information from the node's neighbours $\mathcal{N}_G(v)$,
   and then combining it with the node's current embedding $h_v$.
@@ -385,8 +385,8 @@ Specifically, starting from a global state $\mathcal{S}^P_t$, the next state $\m
 \end{equation}
 Given a time $t$, the system can be also represented as a graph $G_t = (V_t, E_t)$, 
   where $E_t$ is built from $\mathcal{N}$.
-  Each node is then decorated with the local observation $f_v = o_v$. 
-  Therefore, this graph can be used for being processed by a \ac{GNN} as done in~\cite{DBLP:conf/corl/TolstayaGPP0R19,tolstaya2020learning,DBLP:conf/icra/GosrichMLPYR022}.
+  Each node is then decorated with the local observation perceived at the time $t$: $o^v_t \in O$. 
+  Therefore, this graph can be used for being processed by a \ac{GNN} as done in~\cite{DBLP:conf/corl/TolstayaGPP0R19,tolstaya2020learning,DBLP:conf/icra/GosrichMLPYR022} if we set $f_v = o^v_t$.
 \subsection{Motivation}
 The definition of distributed controllers for intelligent systems can be divided into two major approaches: 
  \emph{manual design}, where the application is conceived and described through a programming language, 
@@ -435,14 +435,14 @@ The proposed solution consists mainly of two parts,
 \emph{i)} the aggregate program used to create part of the observation and 
 \emph{ii)} the policy $\pi_{gnn}$ learned through \ac{GNN}-based approach. 
 %
-Let $\Gamma$ be the aggregate program that takes a graph $G_t$ decorated by $o_v$ (i.e., the local observation)), 
+Let $\Gamma$ be the aggregate program that takes a graph $G_t$ decorated by $o^t_v$, 
  representing the participating nodes and their neighbourhood relations at time $t$, as input. 
 % \lukas{$G_t$ is not defined. also, not sure what `runs against' means - take $G_t$ as input?}
 %\ga{In the problem formalization, I defined $G_t$, but it may be more appropriate to define it directly in the GNN, as suggested. I made this choice since GNNs typically only receive a graph as input, without regard for time, I included the definition of $G_t$ in the problem formalization as it pertains to the dynamics of the overall system. Specifically, when discussing the system's dynamics at a given time t, it's necessary to define the corresponding graph. I hope this clarifies my reasoning. Let me know!}
 %
 The evaluation of $\Gamma$ produces a field value $\theta^v_t$ for each node $v$ in $G_t$. 
-From this field, we construct the feature vector $f_v$ for each node $v$ in $G_t$ as follows:
- $f_v = (\theta^v_t, o_t)$. \lukas{we used $o_v$ to describe the observation of node $v$ in section II.C - so this would not include field information, right?}
+The feature vector $o_v$ of which is composed the graph $G'_t$ used by the policy $\pi_{gnn}$ is described by:
+ $o_v = (\theta^v_t, \omega)$. \lukas{we used $o_v$ to describe the observation of node $v$ in section II.C - so this would not include field information, right?}
  \lukas{we have not introduced $G'_t$ yet}
  %where $\omega$ are other local information gather from sensors (like temperature, distances from neighbourhood, etc.). 
 %
