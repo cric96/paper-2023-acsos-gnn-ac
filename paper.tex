@@ -265,19 +265,22 @@ Each node $v \in V$ is associated with an observation (or feature set) $o_v$.
 %
 Given $o_v$, %a feature vector associated with each node $v \in V$, 
  the goal of a \ac{GNN} is to learn the node embedding $h_v$ for each node $v \in V$. The node embedding $h_v$ describes the node in the network and summarises the geometric properties of the graph in this location, allowing for comparison of various nodes in the graph.
- In modern \acp{GNN}, the node embedding $h_v$ is computed by aggregating information from the node's neighbours $N(v)$,
+ In modern \acp{GNN}, the node embedding $h_v$ is computed by aggregating information from the node's neighbours $\mathcal{N}_G(v)$,
   and then combining it with the node's current embedding $h_v$.
  The graph is further partitioned into layers with the node $v$ at its bottom layer $0$. With each traversal of an edge $e \in E$ from $v$, the number of layers increased
 Formally, a \ac{GNN} can be defined by two phases:
 \begin{equation}
-a_{v}^{(k)}=\operatorname{AGGREGATE}^{(k)}\left(\left\{h_{u}^{(k-1)}: u \in \mathcal{N}(v)\right\}\right)   
+a_{v}^{(k)}=\operatorname{AGGREGATE}^{(k)}\left(\left\{h_{u}^{(k-1)}: u \in \mathcal{N}_G(v)\right\}\right)   
 \end{equation}
 
 \begin{equation}
 h_{v}^{(k)}=\operatorname{COMBINE}^{(k)}\left(h_{v}^{(k-1)}, a_{v}^{(k)}\right)
 \end{equation}
-where $h_{v}^{k}$ is the embedding of node $v$ within the $k$-th layer ($h_v^0 = o_v$), 
- $\mathcal{N}(v)$ is the set of neighbours of node $v$ computed from $E$.
+
+where $h_{v}^{k}$ is the embedding of node $v$ within the $k$-th layer, 
+ $\mathcal{N}_G(v)$ is the set of neighbours of node $v$ computed from $E$.
+%
+$h_v{v}^0$ is the initial embedding of node $v$ and it is usually set to the node's feature vector $f_v$.
 %
 The differential part comes into play in the $\operatorname{COMBINE}$ function, 
  which is usually a differentiable function such as a neural network layer.
@@ -382,7 +385,7 @@ Specifically, starting from a global state $\mathcal{S}^P_t$, the next state $\m
 \end{equation}
 Given a time $t$, the system can be also represented as a graph $G_t = (V_t, E_t)$, 
   where $E_t$ is built from $\mathcal{N}$.
-  Each node is then decorated with the local observation $o_v$. 
+  Each node is then decorated with the local observation $f_v = o_v$. 
   Therefore, this graph can be used for being processed by a \ac{GNN} as done in~\cite{DBLP:conf/corl/TolstayaGPP0R19,tolstaya2020learning,DBLP:conf/icra/GosrichMLPYR022}.
 \subsection{Motivation}
 The definition of distributed controllers for intelligent systems can be divided into two major approaches: 
@@ -432,15 +435,16 @@ The proposed solution consists mainly of two parts,
 \emph{i)} the aggregate program used to create part of the observation and 
 \emph{ii)} the policy $\pi_{gnn}$ learned through \ac{GNN}-based approach. 
 %
-Let $\Gamma$ be the aggregate program that takes a graph $G_t$, representing the participating nodes and their neighbourhood relations at time $t$, as input. 
+Let $\Gamma$ be the aggregate program that takes a graph $G_t$ decorated by $o_v$ (i.e., the local observation)), 
+ representing the participating nodes and their neighbourhood relations at time $t$, as input. 
 % \lukas{$G_t$ is not defined. also, not sure what `runs against' means - take $G_t$ as input?}
 %\ga{In the problem formalization, I defined $G_t$, but it may be more appropriate to define it directly in the GNN, as suggested. I made this choice since GNNs typically only receive a graph as input, without regard for time, I included the definition of $G_t$ in the problem formalization as it pertains to the dynamics of the overall system. Specifically, when discussing the system's dynamics at a given time t, it's necessary to define the corresponding graph. I hope this clarifies my reasoning. Let me know!}
 %
 The evaluation of $\Gamma$ produces a field value $\theta^v_t$ for each node $v$ in $G_t$. 
-The feature vector $o_v$ of which is composed the graph $G'_t$ used by the policy $\pi_{gnn}$ is described by:
- $o_v = (\theta^v_t, \omega)$. \lukas{we used $o_v$ to describe the observation of node $v$ in section II.C - so this would not include field information, right?}
+From this field, we construct the feature vector $f_v$ for each node $v$ in $G_t$ as follows:
+ $f_v = (\theta^v_t, o_t)$. \lukas{we used $o_v$ to describe the observation of node $v$ in section II.C - so this would not include field information, right?}
  \lukas{we have not introduced $G'_t$ yet}
- where $\omega$ are other local information gather from sensors (like temperature, distances from neighbourhood, etc.). 
+ %where $\omega$ are other local information gather from sensors (like temperature, distances from neighbourhood, etc.). 
 %
 The policy $\pi_{gnn}$ is then evaluated for each node, 
  producing an action $a_t$ that will then modify the global state of the system.
