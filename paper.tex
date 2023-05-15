@@ -10,6 +10,7 @@
 \usepackage{xcolor}
 \usepackage{acronym}
 \usepackage{amsmath}
+\usepackage{subcaption}
 \usepackage[ruled]{algorithm2e}
 \def\doi#1{\href{https://doi.org/\detokenize{#1}}{\url{https://doi.org/\detokenize{#1}}}}
 %
@@ -605,7 +606,7 @@ Specifically, we decided to express the signal as a \emph{regret}
   as it is a more general measure of the quality of the action taken by the agent.
 It is simplify evaluated as:
 \begin{equation*}
-R^e_{v} = 1 - R_v
+R^e_{v} = R_v - 1
 \end{equation*}
 %
 
@@ -614,6 +615,23 @@ R^e_{v} = 1 - R_v
 %\paragraph*{Variant C}
 
 \subsection{Discussion and Results}
+%% Subfigures of coverage-in-time and reward-in-time
+
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{\linewidth}
+    \includegraphics[width=\linewidth]{imgs/coverage-in-time}
+    \caption{Coverage in time}
+    \label{fig:coverage}
+  \end{subfigure}
+  \begin{subfigure}[b]{\linewidth}
+    \includegraphics[width=\linewidth]{imgs/reward-in-time}
+    \caption{Reward in time}
+    \label{fig:reward}
+  \end{subfigure}
+  \caption{Coverage and reward in time}
+  \label{fig:coverage-reward}
+\end{figure}
 \section{Conclusion and Future Work}
 \ga{Page budget: 0.5}
 \label{sec:conclusion}
