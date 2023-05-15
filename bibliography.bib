@@ -16,8 +16,7 @@
 	pages = {57-81},
 	year = {2020},
 	issn = {2666-6510},
-	doi = {https://doi.org/10.1016/j.aiopen.2021.01.001},
-	url = {https://www.sciencedirect.com/science/article/pii/S2666651021000012},
+	doi = {10.1016/j.aiopen.2021.01.001},
 	author = {Jie Zhou and Ganqu Cui and Shengding Hu and Zhengyan Zhang and Cheng Yang and Zhiyuan Liu and Lifeng Wang and Changcheng Li and Maosong Sun},
 }
 
@@ -43,16 +42,12 @@
                   Thore Graepel and
                   Demis Hassabis},
   title        = {Mastering the game of Go with deep neural networks and tree search},
-  journal      = {Nat.},
+  journal      = {Nature},
   volume       = {529},
   number       = {7587},
   pages        = {484--489},
   year         = {2016},
-  url          = {https://doi.org/10.1038/nature16961},
   doi          = {10.1038/nature16961},
-  timestamp    = {Mon, 27 Sep 2021 17:38:59 +0200},
-  biburl       = {https://dblp.org/rec/journals/nature/SilverHMGSDSAPL16.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
 @article{ChatGPT2023,
@@ -67,13 +62,9 @@
   journal      = {CoRR},
   volume       = {abs/2302.13795},
   year         = {2023},
-  url          = {https://doi.org/10.48550/arXiv.2302.13795},
   doi          = {10.48550/arXiv.2302.13795},
   eprinttype    = {arXiv},
   eprint       = {2302.13795},
-  timestamp    = {Tue, 28 Feb 2023 14:02:05 +0100},
-  biburl       = {https://dblp.org/rec/journals/corr/abs-2302-13795.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
 @article{Atari2016DQN,
@@ -84,18 +75,12 @@
   journal      = {CoRR},
   volume       = {abs/1607.05077},
   year         = {2016},
-  url          = {http://arxiv.org/abs/1607.05077},
   eprinttype    = {arXiv},
   eprint       = {1607.05077},
-  timestamp    = {Mon, 13 Aug 2018 16:49:09 +0200},
-  biburl       = {https://dblp.org/rec/journals/corr/HosuR16.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 @article{Sutton1998,
   doi = {10.1109/tnn.1998.712192},
-  url = {https://doi.org/10.1109/tnn.1998.712192},
   year = {1998},
-  month = sep,
   publisher = {Institute of Electrical and Electronics Engineers ({IEEE})},
   volume = {9},
   number = {5},
@@ -106,22 +91,17 @@
 }
 
 
-@inproceedings{Decpomdp2000,
+@inProc.{Decpomdp2000,
   author       = {Daniel S. Bernstein and
                   Shlomo Zilberstein and
                   Neil Immerman},
-  editor       = {Craig Boutilier and
-                  Mois{\'{e}}s Goldszmidt},
+ 
   title        = {The Complexity of Decentralized Control of Markov Decision Processes},
-  booktitle    = {{UAI} '00: Proceedings of the 16th Conference in Uncertainty in Artificial
-                  Intelligence, Stanford University, Stanford, California, USA, June
-                  30 - July 3, 2000},
+  booktitle    = {Proc. of the Conf. in Uncertainty in Artificial
+                  Intelligence},
   pages        = {32--37},
   publisher    = {Morgan Kaufmann},
   year         = {2000},
-  timestamp    = {Wed, 03 Feb 2021 11:09:15 +0100},
-  biburl       = {https://dblp.org/rec/conf/uai/BernsteinZI00.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
 @phdthesis{yang2021many,
@@ -140,50 +120,35 @@
   journal      = {CoRR},
   volume       = {abs/1911.10635},
   year         = {2019},
-  url          = {http://arxiv.org/abs/1911.10635},
   eprinttype    = {arXiv},
   eprint       = {1911.10635},
-  timestamp    = {Tue, 03 Dec 2019 14:15:54 +0100},
-  biburl       = {https://dblp.org/rec/journals/corr/abs-1911-10635.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
 
-@InProceedings{pmlr-v80-yang18d,
+@InProc.{pmlr-v80-yang18d,
   title = 	 {Mean Field Multi-Agent Reinforcement Learning},
   author =       {Yang, Yaodong and Luo, Rui and Li, Minne and Zhou, Ming and Zhang, Weinan and Wang, Jun},
-  booktitle = 	 {Proceedings of the 35th International Conference on Machine Learning},
+  booktitle = 	 {Proc. of the Int. Conf. on Machine Learning},
   pages = 	 {5571--5580},
   year = 	 {2018},
-  editor = 	 {Dy, Jennifer and Krause, Andreas},
   volume = 	 {80},
-  series = 	 {Proceedings of Machine Learning Research},
+  series = 	 {Proc. of Machine Learning Research},
   month = 	 {10--15 Jul},
   publisher =    {PMLR},
-  pdf = 	 {http://proceedings.mlr.press/v80/yang18d/yang18d.pdf},
-  url = 	 {https://proceedings.mlr.press/v80/yang18d.html},
-  abstract = 	 {Existing multi-agent reinforcement learning methods are limited typically to a small number of agents. When the agent number increases largely, the learning becomes intractable due to the curse of the dimensionality and the exponential growth of agent interactions. In this paper, we present Mean Field Reinforcement Learning where the interactions within the population of agents are approximated by those between a single agent and the average effect from the overall population or neighboring agents; the interplay between the two entities is mutually reinforced: the learning of the individual agent’s optimal policy depends on the dynamics of the population, while the dynamics of the population change according to the collective patterns of the individual policies. We develop practical mean field Q-learning and mean field Actor-Critic algorithms and analyze the convergence of the solution to Nash equilibrium. Experiments on Gaussian squeeze, Ising model, and battle games justify the learning effectiveness of our mean field approaches. In addition, we report the first result to solve the Ising model via model-free reinforcement learning methods.}
 }
 
-@inproceedings{DBLP:conf/atal/SosicKZK17,
+@inProc.{DBLP:conf/atal/SosicKZK17,
   author       = {Adrian Sosic and
                   Wasiur R. KhudaBukhsh and
                   Abdelhak M. Zoubir and
                   Heinz Koeppl},
-  editor       = {Kate Larson and
-                  Michael Winikoff and
-                  Sanmay Das and
-                  Edmund H. Durfee},
   title        = {Inverse Reinforcement Learning in Swarm Systems},
-  booktitle    = {Proceedings of the 16th Conference on Autonomous Agents and MultiAgent
-                  Systems, {AAMAS} 2017, S{\~{a}}o Paulo, Brazil, May 8-12, 2017},
+  booktitle    = {Proc. of the Conf. on Autonomous Agents and MultiAgent
+                  Systems},
   pages        = {1413--1421},
   publisher    = {{ACM}},
   year         = {2017},
-  url          = {http://dl.acm.org/citation.cfm?id=3091320},
-  timestamp    = {Wed, 27 Sep 2017 07:24:00 +0200},
-  biburl       = {https://dblp.org/rec/conf/atal/SosicKZK17.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
+ 
 }
 @article{oshea2015introduction,
   title={An Introduction to Convolutional Neural Networks},
@@ -203,15 +168,11 @@
   number       = {1},
   pages        = {1--41},
   year         = {2013},
-  url          = {https://doi.org/10.1007/s11721-012-0075-2},
   doi          = {10.1007/s11721-012-0075-2},
-  timestamp    = {Thu, 09 Jul 2020 22:44:24 +0200},
-  biburl       = {https://dblp.org/rec/journals/swarm/BrambillaFBD13.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
 
-@inproceedings{DBLP:conf/aaai/ZhengYCZZWY18,
+@inProc.{DBLP:conf/aaai/ZhengYCZZWY18,
   author       = {Lianmin Zheng and
                   Jiacheng Yang and
                   Han Cai and
@@ -219,50 +180,32 @@
                   Weinan Zhang and
                   Jun Wang and
                   Yong Yu},
-  editor       = {Sheila A. McIlraith and
-                  Kilian Q. Weinberger},
   title        = {MAgent: {A} Many-Agent Reinforcement Learning Platform for Artificial
                   Collective Intelligence},
-  booktitle    = {Proceedings of the Thirty-Second {AAAI} Conference on Artificial Intelligence,
-                  (AAAI-18), the 30th innovative Applications of Artificial Intelligence
-                  (IAAI-18), and the 8th {AAAI} Symposium on Educational Advances in
-                  Artificial Intelligence (EAAI-18), New Orleans, Louisiana, USA, February
-                  2-7, 2018},
+  booktitle    = {Proc. of the Conf. on Artificial Intelligence},
   pages        = {8222--8223},
   publisher    = {{AAAI} Press},
   year         = {2018},
-  url          = {https://www.aaai.org/ocs/index.php/AAAI/AAAI18/paper/view/16459},
-  timestamp    = {Tue, 08 Mar 2022 21:46:35 +0100},
-  biburl       = {https://dblp.org/rec/conf/aaai/ZhengYCZZWY18.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{DBLP:conf/corl/TolstayaGPP0R19,
+@inProc.{DBLP:conf/corl/TolstayaGPP0R19,
   author       = {Ekaterina I. Tolstaya and
                   Fernando Gama and
                   James Paulos and
                   George J. Pappas and
                   Vijay Kumar and
                   Alejandro Ribeiro},
-  editor       = {Leslie Pack Kaelbling and
-                  Danica Kragic and
-                  Komei Sugiura},
   title        = {Learning Decentralized Controllers for Robot Swarms with Graph Neural
                   Networks},
-  booktitle    = {3rd Annual Conference on Robot Learning, CoRL 2019, Osaka, Japan,
-                  October 30 - November 1, 2019, Proceedings},
-  series       = {Proceedings of Machine Learning Research},
+  booktitle    = {Proc. of the Conf. on Robot Learning},
+  series       = {Proc. of Machine Learning Research},
   volume       = {100},
   pages        = {671--682},
   publisher    = {{PMLR}},
   year         = {2019},
-  url          = {http://proceedings.mlr.press/v100/tolstaya20a.html},
-  timestamp    = {Mon, 21 Jun 2021 08:08:40 +0200},
-  biburl       = {https://dblp.org/rec/conf/corl/TolstayaGPP0R19.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{DBLP:conf/icra/GosrichMLPYR022,
+@inProc.{DBLP:conf/icra/GosrichMLPYR022,
   author       = {Walker Gosrich and
                   Siddharth Mayya and
                   Rebecca Li and
@@ -271,22 +214,17 @@
                   Alejandro Ribeiro and
                   Vijay Kumar},
   title        = {Coverage Control in Multi-Robot Systems via Graph Neural Networks},
-  booktitle    = {2022 International Conference on Robotics and Automation, {ICRA} 2022,
-                  Philadelphia, PA, USA, May 23-27, 2022},
+  booktitle    = {Proc. of the  Int. Conf. on Robotics and Automation},
   pages        = {8787--8793},
   publisher    = {{IEEE}},
   year         = {2022},
-  url          = {https://doi.org/10.1109/ICRA46639.2022.9811854},
   doi          = {10.1109/ICRA46639.2022.9811854},
-  timestamp    = {Tue, 21 Mar 2023 20:51:04 +0100},
-  biburl       = {https://dblp.org/rec/conf/icra/GosrichMLPYR022.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{tolstaya2020learning,
+@inProc.{tolstaya2020learning,
   title={Learning decentralized controllers for robot swarms with graph neural networks},
   author={Tolstaya, Ekaterina and Gama, Fernando and Paulos, James and Pappas, George and Kumar, Vijay and Ribeiro, Alejandro},
-  booktitle={Conference on robot learning},
+  booktitle={Proc. of the Conf. on Robot Learning},
   pages={671--682},
   year={2020},
   organization={PMLR}
@@ -297,31 +235,23 @@
                   Franco Zambonelli and
                   Letizia Leonardi},
   title        = {Co-Fields: {A} Physically Inspired Approach to Motion Coordination},
-  journal      = {{IEEE} Pervasive Comput.},
+  journal      = {{IEEE} Pervasive Computing},
   volume       = {3},
   number       = {2},
   pages        = {52--61},
   year         = {2004},
-  url          = {https://doi.org/10.1109/MPRV.2004.1316820},
-  doi          = {10.1109/MPRV.2004.1316820},
-  timestamp    = {Tue, 31 Mar 2020 18:15:42 +0200},
-  biburl       = {https://dblp.org/rec/journals/pervasive/MameiZL04.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
+ doi          = {10.1109/MPRV.2004.1316820},
 }
 
-@inproceedings{DBLP:conf/icra/Warren89,
+@inProc.{DBLP:conf/icra/Warren89,
   author       = {Charles W. Warren},
   title        = {Global path planning using artificial potential fields},
-  booktitle    = {Proceedings of the 1989 {IEEE} International Conference on Robotics
-                  and Automation, Scottsdale, Arizona, USA, May 14-19, 1989},
+  booktitle    = {Proc. of the Int. Conf. on Robotics
+                  and Automation},
   pages        = {316--321},
   publisher    = {{IEEE} Computer Society},
   year         = {1989},
-  url          = {https://doi.org/10.1109/ROBOT.1989.100007},
   doi          = {10.1109/ROBOT.1989.100007},
-  timestamp    = {Thu, 23 Mar 2023 23:59:09 +0100},
-  biburl       = {https://dblp.org/rec/conf/icra/Warren89.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
 @article{DBLP:journals/corr/abs-2201-03473,
@@ -331,34 +261,22 @@
   journal      = {CoRR},
   volume       = {abs/2201.03473},
   year         = {2022},
-  url          = {https://arxiv.org/abs/2201.03473},
   eprinttype    = {arXiv},
   eprint       = {2201.03473},
-  timestamp    = {Thu, 20 Jan 2022 14:21:35 +0100},
-  biburl       = {https://dblp.org/rec/journals/corr/abs-2201-03473.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{DBLP:conf/esocc/ViroliDB13,
+@inProc.{DBLP:conf/esocc/ViroliDB13,
   author       = {Mirko Viroli and
                   Ferruccio Damiani and
                   Jacob Beal},
-  editor       = {Carlos Canal and
-                  Massimo Villari},
   title        = {A Calculus of Computational Fields},
-  booktitle    = {Advances in Service-Oriented and Cloud Computing - Workshops of {ESOCC}
-                  2013, M{\'{a}}laga, Spain, September 11-13, 2013, Revised Selected
-                  Papers},
+  booktitle    = {Proc. of the Workshop on Advances in Service-Oriented and Cloud Computing},
   series       = {Communications in Computer and Information Science},
   volume       = {393},
   pages        = {114--128},
   publisher    = {Springer},
   year         = {2013},
-  url          = {https://doi.org/10.1007/978-3-642-45364-9\_11},
   doi          = {10.1007/978-3-642-45364-9\_11},
-  timestamp    = {Sat, 16 Sep 2017 12:08:59 +0200},
-  biburl       = {https://dblp.org/rec/conf/esocc/ViroliDB13.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
 @article{DBLP:journals/corr/ViroliADPB16,
@@ -371,12 +289,9 @@
   journal      = {CoRR},
   volume       = {abs/1610.08116},
   year         = {2016},
-  url          = {http://arxiv.org/abs/1610.08116},
   eprinttype    = {arXiv},
   eprint       = {1610.08116},
-  timestamp    = {Mon, 13 Aug 2018 16:46:49 +0200},
-  biburl       = {https://dblp.org/rec/journals/corr/ViroliADPB16.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
+ 
 }
 
 @article{DBLP:journals/tocl/AudritoVDPB19,
@@ -391,11 +306,7 @@
   number       = {1},
   pages        = {5:1--5:55},
   year         = {2019},
-  url          = {https://doi.org/10.1145/3285956},
   doi          = {10.1145/3285956},
-  timestamp    = {Sat, 08 Jan 2022 02:24:07 +0100},
-  biburl       = {https://dblp.org/rec/journals/tocl/AudritoVDPB19.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
 @article{werbos1975beyond,
@@ -405,69 +316,41 @@
   year={1975}
 }
 
-@inproceedings{DBLP:conf/coordination/AguzziCV22,
+@inProc.{DBLP:conf/coordination/AguzziCV22,
   author       = {Gianluca Aguzzi and
                   Roberto Casadei and
                   Mirko Viroli},
-  editor       = {Maurice H. ter Beek and
-                  Marjan Sirjani},
   title        = {Towards Reinforcement Learning-based Aggregate Computing},
-  booktitle    = {Coordination Models and Languages - 24th {IFIP} {WG} 6.1 International
-                  Conference, {COORDINATION} 2022, Held as Part of the 17th International
-                  Federated Conference on Distributed Computing Techniques, DisCoTec
-                  2022, Lucca, Italy, June 13-17, 2022, Proceedings},
+  booktitle    = {Proc. of the Int. Conf. on Coordination Models and Languages},
   series       = {Lecture Notes in Computer Science},
   volume       = {13271},
   pages        = {72--91},
   publisher    = {Springer},
   year         = {2022},
-  url          = {https://doi.org/10.1007/978-3-031-08143-9\_5},
   doi          = {10.1007/978-3-031-08143-9\_5},
-  timestamp    = {Thu, 23 Jun 2022 19:55:38 +0200},
-  biburl       = {https://dblp.org/rec/conf/coordination/AguzziCV22.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{DBLP:conf/icdcs/AguzziCV22,
+@inProc.{DBLP:conf/icdcs/AguzziCV22,
   author       = {Gianluca Aguzzi and
                   Roberto Casadei and
                   Mirko Viroli},
   title        = {Machine Learning for Aggregate Computing: a Research Roadmap},
-  booktitle    = {42nd {IEEE} International Conference on Distributed Computing Systems,
-                  {ICDCS} Workshops, Bologna, Italy, July 10, 2022},
+  booktitle    = {Proc. of the Int. Conf. on Distributed Computing Systems},
   pages        = {119--124},
   publisher    = {{IEEE}},
   year         = {2022},
-  url          = {https://doi.org/10.1109/ICDCSW56584.2022.00032},
   doi          = {10.1109/ICDCSW56584.2022.00032},
-  timestamp    = {Wed, 07 Dec 2022 23:06:24 +0100},
-  biburl       = {https://dblp.org/rec/conf/icdcs/AguzziCV22.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{DBLP:conf/acsos/Aguzzi21,
+@inProc.{DBLP:conf/acsos/Aguzzi21,
   author       = {Gianluca Aguzzi},
-  editor       = {Esam El{-}Araby and
-                  Vana Kalogeraki and
-                  Danilo Pianini and
-                  Fr{\'{e}}d{\'{e}}ric Lassabe and
-                  Barry Porter and
-                  Sona Ghahremani and
-                  Ingrid Nunes and
-                  Mohamed Bakhouya and
-                  Sven Tomforde},
   title        = {Research directions for Aggregate Computing with Machine Learning},
-  booktitle    = {{IEEE} International Conference on Autonomic Computing and Self-Organizing
-                  Systems, {ACSOS} 2021, Companion Volume, Washington, DC, USA, September
-                  27 - Oct. 1, 2021},
+  booktitle    = {Proc. of the Int. Conf. on Autonomic Computing and Self-Organizing
+                  Systems},
   pages        = {310--312},
   publisher    = {{IEEE}},
   year         = {2021},
-  url          = {https://doi.org/10.1109/ACSOS-C52956.2021.00078},
   doi          = {10.1109/ACSOS-C52956.2021.00078},
-  timestamp    = {Sat, 09 Apr 2022 12:41:21 +0200},
-  biburl       = {https://dblp.org/rec/conf/acsos/Aguzzi21.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
 @article{mnih2015playing,
@@ -477,29 +360,18 @@
   year={2015}
 }
 
-@inproceedings{DBLP:conf/nips/LoweWTHAM17,
+@inProc.{DBLP:conf/nips/LoweWTHAM17,
   author       = {Ryan Lowe and
                   Yi Wu and
                   Aviv Tamar and
                   Jean Harb and
                   Pieter Abbeel and
                   Igor Mordatch},
-  editor       = {Isabelle Guyon and
-                  Ulrike von Luxburg and
-                  Samy Bengio and
-                  Hanna M. Wallach and
-                  Rob Fergus and
-                  S. V. N. Vishwanathan and
-                  Roman Garnett},
   title        = {Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environments},
-  booktitle    = {Advances in Neural Information Processing Systems 30: Annual Conference
-                  on Neural Information Processing Systems 2017, December 4-9, 2017,
-                  Long Beach, CA, {USA}},
+  booktitle    = {Proc. of the Annual Conf.
+                  on Neural Information Processing Systems},
   pages        = {6379--6390},
   year         = {2017},
-  timestamp    = {Thu, 21 Jan 2021 15:15:21 +0100},
-  biburl       = {https://dblp.org/rec/conf/nips/LoweWTHAM17.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
 @article{wu2022more,
@@ -523,6 +395,25 @@
   year={2022}
 }
 
+@inProc.{esterle2017future,
+	title={The future of camera networks: Staying smart in a chaotic world},
+	author={Esterle, Lukas and Lewis, Peter R and McBride, Richie and Yao, Xin},
+	booktitle={Proc. of the Int. Conf. on Distributed Smart Cameras},
+	pages={163--168},
+	year={2017}
+}
+
+@article{esterle2020distributed,
+	title={Distributed autonomy and trade-offs in online multiobject k-coverage},
+	author={Esterle, Lukas and Lewis, Peter R},
+	journal={Computational Intelligence},
+	volume={36},
+	number={2},
+	pages={720--742},
+	year={2020},
+	publisher={Wiley Online Library}
+}
+
 @article{dafoe2020open,
 	title={Open problems in cooperative AI},
 	author={Dafoe, Allan and Hughes, Edward and Bachrach, Yoram and Collins, Tantum and McKee, Kevin R and Leibo, Joel Z and Larson, Kate and Graepel, Thore},
@@ -543,10 +434,10 @@
 	year={2020}
 }
 
-@inproceedings{yang2018mean,
+@inProc.{yang2018mean,
 	title={Mean field multi-agent reinforcement learning},
 	author={Yang, Yaodong and Luo, Rui and Li, Minne and Zhou, Ming and Zhang, Weinan and Wang, Jun},
-	booktitle={International conference on machine learning},
+	booktitle={Proc. of the Int. Conf. on Machine Learning},
 	pages={5571--5580},
 	year={2018},
 	organization={PMLR}
@@ -570,27 +461,32 @@
   journal      = {J. Log. Algebraic Methods Program.},
   volume       = {109},
   year         = {2019},
-  url          = {https://doi.org/10.1016/j.jlamp.2019.100486},
   doi          = {10.1016/j.jlamp.2019.100486},
-  timestamp    = {Sat, 22 Feb 2020 19:18:14 +0100},
-  biburl       = {https://dblp.org/rec/journals/jlap/ViroliBDACP19.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{DBLP:conf/saso/WolfH07,
+@inProc.{DBLP:conf/saso/WolfH07,
   author       = {Tom De Wolf and
                   Tom Holvoet},
   title        = {Designing Self-Organising Emergent Systems based on Information Flows
                   and Feedback-loops},
-  booktitle    = {Proceedings of the First International Conference on Self-Adaptive
-                  and Self-Organizing Systems, {SASO} 2007, Boston, MA, USA, July 9-11,
-                  2007},
+  booktitle    = {Proc. of the Int. Conf. on Self-Adaptive
+                  and Self-Organizing Systems},
   pages        = {295--298},
   publisher    = {{IEEE} Computer Society},
   year         = {2007},
-  url          = {https://doi.org/10.1109/SASO.2007.16},
   doi          = {10.1109/SASO.2007.16},
-  timestamp    = {Fri, 24 Mar 2023 00:01:55 +0100},
-  biburl       = {https://dblp.org/rec/conf/saso/WolfH07.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
+
+
+
+@article{pianini2022collective,
+	title={A collective adaptive approach to decentralised k-coverage in multi-robot systems},
+	author={Pianini, Danilo and Pettinari, Federico and Casadei, Roberto and Esterle, Lukas},
+	journal={ACM Trans. on Auton. and Adapt. Systems},
+	volume={17},
+	number={1-2},
+	pages={1--39},
+	year={2022},
+	publisher={ACM New York, NY}
+}
+
