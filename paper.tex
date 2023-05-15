@@ -537,6 +537,31 @@ Additionally,
     
 \section{Evaluation}
 \label{sec:eval}
+
+%% Put three subfigures of simulations, start, after, end
+\begin{figure}[t]
+  \centering
+  \begin{subfigure}[b]{0.32\linewidth}
+      \includegraphics[width=\textwidth]{imgs/start.png}
+      \caption{Initial state}
+      \label{fig:initial}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\linewidth}
+      \includegraphics[width=\textwidth]{imgs/after.png}
+      \caption{After 50 steps}
+      \label{fig:after}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\linewidth}
+      \includegraphics[width=\textwidth]{imgs/end.png}
+      \caption{After 200 steps}
+      \label{fig:end}
+  \end{subfigure}
+  \caption{Simulation of the proposed approach. 
+  The dots represent the robots, 
+  the circle area on the top right represent the phenomenon to be monitored, 
+  and the gray area represent the area covered by the robots.}
+  \label{fig:simulations}
+\end{figure}
 \ga{Page budget: 2 pages \\}
 %\ga{Plan: we should discuss the robot aggregation scenario, specifying the state space, the action space, and the reward function.
 %I dunno if it makes sense to discuss the variants (i.e., fixed area, two areas and moving area). We will see.}
