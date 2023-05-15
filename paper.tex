@@ -440,6 +440,7 @@ Let $\Gamma$ be the aggregate program that takes a graph $G_t$, representing the
 The evaluation of $\Gamma$ produces a field value $\theta^v_t$ for each node $v$ in $G_t$. 
 The feature vector $o_v$ of which is composed the graph $G'_t$ used by the policy $\pi_{gnn}$ is described by:
  $o_v = (\theta^v_t, \omega)$. \lukas{we used $o_v$ to describe the observation of node $v$ in section II.C - so this would not include field information, right?}
+ \lukas{we have not introduced $G'_t$ yet}
  where $\omega$ are other local information gather from sensors (like temperature, distances from neighbourhood, etc.). 
 %
 The policy $\pi_{gnn}$ is then evaluated for each node, 
