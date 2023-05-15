@@ -520,7 +520,7 @@ Additionally,
   Compute the target Q-value for each node in the graph: 
   $y = G_r + \gamma * \max{a'} Q(s'i,a';\theta^{-})$;
   
-  Compute the current expetected value for each node in the graph:
+  Compute the current expected value for each node in the graph:
   $y^* = Q(s'i,a';\theta)$;
 
   Update the current network weights using gradient descent: $\theta \leftarrow \theta - \alpha \nabla{\theta} \frac{1}{|G_o|} (y - y^*)^2$;
