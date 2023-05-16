@@ -519,32 +519,31 @@ Additionally,
   Set $\theta^{-} \leftarrow \theta$;
 
   \While{not done}{
-  Observe current graph observations $G_o$; \lukas{whats $G_o$?}
-  
-%  $r \leftarrow $ randomNumber();
-%  
-%	\If{$r \leq \epsilon$}{select a random graph action $G_a$}
-%	\Else{select $G_a =$\\
-%		$\{ v \in V, argmax_{a'v} Q(G_o, \theta)[v, a'v]\ ,  E \in G_o \}$;}
-%  
-  With probability $\epsilon$ select a random graph action $G_a$, 
-  otherwise select $G_a =$ 
-  $\{ v \in V, argmax_{a'v} Q(G_o, \theta)[v, a'v]\ ,  E \in G_o \}$;
+  Observe current graph observations $G_o$;
 
-  Execute the collective action $G_a$ in the environment $\mathbb{E}$ and observe a graph-level reward $G_r$ and the next state $G_o'$;
+  \uIf{random $< \epsilon$}{
+    select a random action $a$;
+  }
+  \Else{
+    $G_q = Q(G_o, \theta)$;
+    $a = \{ v \in G_q | a_v \in argmax_{a_v} G_q[v](a_v) \}$;
+
+  }
+
+  Execute the collective action $G_a$ in the environment $\mathbb{E}$ and observe a graph-level reward $G_r$ and the next observation $G_o'$;
 
   Store transition $(G_o,G_a,G_r, G_o')$ in $\mathcal{D}$;
 
   Sample a batch of graph transitions $(G^i_o,G^i_a,G^i_r,G'^i_o)$ 
    from $\mathcal{D}$ and merge them in $(G^b_o,G^b_a,G^b_r,G'^b_o)$; \lukas{how does the merge work? do we explain this?}
 
-  Compute the target Q-value for each node $v$ in the graph $G$: 
-  $y = G^b_r + \gamma * \max{a'} Q(o'i,a';\theta^{-})$;
+  Compute the target Q-value for each node $v$ in the graph $G^b$: 
+  $y_v = G^b_r[v] + \gamma * \max{a'} Q(G'^b_o[v],G^b_a[a'];\theta^{-})$;
   
-  Compute the current expected value for each node in the graph:
-  $y^* = Q(s'i,a';\theta)$;
+  Compute the current expected value for each node $v$ in the graph $G^b$:
+  $y_v^* = Q(G^b_o[v],G^b_a[v];\theta)$;
 
-  Update the current network weights using gradient descent: $\theta \leftarrow \theta - \alpha \nabla{\theta} \frac{1}{|G_o|} (y - y^*)^2$;
+  Update the current network weights using gradient descent: $\theta \leftarrow \theta - \alpha \nabla{\theta} \frac{1}{|G^b|} (y - y^*)^2$;
 
   Every $C$ steps, update the target network weights: $\theta^{-} \leftarrow \theta$
   ;
