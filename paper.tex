@@ -568,7 +568,7 @@ This is because, even though the actions are produced using only local and neigh
 \label{sec:eval}
 \begin{figure}
   \centering
-  \includegraphics[width=0.3\textwidth]{imgs/start.png}
+  \includegraphics[width=0.3\textwidth]{imgs/example.png}
   \label{fig:example}
   \caption{Simulation of the case study scenario in Alchemist. 
   The dots represent the robots, 
@@ -586,16 +586,16 @@ To test the effectiveness of the proposed approach,
  Initially, 
   we perform the training phase using a stationary phenomenon before expanding towards a moving phenomenon in the test phase. 
   %Additionally, the phenomenon can change its shape during runtime. 
-  Finally, the phenomenon may have varying areas of interest, defined by an underlying distribution function. 
-  Figure~\ref{fig:example} illustrates a set of 25 agents and a single, stationary phenomenon with a 3D Gaussian distribution.''
+  Finally, the phenomenon may have varying areas of interest, defined by an underlying distribution function. '
 
 \subsection{Scenario}
-The proposed simulation consists 
- of a set of agents placed in a 2D space capable of perceiving the intensity 
+Figure~\ref{fig:example} illustrates the scenario used during the learning, 
+which consists of a set of 25 agents and a single, stationary phenomenon with a 3D Gaussian 
+Each agent can perceive the presence
  of the phenomenon of interest through an installed sensor $\zeta_v$ with $v \in \mathbb{V}$. 
  (e.g., camera, temperature sensor, etc.). 
 %
-Additionally, each agent has a coverage range $\omega$ 
+Additionally, each agent has a coverage range $\omega$ (fixed to 7.5 meters) 
  that describes the area it can monitor. 
  Each agent can only communicate directly with its own neighbourhood $\mathcal{N}$, 
  which in this case depends on a $\mathbb{O}$ range fixed to 30 meters. \lukas{$\mathbb{O}$  not defined.}
