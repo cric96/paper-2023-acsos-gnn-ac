@@ -135,7 +135,7 @@ aggregate computing, Graph Neural Networks, and Cyber-Physical Swarms.
 Autonomous agents interacting and operating towards a common task, rely on shared information and consequently emerging knowledge in order to achieve the underlying goals efficiently. Coordinating and organising this information exchange within the network of agents is required for improve the collaboration among them further~\cite{jennings1996coordination}. Through this coordination, agents may overcome problems requiring (i) efficiency and accuracy only achieved by multiple agents, (ii) the complementary competences of the individual agents, or (iii) the collective resources of multiple agents.  
 
 Various phenomena in the real world are not evenly distributed across the environment such as watershed, wild fires, traffic, human crowd movement, or wild life movement from insects, fish, birds, and mammals.
-To acquire appropriate information about such phenomena, we also need to distribute the sensors accordingly to cover all aspects sufficiently. While manual deployment will mitigate the problem, not all phenomena are known exactly \emph{a priori} and would require maintenance and adjustment during runtime. Even worse, with phenomena able to change their location, size, and distribution---as it is the case with crowds, wild life, or wild fires---an adaptation of the collective sensors is required in order to keep the required information. 
+To acquire appropriate information about such phenomena, we also need to distribute the sensors accordingly to cover all aspects sufficiently. While manual deployment will mitigate the problem, not all phenomena are known exactly \emph{a priori} and would require maintenance and adjustment during runtime. Even worse, with phenomena able to change their location, size, and shape---as it is the case with crowds, wild life, or wild fires---an adaptation of the collective sensors is required in order to ensure all necessary information is acquired. 
 
 This leads to several questions 
 \begin{enumerate}
@@ -144,7 +144,9 @@ This leads to several questions
 	\item How to move sensors when the phenomena moves to ensure good coverage?
 \end{enumerate} \lukas{refine and rework these questions}
 
-In this paper, we propose a novel approach combining aggregate computing~\cite{Beal2015Computer} with Graph Neural Networks~\cite{Zhou2020AIOpen} to focus on the relevant areas. We further combine this with reinforcement learning techniques to respond to changing conditions in the environment. 
+In this paper, we propose a novel approach utilising aggregate computing~\cite{Beal2015Computer} together with a \ac{GNN}~\cite{Zhou2020AIOpen} in combination with a reinforcement learning approach, namely \ac{DQN}~\cite{mnih2015human}. 
+\lukas{can we have a very short summary of how it works here. something along the lines of ``First, aggregate computing is utilised to collect information from neighbours and create a local knowledge base for each agent. Second, we utilise a \ac{GNN} within the \ac{DQN}. Here the \ac{GNN} provides node embeddings for each agent, serving as input for the \ac{DQN}. The \ac{DQN} provides then the appropriate actions for the agent to achieve their tasks.''}
+We further combine this with reinforcement learning techniques to respond to changing conditions in the environment. 
 %
 This follows a novel trend in which high-level declarative programming languages are mixed with machine learning techniques in order to synthesise robust collective controllers~\cite{DBLP:conf/acsos/Aguzzi21,DBLP:conf/icdcs/AguzziCV22,DBLP:conf/coordination/AguzziCV22}.
 Specifically, 
@@ -451,6 +453,7 @@ The policy $\pi_{gnn}$ is then evaluated for each node,
  \ga{todo: put pseudo code to express this dynamics}
 %
 Despite appearing centralised, this system proposes a completely decentralised execution. 
+\lukas{maybe: ``While the graph, containing the aggregate information, might appear as global knowledge, this is not the case as the information is never aggregated globally. The individual nodes only combine information from their local neighbourhood.''}
 %
 In fact, the program $\Gamma$ is proactively executed at every node, 
 and the \ac{GNN} can be locally evaluated using only neighbourhood information. 
@@ -479,6 +482,7 @@ Since we consider swarm-like systems, which are an example of many-agent systems
 %  where the \emph{actor} is the distributed policy (with only local information) and the critic is a neural network that takes the overall system state.
 %
 Specifically, we leveraged the property of \ac{GNN}s to have a dual interpretation, i.e., to function globally over the entire graph and locally only over the neighbourhood. 
+ \lukas{Global information is not available to the agent, right? The agent only provide locally aggregated information (resulting from the AC part)?}
 %
 As value-based algorithm we relied on \ac{DQN}~\cite{mnih2015playing} \ga{to introduce in many rl??} with two major modifications (see \Cref{alg:dqn}): 
 \begin{enumerate}
@@ -488,13 +492,13 @@ As value-based algorithm we relied on \ac{DQN}~\cite{mnih2015playing} \ga{to int
 The first point is a natural extension because we work on graphs rather than simple values. 
 %
 For the second point,
- the use of \acp{GNN} allows us to define policies on a variable neighbourhood  that is essential in such systems as this can vary based on the neighbourhood policy,
- and it is known that \acp{GNN} have a certain ability to generalise to new structures and scale with different nodes. 
+ the use of \acp{GNN} allows us to define policies on a variable neighbourhood, which is essential in such systems as this can change due to the applied neighbourhood policy.
+ It is known that \acp{GNN} have a certain ability to generalise to new structures and scale with different nodes~\cite{??}. 
 % 
 Additionally, 
  using the overall graph compared to local experiences makes learning more stable as it reduces the non-stationarity of the environment perceived by each node.
 % 
- During learning, it is as if we have a \emph{single} agent collectively choosing which action to take (i.e., resulting action graph). 
+ During learning, it is as if we have a \emph{single} agent collectively choosing which action to take (i.e., resulting action graph). \lukas{this makes it sound like a singe agent has all information, selecting the actions for all other agents...}
 %
 \begin{algorithm}
   \KwIn{Environment $\mathbb{E}$, graph replay buffer $\mathcal{D}$, target network $\theta^{-}$, current network $\theta$, exploration strategy $\epsilon$}
@@ -507,8 +511,14 @@ Additionally,
   Set $\theta^{-} \leftarrow \theta$;
 
   \While{not done}{
-  Observe current graph observations $G_o$;
-
+  Observe current graph observations $G_o$; \lukas{whats $G_o$?}
+  
+%  $r \leftarrow $ randomNumber();
+%  
+%	\If{$r \leq \epsilon$}{select a random graph action $G_a$}
+%	\Else{select $G_a =$\\
+%		$\{ v \in V, argmax_{a'v} Q(G_o, \theta)[v, a'v]\ ,  E \in G_o \}$;}
+%  
   With probability $\epsilon$ select a random graph action $G_a$, 
   otherwise select $G_a =$ 
   $\{ v \in V, argmax_{a'v} Q(G_o, \theta)[v, a'v]\ ,  E \in G_o \}$;
@@ -518,7 +528,7 @@ Additionally,
   Store transition $(G_o,G_a,G_r, G_o')$ in $\mathcal{D}$;
 
   Sample a batch of graph transitions $(G^i_o,G^i_a,G^i_r,G^i_o)$ 
-   from $\mathcal{D}$ and merge them in $(G_o,G_a,G_r,G_o)$;
+   from $\mathcal{D}$ and merge them in $(G_o,G_a,G_r,G_o)$; \lukas{how does the merge work? do we explain this?}
 
   Compute the target Q-value for each node in the graph: 
   $y = G_r + \gamma * \max{a'} Q(s'i,a';\theta^{-})$;
@@ -534,6 +544,7 @@ Additionally,
   \caption{Deep Q-Network (DQN) with GNN and Graph Replay Buffer}
   \label{alg:dqn}
   \end{algorithm}
+ 
     
 \section{Evaluation}
 \label{sec:eval}
@@ -568,7 +579,8 @@ Additionally,
 To test the effectiveness of the proposed approach, 
  we decided to experiment with a case study related to swarm robotics, 
  specifically the tracking and coverage of a spatio-temporal phenomenon, cf. tracking a wildfire 
- or monitoring the water levels in a canal.
+ or monitoring the water levels in a canal. The individual agents do not have any knowledge of the initial phenomenon itself (i.e., shape, size, location, velocity,...).
+ \lukas{``Initially we consider a stationary phenomenon before expanding towards a moving phenomenon. Additionally, the phenomenon can change its shape during runtime. Finally, the phenomenon may have varying areas of interest, defined by an underlying distribution function. Figure~\ref{fig:simulations} illustrates a set of 25 agents and a single, stationary phenomenon with a with a 3D Gaussian distribution.''}
 
 \subsection{Scenario}
 The proposed simulation consists 
