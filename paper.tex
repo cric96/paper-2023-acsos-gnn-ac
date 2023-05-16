@@ -546,7 +546,7 @@ This is because, even though the actions are produced using only local and neigh
   Store transition $(G_o,G_a,G_r, G_o')$ in $\mathcal{D}$;
 
   Sample a batch of graph transitions $(G^i_o,G^i_a,G^i_r,G'^i_o)$ 
-   from $\mathcal{D}$ and merge them in $(G^b_o,G^b_a,G^b_r,G'^b_o)$; \lukas{how does the merge work? do we explain this?}
+   from $\mathcal{D}$ and merge them in $(G^b_o,G^b_a,G^b_r,G'^b_o)$; 
 
   Compute the target Q-value for each node $v$ in the graph $G^b$: 
   $y_v = G^b_r[v] + \gamma * \max{a'} Q(G'^b_o[v],G^b_a[a'];\theta^{-})$;
