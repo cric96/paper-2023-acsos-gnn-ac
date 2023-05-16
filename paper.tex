@@ -441,12 +441,12 @@ Let $\Gamma$ be the aggregate program that takes a graph $G_t$ decorated by $o^t
 %\ga{In the problem formalization, I defined $G_t$, but it may be more appropriate to define it directly in the GNN, as suggested. I made this choice since GNNs typically only receive a graph as input, without regard for time, I included the definition of $G_t$ in the problem formalization as it pertains to the dynamics of the overall system. Specifically, when discussing the system's dynamics at a given time t, it's necessary to define the corresponding graph. I hope this clarifies my reasoning. Let me know!}
 %
 The evaluation of $\Gamma$ produces a field value $\theta^v_t$ for each node $v$ in $G_t$. 
-The feature vector $o_v$ of which is composed the graph $G'_t$ used by the policy $\pi_{gnn}$ is described by:
- $o_v = (\theta^v_t, \omega)$. \lukas{we used $o_v$ to describe the observation of node $v$ in section II.C - so this would not include field information, right?}
+From this field, we construct the feature vector $f_v$ for each node $v$ in $G_t$ as follows:
+ $f_v = (\theta^v_t, o^t_v)$. \lukas{we used $o_v$ to describe the observation of node $v$ in section II.C - so this would not include field information, right?}
  \lukas{we have not introduced $G'_t$ yet}
  %where $\omega$ are other local information gather from sensors (like temperature, distances from neighbourhood, etc.). 
 %
-The policy $\pi_{gnn}$ is then evaluated for each node, 
+The policy $\pi_{gnn}$ is then evaluated for each node using $f_v$ as input, 
  producing an action $a_t$ that will then modify the global state of the system.
  \ga{todo: put pseudo code to express this dynamics}
 %
@@ -468,7 +468,7 @@ otherwise, they could not have a local interpretation for each node, according t
 Since we consider swarm-like systems, which are an example of many-agent systems, 
  the proposed approach follows a \ac{CTDE} learning pattern,
  but differently from mean-field approaches and actor-critic solutions,
- we use a value-based approach combined with a \ac{GNN} as a function approximator.
+ we use a \emph{value-based} approach combined with a \ac{GNN} as a function approximator.
 %In swarm-like systems, 
 % the typical approach for learning follows a strategy known as \ac{CTDE}. \ga{perhaps it should be introduced in many RL} 
 %The idea is to learn a policy at simulation time where there is a collective view of the system, 
@@ -478,17 +478,19 @@ Since we consider swarm-like systems, which are an example of many-agent systems
 %The typical approach in such cases is based on actor-critic systems~\cite{DBLP:conf/nips/LoweWTHAM17,wu2022more,song2022ctds,song2022centralized},
 %  where the \emph{actor} is the distributed policy (with only local information) and the critic is a neural network that takes the overall system state.
 %
-Specifically, we leveraged the property of \ac{GNN}s to have a dual interpretation, i.e., to function globally over the entire graph and locally only over the neighbourhood. 
+Specifically, we leveraged the property of \ac{GNN}s to have a dual interpretation, 
+ i.e., to function globally over the entire graph and locally only over the neighbourhood. 
 %
 As value-based algorithm we relied on \ac{DQN}~\cite{mnih2015playing} \ga{to introduce in many rl??} with two major modifications (see \Cref{alg:dqn}): 
 \begin{enumerate}
-  \item experience replay stores experiences in the form of \emph{graphs},
+  \item experience replay stores experiences in the form of \emph{graphs} decorated with features (e.g., observations, actions, rewards, etc.),
   \item the neural network used to compute the Q function is based on a \ac{GNN} with an \ac{MLP} downstream.
 \end{enumerate}
 The first point is a natural extension because we work on graphs rather than simple values. 
 %
 For the second point,
- the use of \acp{GNN} allows us to define policies on a variable neighbourhood  that is essential in such systems as this can vary based on the neighbourhood policy,
+ the use of \acp{GNN} allows us to define policies on a variable neighbourhood 
+ that is essential in such systems as this can vary based on the neighbourhood policy,
  and it is known that \acp{GNN} have a certain ability to generalise to new structures and scale with different nodes. 
 % 
 Additionally, 
