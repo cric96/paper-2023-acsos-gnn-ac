@@ -459,8 +459,10 @@ The policy $\pi_{gnn}$ is then evaluated for each node using $f_v$ as input,
  producing an action $a^v_t$ that will then modify the global state of the system.
  \ga{todo: put pseudo code to express this dynamics}
 %
-Despite appearing centralised, this system proposes a completely decentralised execution. 
-\lukas{maybe: ``While the graph, containing the aggregate information, might appear as global knowledge, this is not the case as the information is never aggregated globally. The individual nodes only combine information from their local neighbourhood.''}
+While the graph, containing the aggregate information, 
+ might appear as global knowledge, 
+ this is not the case as the information is never aggregated globally. 
+The individual nodes only combine information from their local neighbourhood.
 %
 In fact, the program $\Gamma$ is proactively executed at every node, 
 and the \ac{GNN} can be locally evaluated using only neighbourhood information. 
@@ -501,12 +503,15 @@ The first point is a natural extension because we work on graphs rather than sim
 %
 For the second point,
  the use of \acp{GNN} allows us to define policies on a variable neighbourhood, which is essential in such systems as this can change due to the applied neighbourhood policy.
- It is known that \acp{GNN} have a certain ability to generalise to new structures and scale with different nodes~\cite{??}. 
+ It is known that \acp{GNN} have a certain ability to generalise to new structures and scale with different nodes~\cite{DBLP:journals/aiopen/ZhouCHZYLWLS20,DBLP:conf/nips/KnyazevTA19}. 
 % 
 Additionally, 
  using the overall graph compared to local experiences makes learning more stable as it reduces the non-stationarity of the environment perceived by each node.
 % 
- During learning, it is as if we have a \emph{single} agent collectively choosing which action to take (i.e., resulting action graph). \lukas{this makes it sound like a singe agent has all information, selecting the actions for all other agents...}
+This is because, even though the actions are produced using only local and neighbourhood information, 
+ during the learning phase, we have access to the internal graph, 
+ which will influence the policy through non-local information 
+ during the backpropagation.
 %
 \begin{algorithm}
   \KwIn{Environment $\mathbb{E}$, graph replay buffer $\mathcal{D}$, target network $\theta^{-}$, current network $\theta$, exploration strategy $\epsilon$}
