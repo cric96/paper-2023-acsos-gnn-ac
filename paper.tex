@@ -11,6 +11,7 @@
 \usepackage{acronym}
 \usepackage{amsmath}
 \usepackage{subcaption}
+\usepackage{bbm}
 \usepackage[ruled]{algorithm2e}
 \def\doi#1{\href{https://doi.org/\detokenize{#1}}{\url{https://doi.org/\detokenize{#1}}}}
 %
@@ -771,6 +772,27 @@ Examples of such types are shown in~\Cref{fig:scenarios}. %\lukas{can we create 
 We compare our field-informed reinforcement learning approach against a baseline approach utilising a \ac{MLP} as well as an approach only relying on \acp{GNN}. In all approaches, the underlying neural network (i.e., the \ac{MLP} and the \ac{GNN}) are trained with the same parameters of the proposed approach with a single, stationary phenomenon.
 
 \subsection{Metrics}
+We evaluate the performance of the different approaches by measuring the coverage of the phenomenon over time.
+%
+The coverage is defined as the percentage of the phenomenon covered by the agents.
+%
+Specifically, we can measure the coverage as the intersection over the union of the phenomenon and the agents' view range.
+%
+Formally, first, we define the overall area covered by the agents as:
+\begin{equation*}
+\Omega = \bigcup_{v \in V} \omega_v
+\end{equation*}
+
+Finally, we define the coverage as:
+\begin{equation*}
+C = \frac{|\Omega \cap \mathcal{P}|}{|\mathcal{P}|}
+\end{equation*}
+where $\omega$ is the viewing range of the agents and $\mathcal{P}$ is the phenomenon.
+This is computed for each step of the simulation.
+
+We also measure the number of agents that are within the phenomenon at each step of the simulation.
+This will be a measure of how well the agents are tracking the phenomenon.
+\ga{todo improve the description of the coverage}
 
 \subsection{Discussion and Results}
 \begin{figure}[t]
