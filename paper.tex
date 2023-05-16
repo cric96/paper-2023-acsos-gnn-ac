@@ -451,8 +451,9 @@ Let $\Gamma$ be the aggregate program that takes a graph $G_t$ decorated by $o^v
 %
 The evaluation of $\Gamma$ produces a field value $\theta^v_t$ for each node $v$ in $G_t$. 
 From this field, we construct the feature vector $f_v$ for each node $v$ in $G_t$ as follows:
- $f_v = (\theta^v_t, o^v_t)$. \lukas{we used $o_v$ to describe the observation of node $v$ in section II.C - so this would not include field information, right?}
- \lukas{we have not introduced $G'_t$ yet}
+ $f_v = (\theta^v_t, o^v_t)$.
+%  \lukas{we used $o_v$ to describe the observation of node $v$ in section II.C - so this would not include field information, right?}
+% \lukas{we have not introduced $G'_t$ yet}
  %where $\omega$ are other local information gather from sensors (like temperature, distances from neighbourhood, etc.). 
 %
 The policy $\pi_{gnn}$ is then evaluated for each node using $f_v$ as input, 
@@ -492,7 +493,8 @@ Since we consider swarm-like systems, which are an example of many-agent systems
 %
 Specifically, we leveraged the property of \ac{GNN}s to have a dual interpretation, 
 i.e., to function globally over the entire graph and locally only over the neighbourhood. 
- \lukas{Global information is not available to the agent, right? The agent only provide locally aggregated information (resulting from the AC part)?}
+Importantly, each agent only has local information from itself and its neighbourhood to utilise in the \ac{GNN}.
+% \lukas{Global information is not available to the agent, right? The agent only provide locally aggregated information (resulting from the AC part)?}
 %
 As value-based algorithm we relied on \ac{DQN}~\cite{mnih2015playing} \ga{to introduce in many rl??} with two major modifications (see \Cref{alg:dqn}): 
 \begin{enumerate}
@@ -597,7 +599,7 @@ Finally, we use ScaFi~\cite{casadei2022scafi} as the aggregate programming langu
  our field-informed approach.
 
 \subsection{Scenario}
-Figure~\ref{fig:example} illustrates the scenario used during the learning, 
+Figure~\ref{fig:example} illustrates the scenario used during the learning \lukas{is this training the \ac{GNN}? }, 
 which consists of a set of 25 agents and a single, stationary phenomenon with a 3D Gaussian 
 Each agent can perceive the presence
  of the phenomenon of interest through an installed sensor $\zeta_v$ with $v \in \mathbb{V}$. 
@@ -611,7 +613,12 @@ From the neighbourhood,
  each agent can also perceive the direction of the other agents.
 %
 Each agent moves following a certain action composed of two components ($\alpha$, $\theta$) 
- which respectively describe the angle and intensity of the movement (i.e., the velocity vector).
+ which respectively describe the angle and intensity of the movement (i.e., the velocity vector). 
+ \lukas{$\theta$ used for target weights...} 
+ \lukas{not sure if this paragraph should be its own subsection. or at least it needs  different title.}
+ For the evaluation, we explore three different types of scenarios. The first type considers only a single, stationary phenomenon. The second type considers multiple phenomena, requiring the agents to make a decision which phenomena to cover. Finally, the third type considers a single moving phenomena which the agents have to follow throughout the simulation. In all three types of scenarios, the shape and underlying distribution is initially unknown to the agents but remains constant for the entire duration of the simulation \lukas{correct?}. We generated random scenarios for each type of scenario. Examples of such types are shown in Figure~\ref{??} \lukas{can we create a figure with at least 3 sample scenarios (1 stationary, 2 split, 1 moving (with a line indicating its trajectory))?} We compare our field-informed reinforcement learning approach against a baseline approach utilising a \ac{MLP} as well as an approach only relying on \acp{GNN}. In all approaches, the underlying neural network (i.e., the \ac{MLP} and the \ac{GNN}) are trained with \lukas{xyz} samples of a single, stationary phenomena. \lukas{we should describe the training a bit.}
+ \lukas{do we need more information on the MLP?}
+ 
  %\lukas{drone, robot, agent, node...}
 \subsection{Goal}
  The objective of this scenario is threefold:
@@ -652,7 +659,7 @@ The second element in the objective function ensures cohesion among the agents.
  
 Finally, to maximise the coverage, 
   we define a reward function that favours the maximum distance between the agents
-  equal to the coverage range $\omega$.
+  equal to the coverage range $\omega$. This will minimise multiple agents covering a common area.
 %
 This means that the average distance will tend towards the one expressed by the viewing range of each node:
 % 
@@ -702,12 +709,14 @@ R^e_{v} = R_v - 1
 \end{figure}
 \begin{figure}
   \centering
-  \begin{subfigure}[b]{0.49\linewidth}
+  \hfill
+  \begin{subfigure}[b]{0.96\linewidth}
     \includegraphics[width=\linewidth]{imgs/coverage-in-time}
     \caption{Coverage in time}
     \label{fig:coverage}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.49\linewidth}
+  \end{subfigure}\\
+  \hfill
+  \begin{subfigure}[b]{0.99\linewidth}
     \includegraphics[width=\linewidth]{imgs/reward-in-time}
     \caption{Reward in time}
     \label{fig:reward}
@@ -719,26 +728,26 @@ R^e_{v} = R_v - 1
 
 \begin{figure*}
   \centering
-  \begin{subfigure}[b]{0.49\linewidth}
+  \begin{subfigure}[b]{0.9\linewidth}
     \includegraphics[width=\linewidth]{imgs/coverage-test.pdf}
     \caption{Coverage test}
     \label{fig:coverage-test}
   \end{subfigure}
-  \begin{subfigure}[b]{0.49\linewidth}
+  \begin{subfigure}[b]{0.9\linewidth}
     \includegraphics[width=\linewidth]{imgs/inside-test}
     \caption{Inside test}
     \label{fig:inside-test}
   \end{subfigure}
-  \begin{subfigure}[b]{0.49\linewidth}
+  \begin{subfigure}[b]{0.85\linewidth}
     \includegraphics[width=\linewidth]{imgs/inside-two-test}
     \caption{Inside two test}
     \label{fig:inside-two-test}
   \end{subfigure}
-  \begin{subfigure}[b]{0.49\linewidth}
+  \begin{subfigure}[b]{0.85\linewidth}
     \includegraphics[width=\linewidth]{imgs/coverage-two-test}
     \caption{Coverage two test}
     \label{fig:coverage-two-test}
-  \end{subfigure}
+  \end{subfigure} 
   \caption{Test results, \ga{todo}}
   \label{fig:test}
 \end{figure*}
