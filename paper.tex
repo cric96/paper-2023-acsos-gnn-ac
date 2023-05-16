@@ -570,13 +570,30 @@ This is because, even though the actions are produced using only local and neigh
 \label{sec:eval}
 \begin{figure}
   \centering
-  \includegraphics[width=0.3\textwidth]{imgs/example.png}
+  \begin{subfigure}[b]{0.32\linewidth}
+      \includegraphics[width=\textwidth]{imgs/example.png}
+      \caption{}
+      \label{fig:static}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\linewidth}
+      \includegraphics[width=\textwidth]{imgs/two-zones.png}
+      \caption{}
+      \label{fig:two}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\linewidth}
+      \includegraphics[width=\textwidth]{imgs/example-moving.png}
+      \caption{}
+      \label{fig:moving}
+  \end{subfigure}
+
+  %\includegraphics[width=0.3\textwidth]{imgs/example.png}
  
-  \caption{Simulation of the case study scenario in Alchemist. 
-  The dots represent the robots, 
-  the circle area on the top right represents the phenomenon to be monitored, 
-  and the grey area represents the area covered by the robots.}
-  \label{fig:example}
+  \caption{Simulations of the case study scenario in Alchemist. 
+  The dots represent the agent, 
+  the circle area on represents the phenomenon to be monitored.
+  \Cref{fig:static} represents the scenario used during training. 
+  The others are used in the test phase to evaluate the policy found. }
+  \label{fig:scenarios}
 \end{figure}
 \ga{Page budget: 2 pages \\}
 %\ga{Plan: we should discuss the robot aggregation scenario, specifying the state space, the action space, and the reward function.
@@ -599,25 +616,41 @@ Finally, we use ScaFi~\cite{casadei2022scafi} as the aggregate programming langu
  our field-informed approach.
 
 \subsection{Scenario}
-Figure~\ref{fig:example} illustrates the scenario used during the learning \lukas{is this training the \ac{GNN}? }, 
-which consists of a set of 25 agents and a single, stationary phenomenon with a 3D Gaussian 
+Figure~\ref{fig:static} illustrates the scenario used during the learning \lukas{is this training the \ac{GNN}? }, 
+which consists of a set of 25 agents placed in a 2D grid large 1000x1000 meters and a single, stationary phenomenon with a 3D Gaussian 
 Each agent can perceive the presence
  of the phenomenon of interest through an installed sensor $\zeta_v$ with $v \in \mathbb{V}$. 
  (e.g., camera, temperature sensor, etc.). 
 %
-Additionally, each agent has a coverage range $\omega$ (fixed to 7.5 meters) 
+Additionally, each agent has a coverage range $\omega$ (fixed to 75 meters) 
  that describes the area it can monitor. 
  Each agent can only communicate directly with its own neighbourhood $\mathcal{N}$, 
- which in this case depends on a $\mathbb{O}$ range fixed to 30 meters. %\lukas{$\mathbb{O}$  not defined.}
+ which in this case depends on a $\mathbb{O}$ range fixed to 300 meters. %\lukas{$\mathbb{O}$  not defined.}
 From the neighbourhood, 
  each agent can also perceive the direction of the other agents.
 %
-Each agent moves following a certain action composed of two components ($\alpha$, $\theta$) 
- which respectively describe the angle and intensity of the movement (i.e., the velocity vector). 
- \lukas{$\theta$ used for target weights...} 
- \lukas{not sure if this paragraph should be its own subsection. or at least it needs  different title.}
- For the evaluation, we explore three different types of scenarios. The first type considers only a single, stationary phenomenon. The second type considers multiple phenomena, requiring the agents to make a decision which phenomena to cover. Finally, the third type considers a single moving phenomena which the agents have to follow throughout the simulation. In all three types of scenarios, the shape and underlying distribution is initially unknown to the agents but remains constant for the entire duration of the simulation \lukas{correct?}. We generated random scenarios for each type of scenario. Examples of such types are shown in Figure~\ref{??} \lukas{can we create a figure with at least 3 sample scenarios (1 stationary, 2 split, 1 moving (with a line indicating its trajectory))?} We compare our field-informed reinforcement learning approach against a baseline approach utilising a \ac{MLP} as well as an approach only relying on \acp{GNN}. In all approaches, the underlying neural network (i.e., the \ac{MLP} and the \ac{GNN}) are trained with \lukas{xyz} samples of a single, stationary phenomena. \lukas{we should describe the training a bit.}
- \lukas{do we need more information on the MLP?}
+Each agent moves following a certain action composed of two components (r, i) 
+ which respectively describe the angle and intensity of the movement (i.e., the velocity vector).
+Since we used a value-based approach, 
+ the action space is discrete and composed of 18 possible angles and 3 possible intensities.
+In particular, for the angles, we have quantized to 20 degrees, and for the velocities, we have selected [0, 5, 10] m/s.
+%
+Each agent will produce a computation field with which they will try to approximate the direction of the phenomenon of interest. 
+%
+The program in question is a simple application of block G, where the source is the maximum value of the neighbourhood. 
+This can be expressed in Scafi as follows:
+\begin{lstlisting}[mathescape=true]
+val source = maxHood(nbr(sense($\zeta$))) == sense($\zeta$)
+G(source, Point3D.Zero, _ + nbrVector())
+\end{lstlisting}
+where \texttt{maxHood} is a function that returns the maximum value of the neighbourhood, 
+ \texttt{nbr} is a function that returns the value of the neighbourhood, 
+\texttt{sense} is a function that returns the value of the sensor, and
+\texttt{nbrRange} is a function that returns an approximate direction for each agent in the neighbourhood.
+%
+this value will then be fed into the \ac{GNN} to compute the action to be performed.
+ %\lukas{not sure if this paragraph should be its own subsection. or at least it needs  different title.}
+
  
  %\lukas{drone, robot, agent, node...}
 \subsection{Goal}
@@ -680,17 +713,71 @@ It is simplify evaluated as:
 R^e_{v} = R_v - 1
 \end{equation*}
 %
+\subsection{Training Phase}
+The learning process was divided into 100 episodes, each consisting of 200 steps, resulting in a total of 20,000 experiences.
+%
+For each episode, 
+ the 25 agents are semi-randomly positioned on a grid without knowing the correct position of the phenomenon, 
+ but that is fixed in the top right corner. 
+The feature set used by the \ac{GNN} created for each node consists of the vector computed by the aggregated program and the value of the local sensor $\zeta$.
+%
+In this case, we chose to use an exponential epsilon decay, defined as:
+\begin{equation*}
+\epsilon = \epsilon_{min} + (\epsilon_{max} - \epsilon_{min}) \cdot e^{-\lambda \cdot e}
+\end{equation*}
+where e is the current episode number. 
+This leads to a high number of random actions at the beginning and gradually shifts towards exploitation in the later episodes. 
+%
+In our training process, 
+ we set $\epsilon_{min} = 0.02$, $\epsilon_{max} = 0.99$, and $\lambda = 0.1$.
+$\gamma$ was set to 0.99, 
+ as we want to give more value to future returns, 
+ aiming to achieve good coverage by continuously tracking the phenomenon. 
+The neural network structure used consists of a layer of SuperGAT~\cite{DBLP:journals/corr/abs-2204-04879} -- A \ac{GNN} based on attention mechanisms -- and a layer of MLP. 
+The hidden size was set to 256.
+%
+As the reward function is defined as a regret, 
+ we decided to use the Huber loss function, 
+ which is a combination of the $L_1$ and $L_2$ loss functions.
+%
+The loss function is defined as:
+\begin{equation*}
+L = \begin{cases}
+  \frac{1}{2} (y - \hat{y})^2 & \text{if } |y - \hat{y}| < \delta \\
+  \delta (|y - \hat{y}| - \frac{1}{2} \delta) & \text{otherwise.} 
+ \end{cases}
+\end{equation*}
+This function is used to penalise the agent if the action taken is too far from the optimal action.
+%
+We use the RMSprop optimiser with a learning rate of 0.0001.
+%
+\subsection{Test phase}
+For the evaluation, 
+ we explore three different types of scenarios.
+%
+The first type considers only a single, stationary phenomenon like the one used in the training phase. 
+%
+The second type considers multiple phenomena, requiring the agents to make a decision about which phenomena to cover. 
+%
+Finally, the third type considers a single moving phenomenon which the agents have to follow throughout the simulation. 
+%
+In all three types of scenarios, the shape and underlying distribution are initially unknown to the agents but remain constant for the entire duration of the simulation. 
+%
+We generated random scenarios for each type of scenario. 
+%
+Examples of such types are shown in~\Cref{fig:scenarios}. %\lukas{can we create a figure with at least 3 sample scenarios (1 stationary, 2 split, 1 moving (with a line indicating its trajectory))?} 
 
-%\paragraph*{Variant A}
-%\paragraph*{Variant B}
-%\paragraph*{Variant C}
+\subsection{Baseline}
+We compare our field-informed reinforcement learning approach against a baseline approach utilising a \ac{MLP} as well as an approach only relying on \acp{GNN}. In all approaches, the underlying neural network (i.e., the \ac{MLP} and the \ac{GNN}) are trained with the same parameters of the proposed approach with a single, stationary phenomenon.
+
+\subsection{Metrics}
 
 \subsection{Discussion and Results}
 \begin{figure}[t]
   \centering
   \begin{subfigure}[b]{0.32\linewidth}
       \includegraphics[width=\textwidth]{imgs/start.png}
-      \caption{Initial configuration}
+      \caption{Start}
       \label{fig:initial}
   \end{subfigure}
   \begin{subfigure}[b]{0.32\linewidth}
@@ -704,7 +791,8 @@ R^e_{v} = R_v - 1
       \label{fig:end}
   \end{subfigure}
   \caption{Test results of the proposed approach. 
-  The agents go towards the phenomenon and try to cover it without collapsing into a single point.}
+  The agents go towards the phenomenon and try to cover it without collapsing into a single point.
+  the grey area represents the area covered by the robots (last figure on the right).}
   \label{fig:simulations}
 \end{figure}
 \begin{figure}
