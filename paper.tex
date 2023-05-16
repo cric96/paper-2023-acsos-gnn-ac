@@ -145,17 +145,17 @@ This leads to several questions
 \end{enumerate} \lukas{refine and rework these questions}
 
 In this paper, we propose a novel approach utilising aggregate computing~\cite{Beal2015Computer} together with a \ac{GNN}~\cite{Zhou2020AIOpen} in combination with a reinforcement learning approach, namely \ac{DQN}~\cite{mnih2015human}. 
-\lukas{can we have a very short summary of how it works here. something along the lines of ``First, aggregate computing is utilised to collect information from neighbours and create a local knowledge base for each agent. Second, we utilise a \ac{GNN} within the \ac{DQN}. Here the \ac{GNN} provides node embeddings for each agent, serving as input for the \ac{DQN}. The \ac{DQN} provides then the appropriate actions for the agent to achieve their tasks.''}
-We further combine this with reinforcement learning techniques to respond to changing conditions in the environment. 
+First, aggregate computing is utilised to collect information from neighbours and create a local knowledge base for each agent. Second, we utilise a \ac{GNN} within the \ac{DQN}. Here the \ac{GNN} provides node embeddings for each agent, serving as input for the \ac{DQN}. The \ac{DQN} provides then the appropriate actions for the agent to achieve their tasks.'
+%We further combine this with reinforcement learning techniques to respond to changing conditions in the environment. 
 %
 This follows a novel trend in which high-level declarative programming languages are mixed with machine learning techniques in order to synthesise robust collective controllers~\cite{DBLP:conf/acsos/Aguzzi21,DBLP:conf/icdcs/AguzziCV22,DBLP:conf/coordination/AguzziCV22}.
-Specifically, 
- our approach utilises aggregate computing to disseminate information by manipulating a computational field, 
- which is a distributed data structure that maps devices to information. 
- This field functions as a dynamic environment in which information is continuously updated and diffused throughout the system. 
- By leveraging this layer, we can build collective distributed intelligence using \ac{GNN},
-  which uses the information in the field to determine the best action for a given task.
-\ga{first draft, need a refinement}
+%Specifically, 
+% our approach utilises aggregate computing to disseminate information by manipulating a computational field, 
+% which is a distributed data structure that maps devices to information. 
+% This field functions as a dynamic environment in which information is continuously updated and diffused throughout the system. 
+% By leveraging this layer, we can build collective distributed intelligence using \ac{GNN},
+%  which uses the information in the field to determine the best action for a given task.
+%\ga{first draft, need a refinement}
 The remainder of this paper is structured as follows. First, we introduce the relevant background and problem formulation in \Cref{sec:background}. Afterwards, we introduce our approach in \Cref{sec:approach}. \Cref{sec:eval} outlines the performed experiments and discusses the obtained results. Finally, we will present our conclusions in \Cref{sec:conclusion}.
 
 \section{Background and Motivation}
@@ -499,7 +499,13 @@ As value-based algorithm we relied on \ac{DQN}~\cite{mnih2015playing} \ga{to int
   \item experience replay stores experiences in the form of \emph{graphs} decorated with features (e.g., observations, actions, rewards, etc.),
   \item the neural network used to compute the Q function is based on a \ac{GNN} with an \ac{MLP} downstream.
 \end{enumerate}
-The first point is a natural extension because we work on graphs rather than simple values. 
+The first point is a natural extension because we work on graphs rather than simple values.
+This also influences how we create a batch of experiences to train the network.
+ In fact, we sample a batch of graphs from the replay buffer,
+ and then we merge them into a single graph,
+ which is then used to train the network.
+ This process is called \emph{graph mini-batching}~\cite{DBLP:journals/corr/abs-1903-02428,wang2019deep}
+ and its main purpose is to pass an entire batch of graphs to the same \ac{GNN} for improved performance.
 %
 For the second point,
  the use of \acp{GNN} allows us to define policies on a variable neighbourhood, which is essential in such systems as this can change due to the applied neighbourhood policy.
@@ -596,18 +602,18 @@ To test the effectiveness of the proposed approach,
 
 \subsection{Scenario}
 The proposed simulation consists 
- of a set of robots placed in a 2D space capable of perceiving the intensity 
+ of a set of agents placed in a 2D space capable of perceiving the intensity 
  of the phenomenon of interest through an installed sensor $\zeta_v$ with $v \in \mathbb{V}$. 
  (e.g., camera, temperature sensor, etc.). 
 %
-Additionally, each node has a coverage range $\omega$ 
+Additionally, each agent has a coverage range $\omega$ 
  that describes the area it can monitor. 
- Each drone can only communicate directly with its own neighbourhood $\mathcal{N}$, 
- which in this case depends on a $\mathbb{O}$ range. \lukas{$\mathbb{O}$  not defined.}
+ Each agent can only communicate directly with its own neighbourhood $\mathcal{N}$, 
+ which in this case depends on a $\mathbb{O}$ range fixed to 30 meters. \lukas{$\mathbb{O}$  not defined.}
 From the neighbourhood, 
- each node can also perceive the direction of the other nodes.
+ each agent can also perceive the direction of the other agents.
 %
-Each node moves following a certain action composed of two components ($\alpha$, $\theta$) 
+Each agent moves following a certain action composed of two components ($\alpha$, $\theta$) 
  which respectively describe the angle and intensity of the movement (i.e., the velocity vector).
  \lukas{drone, robot, agent, node...}
 \subsection{Goal}
@@ -620,10 +626,10 @@ Each node moves following a certain action composed of two components ($\alpha$,
  
 As we are modelling a reinforcement learning system, 
  these three components must be encoded in a reward function 
- that provides an estimate of the current action taken by a given robot.
+ that provides an estimate of the current action taken by a given agent.
  
 % Regarding the first point, the reward function is simple and is defined as:
-Formally, we define the reward of a drone being within the phenomena as
+Formally, we define the reward of a drone being within the phenomenon as
  \begin{equation*}
  R^a_{v} = \begin{cases}
   1 & \text{if } \zeta_v > 0 \\
@@ -632,9 +638,12 @@ Formally, we define the reward of a drone being within the phenomena as
  \end{equation*}
  
  I.e., a drone is considered within the phenomena as soon as the drone can sense the phenomenon.
-This will lead the system to prefer a configuration in which every node is present in the system. \lukas{do you mean `... is present within the phenomenon'?}
+This will lead the system to prefer a configuration in which every agent is present within the phenomenon.
 %
-The second element in the objective function ensures cohesion among the agents. This is important because if the system breaks into many scattered drones, the observability of the phenomenon is reduced, limiting the ability of the agents to move appropriately in the environment.
+The second element in the objective function ensures cohesion among the agents. 
+ This is important because if the system breaks into many scattered agents, 
+ the observability of the phenomenon is reduced, 
+ limiting the ability of the agents to move appropriately in the environment.
 % they are not able to move in the environment due to the reduced observability of the system. 
  In this case, the reward is defined as:
  \begin{equation*}
@@ -645,7 +654,8 @@ The second element in the objective function ensures cohesion among the agents. 
  \end{equation*}
  
  Finally, to maximise the coverage, 
-  we decided to calculate the maximum and minimum distance of the neighbourhood and give more value in case these two values are similar. \lukas{minimum / maximum distance to what? the next neighbour? measuring the phenomena?}
+  we decided to calculate the maximum and minimum distance of the neighbourhood and give more value in case these two values are similar. 
+  \lukas{minimum / maximum distance to what? the next neighbour? measuring the phenomena?}
 %
 This means that the average distance will tend towards the one expressed by the viewing range of each node:
 % 
@@ -653,7 +663,8 @@ This means that the average distance will tend towards the one expressed by the 
 R^{C}_{v} = \frac{d_{max} - d_{min}}{\mathbb{O}}
 \end{equation*}
 where 
-$d_{max}$ and $d_{min}$ describes the maximum and minimum distance of the node to \lukas{??}, respectively. This distance is normalized by the maximum communication range of each agent $\mathbb{O}$.
+$d_{max}$ and $d_{min}$ describes the maximum and minimum distance of the agent to \lukas{??}, respectively. 
+This distance is normalized by the maximum communication range of each agent $\mathbb{O}$.
 \lukas{should this be $1-R^C_v$? or do we want to favour the highest average distance?}
 The final reward function for an agent $v$ is defined as:
 \begin{equation*}
@@ -676,12 +687,12 @@ R^e_{v} = R_v - 1
 
 \begin{figure}
   \centering
-  \begin{subfigure}[b]{\linewidth}
+  \begin{subfigure}[b]{0.49\linewidth}
     \includegraphics[width=\linewidth]{imgs/coverage-in-time}
     \caption{Coverage in time}
     \label{fig:coverage}
   \end{subfigure}
-  \begin{subfigure}[b]{\linewidth}
+  \begin{subfigure}[b]{0.49\linewidth}
     \includegraphics[width=\linewidth]{imgs/reward-in-time}
     \caption{Reward in time}
     \label{fig:reward}
@@ -689,6 +700,33 @@ R^e_{v} = R_v - 1
   \caption{Coverage and reward in time}
   \label{fig:coverage-reward}
 \end{figure}
+%% Create a subfigure of coverage-test, inside-test, inside-two-test and coverage-two-test
+
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{imgs/coverage-test.pdf}
+    \caption{Coverage test}
+    \label{fig:coverage-test}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{imgs/inside-test}
+    \caption{Inside test}
+    \label{fig:inside-test}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{imgs/inside-two-test}
+    \caption{Inside two test}
+    \label{fig:inside-two-test}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{imgs/coverage-two-test}
+    \caption{Coverage two test}
+    \label{fig:coverage-two-test}
+  \end{subfigure}
+  \caption{Test results, \ga{todo}}
+  \label{fig:test}
+\end{figure*}
 \section{Conclusion and Future Work}
 \ga{Page budget: 0.5}
 \label{sec:conclusion}
