@@ -263,6 +263,8 @@ where $E$ defines the neighbourhood relations for each participating node,
 and $V$ identifies the nodes present in the graph. %at that time.  \lukas{no time in the definition}
 % 
 Each node $v \in V$ is associated with an observation (or feature set) $f_v$.
+For the sake of simplicity, 
+ we thereafter describe $G_f$ as a graph that contains the feature set $f_v$ for each node $v \in V$.
 %\lukas{Over time this graph $G$ can change and therefore we define $G_t$ as the graph $G$ at a specific time $t$.} 
 %
 Given $f_v$, %a feature vector associated with each node $v \in V$, 
@@ -278,7 +280,6 @@ a_{v}^{(k)}=\operatorname{AGGREGATE}^{(k)}\left(\left\{h_{u}^{(k-1)}: u \in \mat
 \begin{equation}
 h_{v}^{(k)}=\operatorname{COMBINE}^{(k)}\left(h_{v}^{(k-1)}, a_{v}^{(k)}\right)
 \end{equation}
-
 where $h_{v}^{k}$ is the embedding of node $v$ within the $k$-th layer, 
  $\mathcal{N}_G(v)$ is the set of neighbours of node $v$ computed from $E$.
 %
@@ -290,6 +291,10 @@ The differential part comes into play in the $\operatorname{COMBINE}$ function,
 $\operatorname{AGGREGATE} $ instead is a function that aggregates the information from the neighbours of a node $v$
   and it could be a simple sum, max or sum of products. More complex aggregation functions are available~\cite{pellegrini2020learning}.
 %
+Thereafter, we express the application of a \ac{GNN} to a graph $G_f$ as:
+\begin{equation}
+    GNN(G_f) = \{h_v^{(k)}: v \in V, k \in \mathbb{N}\}
+\end{equation} 
 This formulation allows GNNs to effectively process and extract features from graph-structured data by iteratively aggregating and transforming information from the node's neighbours.
 \lukas{do we need definitions of $o_v$, $h_v^*$ over time $t$?}
 
@@ -443,12 +448,12 @@ Let $\Gamma$ be the aggregate program that takes a graph $G_t$ decorated by $o^t
 %\ga{In the problem formalization, I defined $G_t$, but it may be more appropriate to define it directly in the GNN, as suggested. I made this choice since GNNs typically only receive a graph as input, without regard for time, I included the definition of $G_t$ in the problem formalization as it pertains to the dynamics of the overall system. Specifically, when discussing the system's dynamics at a given time t, it's necessary to define the corresponding graph. I hope this clarifies my reasoning. Let me know!}
 %
 The evaluation of $\Gamma$ produces a field value $\theta^v_t$ for each node $v$ in $G_t$. 
-The feature vector $o_v$ of which is composed the graph $G'_t$ used by the policy $\pi_{gnn}$ is described by:
- $o_v = (\theta^v_t, \omega)$. \lukas{we used $o_v$ to describe the observation of node $v$ in section II.C - so this would not include field information, right?}
+From this field, we construct the feature vector $f_v$ for each node $v$ in $G_t$ as follows:
+ $f_v = (\theta^v_t, o^t_v)$. \lukas{we used $o_v$ to describe the observation of node $v$ in section II.C - so this would not include field information, right?}
  \lukas{we have not introduced $G'_t$ yet}
  %where $\omega$ are other local information gather from sensors (like temperature, distances from neighbourhood, etc.). 
 %
-The policy $\pi_{gnn}$ is then evaluated for each node, 
+The policy $\pi_{gnn}$ is then evaluated for each node using $f_v$ as input, 
  producing an action $a_t$ that will then modify the global state of the system.
  \ga{todo: put pseudo code to express this dynamics}
 %
@@ -471,7 +476,7 @@ otherwise, they could not have a local interpretation for each node, according t
 Since we consider swarm-like systems, which are an example of many-agent systems, 
  the proposed approach follows a \ac{CTDE} learning pattern,
  but differently from mean-field approaches and actor-critic solutions,
- we use a value-based approach combined with a \ac{GNN} as a function approximator.
+ we use a \emph{value-based} approach combined with a \ac{GNN} as a function approximator.
 %In swarm-like systems, 
 % the typical approach for learning follows a strategy known as \ac{CTDE}. \ga{perhaps it should be introduced in many RL} 
 %The idea is to learn a policy at simulation time where there is a collective view of the system, 
@@ -481,12 +486,13 @@ Since we consider swarm-like systems, which are an example of many-agent systems
 %The typical approach in such cases is based on actor-critic systems~\cite{DBLP:conf/nips/LoweWTHAM17,wu2022more,song2022ctds,song2022centralized},
 %  where the \emph{actor} is the distributed policy (with only local information) and the critic is a neural network that takes the overall system state.
 %
-Specifically, we leveraged the property of \ac{GNN}s to have a dual interpretation, i.e., to function globally over the entire graph and locally only over the neighbourhood. 
+Specifically, we leveraged the property of \ac{GNN}s to have a dual interpretation, 
+i.e., to function globally over the entire graph and locally only over the neighbourhood. 
  \lukas{Global information is not available to the agent, right? The agent only provide locally aggregated information (resulting from the AC part)?}
 %
 As value-based algorithm we relied on \ac{DQN}~\cite{mnih2015playing} \ga{to introduce in many rl??} with two major modifications (see \Cref{alg:dqn}): 
 \begin{enumerate}
-  \item experience replay stores experiences in the form of \emph{graphs},
+  \item experience replay stores experiences in the form of \emph{graphs} decorated with features (e.g., observations, actions, rewards, etc.),
   \item the neural network used to compute the Q function is based on a \ac{GNN} with an \ac{MLP} downstream.
 \end{enumerate}
 The first point is a natural extension because we work on graphs rather than simple values. 
@@ -597,6 +603,7 @@ From the neighbourhood,
 %
 Each node moves following a certain action composed of two components ($\alpha$, $\theta$) 
  which respectively describe the angle and intensity of the movement (i.e., the velocity vector).
+ \lukas{drone, robot, agent, node...}
 \subsection{Goal}
  The objective of this scenario is to:
 \begin{itemize}
