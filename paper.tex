@@ -569,11 +569,12 @@ This is because, even though the actions are produced using only local and neigh
 \begin{figure}
   \centering
   \includegraphics[width=0.3\textwidth]{imgs/example.png}
-  \label{fig:example}
+ 
   \caption{Simulation of the case study scenario in Alchemist. 
   The dots represent the robots, 
   the circle area on the top right represents the phenomenon to be monitored, 
   and the grey area represents the area covered by the robots.}
+  \label{fig:example}
 \end{figure}
 \ga{Page budget: 2 pages \\}
 %\ga{Plan: we should discuss the robot aggregation scenario, specifying the state space, the action space, and the reward function.
@@ -583,10 +584,17 @@ To test the effectiveness of the proposed approach,
  specifically the tracking and coverage of a spatio-temporal phenomenon, cf. tracking a wildfire 
  or monitoring the water levels in a canal. The individual agents do not have any knowledge of the initial phenomenon itself (i.e., shape, size, location, velocity,...).
  %
- Initially, 
+Initially, 
   we perform the training phase using a stationary phenomenon before expanding towards a moving phenomenon in the test phase. 
   %Additionally, the phenomenon can change its shape during runtime. 
-  Finally, the phenomenon may have varying areas of interest, defined by an underlying distribution function. '
+  Finally, the phenomenon may have varying areas of interest, defined by an underlying distribution function.
+As a simulation environment, we use Alchemist~\cite{alchemist}, 
+ a simulator for multi-agent systems that allows us to simulate the swarm behaviour of the agents 
+ and the phenomenon of interest.
+For the \ac{GNN}, we use the implementation provided by PyTorch Geometric~\cite{Fey/Lenssen/2019}, 
+ which is a library for deep learning on graphs built on top of PyTorch~\cite{torch}.
+Finally, we use ScaFi~\cite{casadei2022scafi} as the aggregate programming language to support 
+ our field-informed approach.
 
 \subsection{Scenario}
 Figure~\ref{fig:example} illustrates the scenario used during the learning, 
@@ -598,13 +606,13 @@ Each agent can perceive the presence
 Additionally, each agent has a coverage range $\omega$ (fixed to 7.5 meters) 
  that describes the area it can monitor. 
  Each agent can only communicate directly with its own neighbourhood $\mathcal{N}$, 
- which in this case depends on a $\mathbb{O}$ range fixed to 30 meters. \lukas{$\mathbb{O}$  not defined.}
+ which in this case depends on a $\mathbb{O}$ range fixed to 30 meters. %\lukas{$\mathbb{O}$  not defined.}
 From the neighbourhood, 
  each agent can also perceive the direction of the other agents.
 %
 Each agent moves following a certain action composed of two components ($\alpha$, $\theta$) 
  which respectively describe the angle and intensity of the movement (i.e., the velocity vector).
- \lukas{drone, robot, agent, node...}
+ %\lukas{drone, robot, agent, node...}
 \subsection{Goal}
  The objective of this scenario is threefold:
 \begin{enumerate}
