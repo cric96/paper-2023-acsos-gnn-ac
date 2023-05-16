@@ -261,6 +261,8 @@ where $E$ defines the neighbourhood relations for each participating node,
 and $V$ identifies the nodes present in the graph. %at that time.  \lukas{no time in the definition}
 % 
 Each node $v \in V$ is associated with an observation (or feature set) $f_v$.
+For the sake of simplicity, 
+ we thereafter describe $G_f$ as a graph that contains the feature set $f_v$ for each node $v \in V$.
 %\lukas{Over time this graph $G$ can change and therefore we define $G_t$ as the graph $G$ at a specific time $t$.} 
 %
 Given $f_v$, %a feature vector associated with each node $v \in V$, 
@@ -276,7 +278,6 @@ a_{v}^{(k)}=\operatorname{AGGREGATE}^{(k)}\left(\left\{h_{u}^{(k-1)}: u \in \mat
 \begin{equation}
 h_{v}^{(k)}=\operatorname{COMBINE}^{(k)}\left(h_{v}^{(k-1)}, a_{v}^{(k)}\right)
 \end{equation}
-
 where $h_{v}^{k}$ is the embedding of node $v$ within the $k$-th layer, 
  $\mathcal{N}_G(v)$ is the set of neighbours of node $v$ computed from $E$.
 %
@@ -288,6 +289,10 @@ The differential part comes into play in the $\operatorname{COMBINE}$ function,
 $\operatorname{AGGREGATE} $ instead is a function that aggregates the information from the neighbours of a node $v$
   and it could be a simple sum, max or sum of products. More complex aggregation functions are available~\cite{pellegrini2020learning}.
 %
+Thereafter, we express the application of a \ac{GNN} to a graph $G_f$ as:
+\begin{equation}
+    GNN(G_f) = \{h_v^{(k)}: v \in V, k \in \mathbb{N}\}
+\end{equation} 
 This formulation allows GNNs to effectively process and extract features from graph-structured data by iteratively aggregating and transforming information from the node's neighbours.
 \lukas{do we need definitions of $o_v$, $h_v^*$ over time $t$?}
 
