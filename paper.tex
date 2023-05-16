@@ -265,6 +265,7 @@ and $V$ identifies the nodes present in the graph. %at that time.  \lukas{no tim
 Each node $v \in V$ is associated with an observation (or feature set) $f_v$.
 For the sake of simplicity, 
  we thereafter describe $G_f$ as a graph that contains the feature set $f_v$ for each node $v \in V$.
+ Note that, when we refer to $G_f$ and $G_o$ we are referring to the same graph $G$ but with different node features.
 %\lukas{Over time this graph $G$ can change and therefore we define $G_t$ as the graph $G$ at a specific time $t$.} 
 %
 Given $f_v$, %a feature vector associated with each node $v \in V$, 
@@ -442,19 +443,19 @@ The proposed solution consists mainly of two parts,
 \emph{i)} the aggregate program used to create part of the observation and 
 \emph{ii)} the policy $\pi_{gnn}$ learned through \ac{GNN}-based approach. 
 %
-Let $\Gamma$ be the aggregate program that takes a graph $G_t$ decorated by $o^t_v$, 
+Let $\Gamma$ be the aggregate program that takes a graph $G_t$ decorated by $o^v_t$, 
  representing the participating nodes and their neighbourhood relations at time $t$, as input. 
 % \lukas{$G_t$ is not defined. also, not sure what `runs against' means - take $G_t$ as input?}
 %\ga{In the problem formalization, I defined $G_t$, but it may be more appropriate to define it directly in the GNN, as suggested. I made this choice since GNNs typically only receive a graph as input, without regard for time, I included the definition of $G_t$ in the problem formalization as it pertains to the dynamics of the overall system. Specifically, when discussing the system's dynamics at a given time t, it's necessary to define the corresponding graph. I hope this clarifies my reasoning. Let me know!}
 %
 The evaluation of $\Gamma$ produces a field value $\theta^v_t$ for each node $v$ in $G_t$. 
 From this field, we construct the feature vector $f_v$ for each node $v$ in $G_t$ as follows:
- $f_v = (\theta^v_t, o^t_v)$. \lukas{we used $o_v$ to describe the observation of node $v$ in section II.C - so this would not include field information, right?}
+ $f_v = (\theta^v_t, o^v_t)$. \lukas{we used $o_v$ to describe the observation of node $v$ in section II.C - so this would not include field information, right?}
  \lukas{we have not introduced $G'_t$ yet}
  %where $\omega$ are other local information gather from sensors (like temperature, distances from neighbourhood, etc.). 
 %
 The policy $\pi_{gnn}$ is then evaluated for each node using $f_v$ as input, 
- producing an action $a_t$ that will then modify the global state of the system.
+ producing an action $a^v_t$ that will then modify the global state of the system.
  \ga{todo: put pseudo code to express this dynamics}
 %
 Despite appearing centralised, this system proposes a completely decentralised execution. 
@@ -533,11 +534,11 @@ Additionally,
 
   Store transition $(G_o,G_a,G_r, G_o')$ in $\mathcal{D}$;
 
-  Sample a batch of graph transitions $(G^i_o,G^i_a,G^i_r,G^i_o)$ 
-   from $\mathcal{D}$ and merge them in $(G_o,G_a,G_r,G_o)$; \lukas{how does the merge work? do we explain this?}
+  Sample a batch of graph transitions $(G^i_o,G^i_a,G^i_r,G'^i_o)$ 
+   from $\mathcal{D}$ and merge them in $(G^b_o,G^b_a,G^b_r,G'^b_o)$; \lukas{how does the merge work? do we explain this?}
 
-  Compute the target Q-value for each node in the graph: 
-  $y = G_r + \gamma * \max{a'} Q(s'i,a';\theta^{-})$;
+  Compute the target Q-value for each node $v$ in the graph $G$: 
+  $y = G^b_r + \gamma * \max{a'} Q(o'i,a';\theta^{-})$;
   
   Compute the current expected value for each node in the graph:
   $y^* = Q(s'i,a';\theta)$;
