@@ -566,30 +566,14 @@ This is because, even though the actions are produced using only local and neigh
     
 \section{Evaluation}
 \label{sec:eval}
-
-%% Put three subfigures of simulations, start, after, end
-\begin{figure}[t]
+\begin{figure}
   \centering
-  \begin{subfigure}[b]{0.32\linewidth}
-      \includegraphics[width=\textwidth]{imgs/start.png}
-      \caption{Initial state}
-      \label{fig:initial}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.32\linewidth}
-      \includegraphics[width=\textwidth]{imgs/after.png}
-      \caption{After 50 steps}
-      \label{fig:after}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.32\linewidth}
-      \includegraphics[width=\textwidth]{imgs/end.png}
-      \caption{After 200 steps}
-      \label{fig:end}
-  \end{subfigure}
-  \caption{Simulation of the proposed approach. 
+  \includegraphics[width=0.3\textwidth]{imgs/start.png}
+  \label{fig:example}
+  \caption{Simulation of the case study scenario in Alchemist. 
   The dots represent the robots, 
   the circle area on the top right represents the phenomenon to be monitored, 
   and the grey area represents the area covered by the robots.}
-  \label{fig:simulations}
 \end{figure}
 \ga{Page budget: 2 pages \\}
 %\ga{Plan: we should discuss the robot aggregation scenario, specifying the state space, the action space, and the reward function.
@@ -598,7 +582,12 @@ To test the effectiveness of the proposed approach,
  we decided to experiment with a case study related to swarm robotics, 
  specifically the tracking and coverage of a spatio-temporal phenomenon, cf. tracking a wildfire 
  or monitoring the water levels in a canal. The individual agents do not have any knowledge of the initial phenomenon itself (i.e., shape, size, location, velocity,...).
- \lukas{``Initially we consider a stationary phenomenon before expanding towards a moving phenomenon. Additionally, the phenomenon can change its shape during runtime. Finally, the phenomenon may have varying areas of interest, defined by an underlying distribution function. Figure~\ref{fig:simulations} illustrates a set of 25 agents and a single, stationary phenomenon with a with a 3D Gaussian distribution.''}
+ %
+ Initially, 
+  we perform the training phase using a stationary phenomenon before expanding towards a moving phenomenon in the test phase. 
+  %Additionally, the phenomenon can change its shape during runtime. 
+  Finally, the phenomenon may have varying areas of interest, defined by an underlying distribution function. 
+  Figure~\ref{fig:example} illustrates a set of 25 agents and a single, stationary phenomenon with a 3D Gaussian distribution.''
 
 \subsection{Scenario}
 The proposed simulation consists 
@@ -619,8 +608,8 @@ Each agent moves following a certain action composed of two components ($\alpha$
 \subsection{Goal}
  The objective of this scenario is threefold:
 \begin{enumerate}
-\item Maximise the number of drones within the phenomena
-\item Minimise the number of drones without a neighbourhood
+\item Maximise the number of agents within the phenomena
+\item Minimise the number of agents without a neighbourhood
 \item Maximise the coverage of the system
 \end{enumerate}
  
@@ -629,15 +618,15 @@ As we are modelling a reinforcement learning system,
  that provides an estimate of the current action taken by a given agent.
  
 % Regarding the first point, the reward function is simple and is defined as:
-Formally, we define the reward of a drone being within the phenomenon as
+Formally, we define the reward of an agent being within the phenomenon as
  \begin{equation*}
  R^a_{v} = \begin{cases}
   1 & \text{if } \zeta_v > 0 \\
   0 & \text{otherwise.} 
  \end{cases}
  \end{equation*}
- 
- I.e., a drone is considered within the phenomena as soon as the drone can sense the phenomenon.
+Namely, an agent is considered within the phenomena as soon as the drone can sense the phenomenon.
+%
 This will lead the system to prefer a configuration in which every agent is present within the phenomenon.
 %
 The second element in the objective function ensures cohesion among the agents. 
@@ -653,19 +642,18 @@ The second element in the objective function ensures cohesion among the agents.
  \end{cases}
  \end{equation*}
  
- Finally, to maximise the coverage, 
-  we decided to calculate the maximum and minimum distance of the neighbourhood and give more value in case these two values are similar. 
-  \lukas{minimum / maximum distance to what? the next neighbour? measuring the phenomena?}
+Finally, to maximise the coverage, 
+  we define a reward function that favours the maximum distance between the agents
+  equal to the coverage range $\omega$.
 %
 This means that the average distance will tend towards the one expressed by the viewing range of each node:
 % 
 \begin{equation*}
-R^{C}_{v} = \frac{d_{max} - d_{min}}{\mathbb{O}}
+R^{C}_{v} = 1 - \frac{d_{min}}{\omega}
 \end{equation*}
-where 
-$d_{max}$ and $d_{min}$ describes the maximum and minimum distance of the agent to \lukas{??}, respectively. 
-This distance is normalized by the maximum communication range of each agent $\mathbb{O}$.
-\lukas{should this be $1-R^C_v$? or do we want to favour the highest average distance?}
+where $d_{min}$ describes and minimum distance of the agent to its neighbourhood. 
+%
+%\lukas{should this be $1-R^C_v$? or do we want to favour the highest average distance?}
 The final reward function for an agent $v$ is defined as:
 \begin{equation*}
 R_{v} = \frac{R^a_{v} + R^{\mathcal{N}}_{v} + R^{C}_{v}}{3}
@@ -683,8 +671,27 @@ R^e_{v} = R_v - 1
 %\paragraph*{Variant C}
 
 \subsection{Discussion and Results}
-%% Subfigures of coverage-in-time and reward-in-time
-
+\begin{figure}[t]
+  \centering
+  \begin{subfigure}[b]{0.32\linewidth}
+      \includegraphics[width=\textwidth]{imgs/start.png}
+      \caption{Initial configuration}
+      \label{fig:initial}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\linewidth}
+      \includegraphics[width=\textwidth]{imgs/after.png}
+      \caption{After 50 steps}
+      \label{fig:after}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\linewidth}
+      \includegraphics[width=\textwidth]{imgs/end.png}
+      \caption{After 200 steps}
+      \label{fig:end}
+  \end{subfigure}
+  \caption{Test results of the proposed approach. 
+  The agents go towards the phenomenon and try to cover it without collapsing into a single point.}
+  \label{fig:simulations}
+\end{figure}
 \begin{figure}
   \centering
   \begin{subfigure}[b]{0.49\linewidth}
