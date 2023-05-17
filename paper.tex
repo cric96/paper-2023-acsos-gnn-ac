@@ -861,6 +861,7 @@ Nevertheless, we acknowledge the crucial role of \acp{GNN}.
  Our modified version of DQN, combined with \acp{GNN}, 
  enables the discovery of robust behaviours in a few episodes, 
  which is challenging to capture with \acp{MLP} combined with \ac{DQN}, even if we use field information.
+ \lukas{add short discussion on 'new' figure 6}
 \begin{figure}
   \centering
   \hfill
@@ -917,7 +918,15 @@ Nevertheless, we acknowledge the crucial role of \acp{GNN}.
     \caption{Number of agents inside the phenomenon in the three types of scenarios}
     \label{fig:inside-test}
   \end{subfigure}
-  \begin{subfigure}[b]{0.85\linewidth}
+	\caption{Quantative test results in the three types of scenarios.
+	 	We can see that the proposed approach is able to cover and track the phenomenon better than the baselines.
+	}
+	\label{fig:test}
+\end{figure*}
+
+\begin{figure*}
+	\centering
+  	\begin{subfigure}[b]{0.85\linewidth}
     \includegraphics[width=\linewidth]{imgs/inside-two-test}
     \caption{Two zones scenario: agent inside each phenomenon}
     \label{fig:inside-two-test}
@@ -927,11 +936,10 @@ Nevertheless, we acknowledge the crucial role of \acp{GNN}.
     \caption{Two zones scenario: coverage of each area}
     \label{fig:coverage-two-test}
   \end{subfigure} 
-  \caption{Quantative test results in the three types of scenarios.
-  We can see that the proposed approach is able to cover and track the phenomenon better than the baselines.
-  }
-  \label{fig:test}
+  \caption{Coverage of two zones using the different modes of the controller.}
+  \label{fig:resCoverage}
 \end{figure*}
+ 
 \section{Conclusion and Future Work}
 In this paper, 
  we have introduced a novel approach for constructing distributed controllers by leveraging aggregate computing to encode agent interactions, 
