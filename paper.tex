@@ -718,8 +718,8 @@ R^e_{v} = R_v - 1
 The learning process was divided into 100 episodes, each consisting of 200 steps, resulting in a total of 20,000 experiences.
 %
 For each episode, 
- the 25 agents are semi-randomly positioned on a grid without knowing the correct position of the phenomenon, 
- but that is fixed in the top right corner. 
+ the 25 agents are semi-randomly \lukas{what is semi-random? are the position fixed but the agents random? or is it in a specific layout (e.g. lattice) but with some randomness of the actual position?} positioned on a grid without knowing the correct position of the phenomenon, 
+ but that is fixed in the top right corner.  \lukas{so for all 20,000 experiences, the phenomena is exactly as shown in fig 2a during training?}
 The feature set used by the \ac{GNN} created for each node consists of the vector computed by the aggregated program and the value of the local sensor $\zeta$.
 %
 In this case, we chose to use an exponential epsilon decay, defined as:
@@ -738,7 +738,7 @@ The neural network structure used consists of a layer of SuperGAT~\cite{DBLP:jou
 The hidden size was set to 256.
 %
 As the reward function is defined as a regret, 
- we decided to use the Huber loss function, 
+ we decided to use the Huber loss function~\cite{??}, 
  which is a combination of the $L_1$ and $L_2$ loss functions.
 %
 The loss function is defined as:
@@ -748,7 +748,7 @@ L = \begin{cases}
   \delta (|y - \hat{y}| - \frac{1}{2} \delta) & \text{otherwise.} 
  \end{cases}
 \end{equation*}
-This function is used to penalise the agent if the action taken is too far from the optimal action.
+This function is used to penalise the agent if the action taken is too far from the optimal action. \lukas{whats $y, \hat{y}$ and $\delta$?}
 %
 We use the RMSprop optimiser with a learning rate of 0.0001.
 %
