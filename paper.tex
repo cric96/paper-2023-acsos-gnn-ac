@@ -602,12 +602,12 @@ This is because, even though the actions are produced using only local and neigh
 To test the effectiveness of the proposed approach, 
  we decided to experiment with a case study related to swarm robotics, 
  specifically the tracking and coverage of a spatio-temporal phenomenon, cf. tracking a wildfire 
- or monitoring the water levels in a canal. The individual agents do not have any knowledge of the initial phenomenon itself (i.e., shape, size, location, velocity,...).
+ or monitoring the water levels in a canal with multiple autonomous agents embodied in embedded devices (e.g., drones or IoT devices). The individual agents do not have any knowledge of the initial phenomenon itself (i.e., shape, size, location, velocity,...).
  %
 Initially, 
   we perform the training phase using a stationary phenomenon before expanding towards a moving phenomenon in the test phase. 
   %Additionally, the phenomenon can change its shape during runtime. 
-  Finally, the phenomenon may have varying areas of interest, defined by an underlying distribution function.
+  Finally, the phenomenon may have varying areas of interest, defined by an underlying distribution function. \lukas{are we utiliising this in any way? i.e. do the agents respond to intensity of their measurement.}
 As a simulation environment, we use Alchemist~\cite{alchemist}, 
  a simulator for multi-agent systems that allows us to simulate the swarm behaviour of the agents 
  and the phenomenon of interest.
@@ -634,8 +634,9 @@ Each agent moves following a certain action composed of two components (r, i)
  which respectively describe the angle and intensity of the movement (i.e., the velocity vector).
 Since we used a value-based approach, 
  the action space $\mathcal{A}$ is discrete and composed of 18 possible angles and 3 possible intensities.
-In particular, for the angles, we have quantized to 20 degrees, and for the velocities, we have selected [0, 5, 10] m/s.
+In particular, the angles are quantized to 20 degrees, and for the velocities, we have selected [0, 5, 10] m/s.
 %
+\lukas{should the following go into section III?}
 Each agent will produce a computation field with which they will try to approximate the direction of the phenomenon of interest. 
 %
 The program in question is a simple application of block G, where the source is the maximum value of the neighbourhood. 
@@ -769,12 +770,16 @@ We generated random scenarios for each type of scenario.
 %
 Examples of such types are shown in~\Cref{fig:scenarios}. %\lukas{can we create a figure with at least 3 sample scenarios (1 stationary, 2 split, 1 moving (with a line indicating its trajectory))?} 
 
+\lukas{I would move this up into IV.A}
+
 \subsection{Baselines}
 We compare our field-informed reinforcement learning approach against a baseline approach utilising a \ac{MLP} as well as an approach only relying on \acp{GNN}. 
 %
-In all approaches, the underlying neural network (i.e., the \ac{MLP} and the \ac{GNN}) are trained with the same parameters of the proposed approach with a single, stationary phenomenon.
+In all approaches, the underlying neural network (i.e., the \ac{MLP} and the \ac{GNN}) are trained %with the same parameters of the proposed approach 
+with a single, stationary phenomenon.
 %
 The \ac{MLP} uses the same feature set as the \ac{GNN} in the proposed approach, but differently, it uses a standard DQN approach without leveraging the graph structure. Moreover, we increase the batch size to 512 and the replay buffer to 10000 since we record 25 agents' experiences for each step instead of one graph experience.
+\lukas{to make sure: in all three cases we use DQN but with (i) MLP, (ii) standard GNN, (iii) our approach - a field-informed GNN, right?}
 %
 The \ac{GNN} instead of using the field information, use directly the position of nodes and the local sensor value as input features.
 %
@@ -820,7 +825,7 @@ Furthermore, we note that \ac{GNN} combined with \ac{DQN} and graph replay buffe
 This is because relying solely on \ac{MLP} and basic deep learning leads to non-stationary and unstable learning, 
  as evident from the wider confidence interval of the reward over training time.
 
-Focusing now on the test phase, 
+Focusing now on the test phase, % in~\Cref{fig:test}
  we observe that the field-informed version achieves higher coverage than the other approaches in all scenarios since it shows the ability of our solution to generalize to situations--see \Cref{fig:simulations}. 
 % 
 We observe that the field-informed version successfully moves the nodes closer to the target phenomenon, 
