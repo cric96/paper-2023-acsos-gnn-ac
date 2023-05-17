@@ -618,7 +618,7 @@ Finally, we use ScaFi~\cite{casadei2022scafi} as the aggregate programming langu
 
 \subsection{Scenario}
 Figure~\ref{fig:static} illustrates the scenario used during the learning \lukas{is this training the \ac{GNN}? }, 
-which consists of a set of 25 agents placed in a 2D grid large 1000x1000 meters and a single, stationary phenomenon with a 3D Gaussian 
+which consists of a set of $\mathcal{P} = 25$ agents placed in a 2D grid large 1000x1000 meters and a single, stationary phenomenon with a 3D Gaussian 
 Each agent can perceive the presence
  of the phenomenon of interest through an installed sensor $\zeta_v$ with $v \in \mathbb{V}$. 
  (e.g., camera, temperature sensor, etc.). 
@@ -633,7 +633,7 @@ From the neighbourhood,
 Each agent moves following a certain action composed of two components (r, i) 
  which respectively describe the angle and intensity of the movement (i.e., the velocity vector).
 Since we used a value-based approach, 
- the action space is discrete and composed of 18 possible angles and 3 possible intensities.
+ the action space $\mathcal{A}$ is discrete and composed of 18 possible angles and 3 possible intensities.
 In particular, for the angles, we have quantized to 20 degrees, and for the velocities, we have selected [0, 5, 10] m/s.
 %
 Each agent will produce a computation field with which they will try to approximate the direction of the phenomenon of interest. 
@@ -752,6 +752,7 @@ This function is used to penalise the agent if the action taken is too far from 
 %
 We use the RMSprop optimiser with a learning rate of 0.0001.
 %
+Finally, we use a replay buffer of size 1000 to store the graph experiences and a batch size of 32.
 \subsection{Test phase}
 For the evaluation, 
  we explore three different types of scenarios.
@@ -768,9 +769,18 @@ We generated random scenarios for each type of scenario.
 %
 Examples of such types are shown in~\Cref{fig:scenarios}. %\lukas{can we create a figure with at least 3 sample scenarios (1 stationary, 2 split, 1 moving (with a line indicating its trajectory))?} 
 
-\subsection{Baseline}
-We compare our field-informed reinforcement learning approach against a baseline approach utilising a \ac{MLP} as well as an approach only relying on \acp{GNN}. In all approaches, the underlying neural network (i.e., the \ac{MLP} and the \ac{GNN}) are trained with the same parameters of the proposed approach with a single, stationary phenomenon.
-
+\subsection{Baselines}
+We compare our field-informed reinforcement learning approach against a baseline approach utilising a \ac{MLP} as well as an approach only relying on \acp{GNN}. 
+%
+In all approaches, the underlying neural network (i.e., the \ac{MLP} and the \ac{GNN}) are trained with the same parameters of the proposed approach with a single, stationary phenomenon.
+%
+The \ac{MLP} uses the same feature set as the \ac{GNN} in the proposed approach, but differently, it uses a standard DQN approach without leveraging the graph structure. Moreover, we increase the batch size to 512 and the replay buffer to 10000 since we record 25 agents' experiences for each step instead of one graph experience.
+%
+The \ac{GNN} instead of using the field information, use directly the position of nodes and the local sensor value as input features.
+%
+These baselines are used to verify the effectiveness of the components used in the field-informed \ac{RL}. 
+%
+Indeed the \ac{MLP} baseline is used to verify the effectiveness of the \ac{GNN} in the proposed approach, while the \ac{GNN} baseline is used to verify the effectiveness of the field information in the proposed approach.
 \subsection{Metrics}
 We evaluate the performance of the different approaches by measuring the coverage of the phenomenon over time.
 %
@@ -787,14 +797,84 @@ Finally, we define the coverage as:
 \begin{equation*}
 C = \frac{|\Omega \cap \mathcal{P}|}{|\mathcal{P}|}
 \end{equation*}
-where $\omega$ is the viewing range of the agents and $\mathcal{P}$ is the phenomenon.
-This is computed for each step of the simulation.
-
+where $\mathcal{P}$ is the area of the phenomenon.
+This is computed for each step of the simulation. 
+In the training phases, 
+ we measure the average coverage in each episode, and the total reward obtained by the agents at each episode of the simulation. 
+%
 We also measure the number of agents that are within the phenomenon at each step of the simulation.
 This will be a measure of how well the agents are tracking the phenomenon.
 \ga{todo improve the description of the coverage}
 
 \subsection{Discussion and Results}
+The results of the training process are summarized in \Cref{fig:training}. 
+%
+Specifically, we observe that the proposed version achieves higher coverage and total reward compared to other approaches. 
+%
+Interestingly, despite the global information available in \acp{GNN} without fields, they fail to converge to a good result like the one obtained with the field. 
+%
+This outcome was expected, as the computed field helps agents encode the necessary information to navigate towards the phenomenon.
+%
+Furthermore, we note that \ac{GNN} combined with \ac{DQN} and graph replay buffer outperforms the simple \ac{MLP} informed field computation. 
+%
+This is because relying solely on \ac{MLP} and basic deep learning leads to non-stationary and unstable learning, 
+ as evident from the wider confidence interval of the reward over training time.
+
+Focusing now on the test phase, 
+ we observe that the field-informed version achieves higher coverage than the other approaches in all scenarios since it shows the ability of our solution to generalize to situations--see \Cref{fig:simulations}. 
+% 
+We observe that the field-informed version successfully moves the nodes closer to the target phenomenon, 
+ distributing them evenly without collapsing into a single central point. 
+ \Cref{fig:test} quantitatively presents the results across various previously described scenarios.
+
+The \ac{GNN} versions demonstrate the capability to transfer the learned experience to the test phase whereas the MLP version fails to generalize. 
+%
+It is worth noting that, in the static configuration, 
+ once the desired configuration is achieved in the static case, 
+ the nodes cease to move, maintaining the found configuration.
+%
+Interesting observations arise when we use different scenarios from the training phase. 
+ Starting from a division into two zones, 
+ we notice that even in this case, the informed version finds a better configuration than the GNN counterpart. 
+%
+It exhibits both higher overall coverage and manages to divide the system into two equally covered parts. 
+%
+In contrast, the uninformed version also maintains a fair division but with significantly different coverage between the two parts, 
+ indicating an imbalance among the nodes in one of the zones.
+%
+Finally, the moving scenario emphasizes how the informed version generates a more robust policy for new scenarios. 
+ Indeed, we observe that the informed version maintains higher coverage and a greater number of agents on the target phenomenon compared to the other two solutions.
+%
+The uninformed GNN version, however, 
+ fails to generalize its movement behaviour, as evidenced by the simulations where the agents, once reaching the target zone, stop moving due to tracking issues.
+
+In conclusion, the results demonstrate how the proposed idea can generate more robust controllers. 
+ By guiding information flow in \acp{GNN}, 
+ we improve learning efficiency and alleviate the challenge of encoding relevant information. 
+%
+Nevertheless, we acknowledge the crucial role of \acp{GNN}. 
+ Our modified version of DQN, combined with \acp{GNN}, 
+ enables the discovery of robust behaviours in a few episodes, 
+ which is challenging to capture with \acp{MLP} combined with \ac{DQN}, even if we use field information.
+\begin{figure}
+  \centering
+  \hfill
+  \begin{subfigure}[b]{0.96\linewidth}
+    \includegraphics[width=\linewidth]{imgs/coverage-in-time}
+    \caption{Average coverage for each episode in training }
+    \label{fig:coverage}
+  \end{subfigure}\\
+  \hfill
+  \begin{subfigure}[b]{0.99\linewidth}
+    \includegraphics[width=\linewidth]{imgs/reward-in-time}
+    \caption{Reward during training}
+    \label{fig:reward}
+  \end{subfigure}
+  \caption{Training results of field-informed \ac{RL}. 
+  Our solution is able to cover the phenomenon better than the baselines and it reaches a higher reward. 
+  }
+  \label{fig:training}
+\end{figure}
 \begin{figure}[t]
   \centering
   \begin{subfigure}[b]{0.32\linewidth}
@@ -812,53 +892,39 @@ This will be a measure of how well the agents are tracking the phenomenon.
       \caption{After 200 steps}
       \label{fig:end}
   \end{subfigure}
-  \caption{Test results of the proposed approach. 
+  \caption{Qualitative test results of the proposed approach. 
   The agents go towards the phenomenon and try to cover it without collapsing into a single point.
   the grey area represents the area covered by the robots (last figure on the right).}
   \label{fig:simulations}
 \end{figure}
-\begin{figure}
-  \centering
-  \hfill
-  \begin{subfigure}[b]{0.96\linewidth}
-    \includegraphics[width=\linewidth]{imgs/coverage-in-time}
-    \caption{Coverage in time}
-    \label{fig:coverage}
-  \end{subfigure}\\
-  \hfill
-  \begin{subfigure}[b]{0.99\linewidth}
-    \includegraphics[width=\linewidth]{imgs/reward-in-time}
-    \caption{Reward in time}
-    \label{fig:reward}
-  \end{subfigure}
-  \caption{Coverage and reward in time}
-  \label{fig:coverage-reward}
-\end{figure}
+
 %% Create a subfigure of coverage-test, inside-test, inside-two-test and coverage-two-test
 
 \begin{figure*}
   \centering
   \begin{subfigure}[b]{0.9\linewidth}
     \includegraphics[width=\linewidth]{imgs/coverage-test.pdf}
-    \caption{Coverage test}
+    \caption{Coverage in the three types of scenarios}
     \label{fig:coverage-test}
   \end{subfigure}
   \begin{subfigure}[b]{0.9\linewidth}
     \includegraphics[width=\linewidth]{imgs/inside-test}
-    \caption{Inside test}
+    \caption{Number of agents inside the phenomenon in the three types of scenarios}
     \label{fig:inside-test}
   \end{subfigure}
   \begin{subfigure}[b]{0.85\linewidth}
     \includegraphics[width=\linewidth]{imgs/inside-two-test}
-    \caption{Inside two test}
+    \caption{Two zones scenario: agent inside each phenomenon}
     \label{fig:inside-two-test}
   \end{subfigure}
   \begin{subfigure}[b]{0.85\linewidth}
     \includegraphics[width=\linewidth]{imgs/coverage-two-test}
-    \caption{Coverage two test}
+    \caption{Two zones scenario: coverage of each area}
     \label{fig:coverage-two-test}
   \end{subfigure} 
-  \caption{Test results, \ga{todo}}
+  \caption{Quantative test results in the three types of scenarios.
+  We can see that the proposed approach is able to cover and track the phenomenon better than the baselines.
+  }
   \label{fig:test}
 \end{figure*}
 \section{Conclusion and Future Work}
