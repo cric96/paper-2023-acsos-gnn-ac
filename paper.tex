@@ -752,6 +752,7 @@ This function is used to penalise the agent if the action taken is too far from 
 %
 We use the RMSprop optimiser with a learning rate of 0.0001.
 %
+Finally, we use a replay buffer of size 1000 to store the graph experiences and a batch size of 32.
 \subsection{Test phase}
 For the evaluation, 
  we explore three different types of scenarios.
@@ -773,7 +774,7 @@ We compare our field-informed reinforcement learning approach against a baseline
 %
 In all approaches, the underlying neural network (i.e., the \ac{MLP} and the \ac{GNN}) are trained with the same parameters of the proposed approach with a single, stationary phenomenon.
 %
-The \ac{MLP} uses the same feature set as the \ac{GNN} in the proposed approach, but differently, it uses a standard DQN approach without leveraging the graph structure. 
+The \ac{MLP} uses the same feature set as the \ac{GNN} in the proposed approach, but differently, it uses a standard DQN approach without leveraging the graph structure. Moreover, we increase the batch size to 512 and the replay buffer to 10000 since we record 25 agents' experiences for each step instead of one graph experience.
 %
 The \ac{GNN} instead of using the field information, use directly the position of nodes and the local sensor value as input features.
 %
