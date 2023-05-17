@@ -844,10 +844,15 @@ Interesting observations arise when we use different scenarios from the training
  Starting from a division into two zones, 
  we notice that even in this case, the informed version finds a better configuration than the GNN counterpart. 
 %
-It exhibits both higher overall coverage and manages to divide the system into two equally covered parts. 
+It exhibits both higher overall coverage and manages to divide the system into two equally covered parts.
+%
+Indeed, observing the \Cref{fig:resCoverage}, we notice that the informed version maintains a balanced coverage between the two zones, 
+ with a difference of less than 5\% between the two parts, maintaining a fair division of the phenomenon.
 %
 In contrast, the uninformed version also maintains a fair division but with significantly different coverage between the two parts, 
- indicating an imbalance among the nodes in one of the zones.
+ indicating a wrong placement among the nodes in one of the zones.
+%
+This is a consequence of the uninformed version's inability to encode the necessary information to divide the agents into two zones, therefore it is not able to generalise.
 %
 Finally, the moving scenario emphasizes how the informed version generates a more robust policy for new scenarios. 
  Indeed, we observe that the informed version maintains higher coverage and a greater number of agents on the target phenomenon compared to the other two solutions.
