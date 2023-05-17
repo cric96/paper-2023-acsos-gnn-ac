@@ -607,7 +607,7 @@ To test the effectiveness of the proposed approach,
 Initially, 
   we perform the training phase using a stationary phenomenon before expanding towards a moving phenomenon in the test phase. 
   %Additionally, the phenomenon can change its shape during runtime. 
-  Finally, the phenomenon may have varying areas of interest, defined by an underlying distribution function. \lukas{are we utiliising this in any way? i.e. do the agents respond to intensity of their measurement.}
+  Finally, the phenomenon may have varying areas of interest, defined by an underlying distribution function. \lukas{are we utiliising this in any way? i.e. do the agents respond to intensity of their measurement. -- YES. It is part of the feature set. While we only use Guassian distributions but we can use any other distribution and shape. }
 As a simulation environment, we use Alchemist~\cite{alchemist}, 
  a simulator for multi-agent systems that allows us to simulate the swarm behaviour of the agents 
  and the phenomenon of interest.
@@ -617,7 +617,7 @@ Finally, we use ScaFi~\cite{casadei2022scafi} as the aggregate programming langu
  our field-informed approach.
 
 \subsection{Scenario}
-Figure~\ref{fig:static} illustrates the scenario used during the learning \lukas{is this training the \ac{GNN}? }, 
+Figure~\ref{fig:static} illustrates the scenario used during the training % \lukas{is this training the \ac{GNN}? }, 
 which consists of a set of $\mathcal{P} = 25$ agents placed in a 2D grid large 1000x1000 meters and a single, stationary phenomenon with a 3D Gaussian 
 Each agent can perceive the presence
  of the phenomenon of interest through an installed sensor $\zeta_v$ with $v \in \mathbb{V}$. 
@@ -636,7 +636,8 @@ Since we used a value-based approach,
  the action space $\mathcal{A}$ is discrete and composed of 18 possible angles and 3 possible intensities.
 In particular, the angles are quantized to 20 degrees, and for the velocities, we have selected [0, 5, 10] m/s.
 %
-\lukas{should the following go into section III?}
+
+\lukas{should stay here but this is the explicit implementation of the field:}
 Each agent will produce a computation field with which they will try to approximate the direction of the phenomenon of interest. 
 %
 The program in question is a simple application of block G, where the source is the maximum value of the neighbourhood. 
@@ -719,9 +720,9 @@ R^e_{v} = R_v - 1
 The learning process was divided into 100 episodes, each consisting of 200 steps, resulting in a total of 20,000 experiences.
 %
 For each episode, 
- the 25 agents are semi-randomly \lukas{what is semi-random? are the position fixed but the agents random? or is it in a specific layout (e.g. lattice) but with some randomness of the actual position?} positioned on a grid without knowing the correct position of the phenomenon, 
- but that is fixed in the top right corner.  \lukas{so for all 20,000 experiences, the phenomena is exactly as shown in fig 2a during training?}
-The feature set used by the \ac{GNN} created for each node consists of the vector computed by the aggregated program and the value of the local sensor $\zeta$.
+ the 25 agents are semi-randomly \lukas{what is semi-random? are the position fixed but the agents random? or is it in a specific layout (e.g. lattice) but with some randomness of the actual position? lattice layout but random variation around a fixed point.} positioned on a grid without knowing the correct position of the phenomenon, 
+ but that is fixed in the top right corner.  \lukas{so for all 20,000 experiences, the phenomena is exactly as shown in fig 2a during training? --> WE ONLY USE THE SINGLE PHENOMA IN A SINGLE FIXED LOCATION BUT WITH VARYING POSITIONS OF AGENTS!!}
+ The feature set used by the \ac{GNN} created for each node consists of the vector computed by the aggregated program and the value of the local sensor $\zeta$.
 %
 In this case, we chose to use an exponential epsilon decay, defined as:
 \begin{equation*}
@@ -739,7 +740,7 @@ The neural network structure used consists of a layer of SuperGAT~\cite{DBLP:jou
 The hidden size was set to 256.
 %
 As the reward function is defined as a regret, 
- we decided to use the Huber loss function~\cite{??}, 
+ we decided to use the Huber loss function, %~\cite{??}, 
  which is a combination of the $L_1$ and $L_2$ loss functions.
 %
 The loss function is defined as:
@@ -767,10 +768,11 @@ Finally, the third type considers a single moving phenomenon which the agents ha
 In all three types of scenarios, the shape and underlying distribution are initially unknown to the agents but remain constant for the entire duration of the simulation. 
 %
 We generated random scenarios for each type of scenario. 
+\lukas{64 experiments per mode with random initial positions of the phenomena. Moving: starting at random position and move in a straight line moving with 5m/s in an unbounded environment.}
 %
 Examples of such types are shown in~\Cref{fig:scenarios}. %\lukas{can we create a figure with at least 3 sample scenarios (1 stationary, 2 split, 1 moving (with a line indicating its trajectory))?} 
 
-\lukas{I would move this up into IV.A}
+\lukas{I would move this up into IV.A --> emphasise that we only used a single static phenomena in the training therefore this section is improtant!}
 
 \subsection{Baselines}
 We compare our field-informed reinforcement learning approach against a baseline approach utilising a \ac{MLP} as well as an approach only relying on \acp{GNN}. 
