@@ -85,7 +85,7 @@ lukas.esterle@ece.au.dk}
 \acrodef{CNN}[CNN]{convolutional neural network}
 \acrodef{CTDE}[CTDE]{centralized training and decentralized execution}
 \acrodef{DQN}[DQN]{Deep Q-Learning}
-\ga{Page limit: 10 pages (include refs)}
+%\ga{Page limit: 10 pages (include refs)}
 
 \begin{abstract}
 %Coordinating a group of autonomous intelligent agents in multi-agent systems to achieve a common, global goal requires them to acquire information locally, share their knowledge, and act accordingly on their environment. 
@@ -167,7 +167,7 @@ In this section, we aim to provide a concise overview of the system we intend to
 We then proceed to discuss relevant research areas that inform our approach. 
 %
 Finally, we present a formalization of the problem and a discussion of the motivations behind our proposed work.
-\ga{Page budget: 1/2 page \\}
+%\ga{Page budget: 1/2 page \\}
 %\ga{Plan: discussion about the problem of coordination in multi-agent systems and the need for a scalable approach. In doing this, we will discuss some of the existing approaches (declarative, RL and )}
 \subsection{Swarm systems}
 This article studies intelligent \emph{collective behaviours} within the context of \emph{large-scale} distributed systems.
@@ -250,7 +250,7 @@ def G[V](source: Boolean, value: V, acc: V => V): V
 \end{lstlisting}
 \ga{more description here}
 this is used in the use case to accumulate the distance from the phenomena that is tracked
-\lukas{still not sure how the coordination works or if it has been explained in the above paragraph.}
+\lukas{Lukas to review this section again.}
 \subsection{Graph Neural Networks}
 %Over the years, several different neural networks have been proposed to solve specific tasks, ranging from 
 %  simple \ac{MLP}~\cite{werbos1975beyond} to \ac{CNN}~\cite{oshea2015introduction}.
@@ -422,7 +422,7 @@ However, in these works, communication was left entirely to the neural network,
  This will speed up the learning process and make it more stable.
 \section{Field-informed Reinforcement Learning}
 \label{sec:approach}
-\ga{Page budget: 2/3 pages \\}
+%\ga{Page budget: 2/3 pages \\}
 %\ga{Plan: we should discuss the approach in detail, including the system model, and the learning dynamics. Particularly, I would like to highlight how each node in the graph is a local controller, but it could be seen as a global evolution, therefore we can use global information to inform the local controller.}
 \begin{figure}
   \includegraphics[width=\linewidth]{imgs/architecture.pdf}
@@ -596,7 +596,7 @@ This is because, even though the actions are produced using only local and neigh
   The others are used in the test phase to evaluate the policy found. }
   \label{fig:scenarios}
 \end{figure}
-\ga{Page budget: 2 pages \\}
+%\ga{Page budget: 2 pages \\}
 %\ga{Plan: we should discuss the robot aggregation scenario, specifying the state space, the action space, and the reward function.
 %I dunno if it makes sense to discuss the variants (i.e., fixed area, two areas and moving area). We will see.}
 To test the effectiveness of the proposed approach, 
@@ -607,40 +607,40 @@ To test the effectiveness of the proposed approach,
 Initially, 
   we perform the training phase using a stationary phenomenon before expanding towards a moving phenomenon in the test phase. 
   %Additionally, the phenomenon can change its shape during runtime. 
-  Finally, the phenomenon may have varying areas of interest, defined by an underlying distribution function. \lukas{are we utiliising this in any way? i.e. do the agents respond to intensity of their measurement. -- YES. It is part of the feature set. While we only use Guassian distributions but we can use any other distribution and shape. }
+  Finally, the phenomenon may have varying areas of interest, defined by an underlying distribution function. This underlying distribution is utilised in the feature set of each agent's observation and guides the agents to rally over the phenomenon. While we only use Guassian distributions but we can use any other distribution and shape. 
 As a simulation environment, we use Alchemist~\cite{alchemist}, 
  a simulator for multi-agent systems that allows us to simulate the swarm behaviour of the agents 
  and the phenomenon of interest.
 For the \ac{GNN}, we use the implementation provided by PyTorch Geometric~\cite{Fey/Lenssen/2019}, 
  which is a library for deep learning on graphs built on top of PyTorch~\cite{torch}.
-Finally, we use ScaFi~\cite{casadei2022scafi} as the aggregate programming language to support 
- our field-informed approach.
+Finally, we use ScaFi~\cite{casadei2022scafi} as the aggregate programming language to support our field-informed approach.
+The evaluation is performed in two stages, first the neural networks are trained in an explicit training phase before extensively evaluated in the testing stage.
 
 \subsection{Scenario}
-Figure~\ref{fig:static} illustrates the scenario used during the training % \lukas{is this training the \ac{GNN}? }, 
-which consists of a set of $\mathcal{P} = 25$ agents placed in a 2D grid large 1000x1000 meters and a single, stationary phenomenon with a 3D Gaussian 
+Figure~\ref{fig:scenarios} presents the three different types of scenarios utilised within the evaluation. The first type of experiments considers a single phenomenon at a static location (i.e., \emph{Zone Fixed}), the second type of experiment considers two phenomena in two independent but static locations (i.e., \emph{Two Zones}), and the third type of experiment considers a moving phenomenon (i.e., \emph{Moving}). All phenomena are modelled as a Gaussian distribution. Importantly, only the left scenario illustrated in Figure~\ref{fig:static} was used for training the neural networks. 
+Furthermore, all three types of scenarios contain a set of $\mathcal{P} = 25$ agents placed in a 2D grid large 1000x1000 meters. % and a single, stationary phenomenon with a  
 Each agent can perceive the presence
  of the phenomenon of interest through an installed sensor $\zeta_v$ with $v \in \mathbb{V}$. 
- (e.g., camera, temperature sensor, etc.). 
+ (e.g., camera, temperature sensor, etc.) if it is within range.
 %
 Additionally, each agent has a coverage range $\omega$ (fixed to 75 meters) 
  that describes the area it can monitor. 
  Each agent can only communicate directly with its own neighbourhood $\mathcal{N}$, 
  which in this case depends on a $\mathbb{O}$ range fixed to 300 meters. %\lukas{$\mathbb{O}$  not defined.}
-From the neighbourhood, 
- each agent can also perceive the direction of the other agents.
+Through this communication channel, agents can exchange information. 
+%From the neighbourhood, each agent can also perceive the direction of the other agents.
 %
 Each agent moves following a certain action composed of two components (r, i) 
  which respectively describe the angle and intensity of the movement (i.e., the velocity vector).
 Since we used a value-based approach, 
  the action space $\mathcal{A}$ is discrete and composed of 18 possible angles and 3 possible intensities.
 In particular, the angles are quantized to 20 degrees, and for the velocities, we have selected [0, 5, 10] m/s.
+%\lukas{is this training the \ac{GNN}? }, 
 %
 
-\lukas{should stay here but this is the explicit implementation of the field:}
-Each agent will produce a computation field with which they will try to approximate the direction of the phenomenon of interest. 
+For the aggregated information, each agent will produce a computation field with which they will try to approximate the direction of the phenomenon of interest. 
 %
-The program in question is a simple application of block G, where the source is the maximum value of the neighbourhood. 
+The specific program in question is a simple application of block G, where the source is the maximum value of the neighbourhood. 
 This can be expressed in Scafi as follows:
 \begin{lstlisting}[mathescape=true]
 val source = maxHood(nbr(sense($\zeta$))) == sense($\zeta$)
@@ -717,11 +717,13 @@ R^e_{v} = R_v - 1
 \end{equation*}
 %
 \subsection{Training Phase}
-The learning process was divided into 100 episodes, each consisting of 200 steps, resulting in a total of 20,000 experiences.
+Before we can evaluate our approach, the underlying neural networks have to be fine-tuned in a dedicated training phase.
+The training process for each neural network was divided into 100 episodes, each consisting of 200 steps, resulting in a total of 20,000 experiences.
 %
 For each episode, 
- the 25 agents are semi-randomly \lukas{what is semi-random? are the position fixed but the agents random? or is it in a specific layout (e.g. lattice) but with some randomness of the actual position? lattice layout but random variation around a fixed point.} positioned on a grid without knowing the correct position of the phenomenon, 
- but that is fixed in the top right corner.  \lukas{so for all 20,000 experiences, the phenomena is exactly as shown in fig 2a during training? --> WE ONLY USE THE SINGLE PHENOMA IN A SINGLE FIXED LOCATION BUT WITH VARYING POSITIONS OF AGENTS!!}
+ the 25 agents are semi-randomly positioned on a grid (i.e., in a lattice layout with a random variation in their position) without knowing the correct position of the phenomenon, 
+ but that is fixed in the top right corner. The position of the phenomenon with an example of positioned agents can be seen in Figure~\ref{fig:static}. 
+% \lukas{so for all 20,000 experiences, the phenomena is exactly as shown in fig 2a during training? --> WE ONLY USE THE SINGLE PHENOMA IN A SINGLE FIXED LOCATION BUT WITH VARYING POSITIONS OF AGENTS!!}
  The feature set used by the \ac{GNN} created for each node consists of the vector computed by the aggregated program and the value of the local sensor $\zeta$.
 %
 In this case, we chose to use an exponential epsilon decay, defined as:
@@ -747,43 +749,52 @@ The loss function is defined as:
 \begin{equation*}
 L = \begin{cases}
   \frac{1}{2} (y - \hat{y})^2 & \text{if } |y - \hat{y}| < \delta \\
-  \delta (|y - \hat{y}| - \frac{1}{2} \delta) & \text{otherwise.} 
+  \delta (|y - \hat{y}| - \frac{1}{2} \delta) & \text{otherwise,} 
  \end{cases}
 \end{equation*}
-This function is used to penalise the agent if the action taken is too far from the optimal action. \lukas{whats $y, \hat{y}$ and $\delta$?}
+where $y$ is the expected location, $\hat{y}$ represents the ground truth, and $\delta$ is a dedicated threshold. \lukas{what is the value of $\delta$ in the training?}
+\lukas{also: $\delta$ is used as a function and as a value?}
 %
 We use the RMSprop optimiser with a learning rate of 0.0001.
 %
 Finally, we use a replay buffer of size 1000 to store the graph experiences and a batch size of 32.
 \subsection{Test phase}
 For the evaluation, 
- we explore three different types of scenarios.
+ we explore the previously discussed three different types of experiments.
+%%
+%The first type considers only a single, stationary phenomenon like the one used in the training phase. 
+%%
+%The second type considers multiple phenomena, requiring the agents to make a decision about which phenomena to cover. 
+%%
+%Finally, the third type considers a single moving phenomenon which the agents have to follow throughout the simulation. 
+%%
+%In all three types of scenarios, the shape and underlying distribution are initially unknown to the agents but remain constant for the entire duration of the simulation. 
 %
-The first type considers only a single, stationary phenomenon like the one used in the training phase. 
+We generated 64 random scenarios for each type of experiment. Additionally, the placement of the agents were randomised as it has been done during training.
+For the first type, considering a single static the phenomena is randomly placed in the environment. This is in contrast to the training where the phenomena was always placed in the same location.  
+For the second type, we placed two distinct phenomena within the area. There location is kept constant on all 64 experiments. As the training only contained a single phenomena, this setup represents a challenge for the agents.
+Finally, the third type contained a moving phenomena. In each scenario, the starting position as well as their direction of movement is randomly sampled from a uniform distribution. The movement is in a straight line with a constant speed of 5m/s within an unbounded environment. 
+%to ensure the agents can keep up with the phenomenon. 
+%\lukas{64 experiments per mode with random initial positions of the phenomena. Moving: starting at random position and move in a straight line moving with 5m/s in an unbounded environment.}
 %
-The second type considers multiple phenomena, requiring the agents to make a decision about which phenomena to cover. 
-%
-Finally, the third type considers a single moving phenomenon which the agents have to follow throughout the simulation. 
-%
-In all three types of scenarios, the shape and underlying distribution are initially unknown to the agents but remain constant for the entire duration of the simulation. 
-%
-We generated random scenarios for each type of scenario. 
-\lukas{64 experiments per mode with random initial positions of the phenomena. Moving: starting at random position and move in a straight line moving with 5m/s in an unbounded environment.}
-%
-Examples of such types are shown in~\Cref{fig:scenarios}. %\lukas{can we create a figure with at least 3 sample scenarios (1 stationary, 2 split, 1 moving (with a line indicating its trajectory))?} 
+Examples of all three types of experiment are shown in~\Cref{fig:scenarios}. %\lukas{can we create a figure with at least 3 sample scenarios (1 stationary, 2 split, 1 moving (with a line indicating its trajectory))?} 
 
-\lukas{I would move this up into IV.A --> emphasise that we only used a single static phenomena in the training therefore this section is improtant!}
+%\lukas{I would move this up into IV.A --> emphasise that we only used a single static phenomena in the training therefore this section is improtant!}
 
 \subsection{Baselines}
-We compare our field-informed reinforcement learning approach against a baseline approach utilising a \ac{MLP} as well as an approach only relying on \acp{GNN}. 
+We compare our field-informed reinforcement learning approach against a baseline approaches where the \ac{DQN} utilises a \ac{MLP} as well as an approach only relying on \acp{GNN}, without additional field information. 
 %
 In all approaches, the underlying neural network (i.e., the \ac{MLP} and the \ac{GNN}) are trained %with the same parameters of the proposed approach 
 with a single, stationary phenomenon.
 %
-The \ac{MLP} uses the same feature set as the \ac{GNN} in the proposed approach, but differently, it uses a standard DQN approach without leveraging the graph structure. Moreover, we increase the batch size to 512 and the replay buffer to 10000 since we record 25 agents' experiences for each step instead of one graph experience.
-\lukas{to make sure: in all three cases we use DQN but with (i) MLP, (ii) standard GNN, (iii) our approach - a field-informed GNN, right?}
+
+The \ac{MLP} uses the same feature set as the \ac{GNN} but applies it in the \ac{DQN} but 
+%in the proposed approach, but differently, it uses a standard DQN approach 
+without leveraging the graph structure. Moreover, we increase the batch size to 512 and the replay buffer to 10000 since we record 25 agents' experiences for each step instead of one graph experience.
+%\lukas{to make sure: in all three cases we use DQN but with (i) MLP, (ii) standard GNN, (iii) our approach - a field-informed GNN, right?}
 %
-The \ac{GNN} instead of using the field information, use directly the position of nodes and the local sensor value as input features.
+%The \ac{GNN} instead of using the field information, use directly the position of nodes and the local sensor value as input features.
+The \ac{GNN} alone, without using the field information, apply the position of nodes and the local sensor value directly as input features within the \ac{DQN}.
 %
 These baselines are used to verify the effectiveness of the components used in the field-informed \ac{RL}. 
 %
@@ -955,7 +966,7 @@ The demonstrated success in the proposed case study in solving collective tasks 
 Future research could explore its application in diverse domains and evaluate its scalability and robustness in increasingly complex scenarios. 
 %
 In addition, we also plan to take the approach to modern actor-critical solutions, which are better suited to modern swarm robotics problems because of the continuous action space.
-\ga{Page budget: 0.5}
+%\ga{Page budget: 0.5}
 \label{sec:conclusion}
 
 \bibliographystyle{IEEEtran}
