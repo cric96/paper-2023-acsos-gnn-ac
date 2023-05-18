@@ -133,30 +133,59 @@ aggregate computing, Graph Neural Networks, and Cyber-Physical Swarms.
 %}
 \section{Introduction}
 
-Autonomous agents interacting and operating towards a common task, rely on shared information and consequently emerging knowledge in order to achieve the underlying goals efficiently. 
+%Autonomous agents interacting and operating towards a common task, rely on shared information and consequently emerging knowledge in order to achieve the underlying goals efficiently. 
 %
-Coordinating and organising this information exchange within the network of agents is required for improve the collaboration among them further~\cite{jennings1996coordination}.
+%Coordinating and organising this information exchange within the network of agents is required for improve the collaboration among them further~\cite{jennings1996coordination}.
 %
-Through this coordination, agents may overcome problems requiring (i) efficiency and accuracy only achieved by multiple agents, (ii) the complementary competencies of the individual agents, or (iii) the collective resources of multiple agents.  
+%Through this coordination, agents may overcome problems requiring (i) efficiency and accuracy only achieved by multiple agents, (ii) the complementary competencies of the individual agents, or (iii) the collective resources of multiple agents.  
 
-Various phenomena in the real world are not evenly distributed across the environment such as watershed, wild fires, traffic, human crowd movement, or wild life movement from insects, fish, birds, and mammals.
-To acquire appropriate information about such phenomena, we also need to distribute the sensors accordingly to cover all aspects sufficiently. While manual deployment will mitigate the problem, not all phenomena are known exactly \emph{a priori} and would require maintenance and adjustment during runtime. Even worse, with phenomena able to change their location, size, and shape---as it is the case with crowds, wild life, or wild fires---an adaptation of the collective sensors is required in order to ensure all necessary information is acquired. 
+%Various phenomena in the real world are not evenly distributed across the environment such as watershed, wild fires, traffic, human crowd movement, or wild life movement from insects, fish, birds, and mammals.
+%To acquire appropriate information about such phenomena, we also need to distribute the sensors accordingly to cover all aspects sufficiently. While manual deployment will mitigate the problem, not all phenomena are known exactly \emph{a priori} and would require maintenance and adjustment during runtime. Even worse, with phenomena able to change their location, size, and shape---as it is the case with crowds, wild life, or wild fires---an adaptation of the collective sensors is required in order to ensure all necessary information is acquired. 
 
-This leads to several questions 
-\begin{enumerate}
-	\item How to distribute sensors to ensure good attainment of information?
-	\item How to maintain knowledge about the phenomena and unlearn irrelevant information?
-	\item How to move sensors when the phenomena moves to ensure good coverage?
-\end{enumerate} \lukas{refine and rework these questions}
+%This leads to several questions 
+%\begin{enumerate}
+%	\item How to distribute sensors to ensure good attainment of information?
+%	\item How to maintain knowledge about the phenomena and unlearn irrelevant information?
+%	\item How to move sensors when the phenomena moves to ensure good coverage?
+%\end{enumerate} \lukas{refine and rework these questions}
+The coordination of a group of autonomous agents that can perceive and act in their environment is a fundamental problem in artificial intelligence. 
+Such agents need to cooperate and communicate in order to achieve a common goal, 
+ while dealing with the challenges of distributed and situated intelligence. 
+ These challenges include the limited and local nature of the information available to each agent and the emergence of global behaviour from local interactions. 
+%
+One domain where these challenges are particularly evident is Cyber-Physical Swarms (CPSs, or \emph{swarm-like systems}), 
+ where a large number of agents interact with each other and their environment based on spatial proximity. 
+%
+Examples of CPSs include swarm robotics, smart cities, sensor networks, and social systems. 
+ In these systems, agents need to adapt to dynamic and uncertain situations, while ensuring the achievement of global objectives that may not be directly observable or measurable by individual agents.
 
-In this paper, 
-we propose a novel approach utilising aggregate computing~\cite{Beal2015Computer} together with a \ac{GNN}~\cite{Zhou2020AIOpen} in combination with a reinforcement learning approach, namely \ac{DQN}~\cite{mnih2015human}. 
+A key question in designing swarm-lie systems is how to create distributed controllers for the agents that can enable them to perform complex collective tasks. 
+ Two main approaches have been proposed for this problem: manual design and automatic design. 
+%
+In manual design, programmers build the controllers directly, 
+ using domain knowledge and programming languages or frameworks that support distributed computation and communication like macro-programming approaches~\cite{DBLP:journals/corr/abs-2201-03473}. 
+%
+In automatic design, machine learning methods like \ac{MARL} and evolutionary algorithms are used to synthesize programs or policies for the agents from the high-level task or goal descriptions.
+%
+Both approaches have advantages and disadvantages. 
+ Manual design allows programmers to specify desired properties for the system declaratively. However, manual design can be tedious and error-prone.
+%
+Automatic design can overcome these limitations by learning from data and experience. 
+ However, automatic design can also suffer from several challenges, such as learning the right representation for agent communication.
+%
+
+In this paper, we propose a novel hybrid approach that combines manual design and automatic design of distributed controllers.
+This follows a novel trend in which high-level declarative programming languages are mixed with machine learning techniques in order to synthesise robust collective controllers~\cite{DBLP:conf/acsos/Aguzzi21,DBLP:conf/icdcs/AguzziCV22,DBLP:conf/coordination/AguzziCV22}.
+Specifically, we propose a solution called field-informed reinforcement learning (FIRL) that utilizes aggregate computing~\cite{Beal2015Computer} together with a \ac{GNN}~\cite{Zhou2020AIOpen} in combination with a reinforcement learning approach, namely \ac{DQN}~\cite{mnih2015human}. 
  First, aggregate computing is utilised to collect information from neighbours and create a local knowledge base for each agent. Second, we utilise a \ac{GNN} within the \ac{DQN}. 
  Here the \ac{GNN} provides node embeddings for each agent, serving as input for the \ac{DQN}. 
  The \ac{DQN} provides then the appropriate actions for the agent to achieve their tasks.
 %We further combine this with reinforcement learning techniques to respond to changing conditions in the environment. 
 %
-This follows a novel trend in which high-level declarative programming languages are mixed with machine learning techniques in order to synthesise robust collective controllers~\cite{DBLP:conf/acsos/Aguzzi21,DBLP:conf/icdcs/AguzziCV22,DBLP:conf/coordination/AguzziCV22}.
+The main contribution of FIRL is that it allows us to create distributed controllers that are informed by a collective knowledge that has been distilled during learning, but that use only local information at runtime. This way, FIRL can achieve a balance between manual design and automatic design, combining the benefits of both approaches while mitigating their drawbacks.
+%% Perhaps to much detail 
+FIRL can also be seen as a way of bridging the gap between symbolic and sub-symbolic AI methods, by integrating declarative programming with deep learning.
+
 %Specifically, 
 % our approach utilises aggregate computing to disseminate information by manipulating a computational field, 
 % which is a distributed data structure that maps devices to information. 
