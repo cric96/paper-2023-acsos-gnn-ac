@@ -133,7 +133,7 @@ aggregate computing, Graph Neural Networks, and Cyber-Physical Swarms.
 %}
 \section{Introduction}
 
-Autonomous agents interacting and operating towards a common task, rely on shared information and consequently emerging knowledge in order to achieve the underlying goals efficiently. Coordinating and organising this information exchange within the network of agents is required for improve the collaboration among them further~\cite{jennings1996coordination}. Through this coordination, agents may overcome problems requiring (i) efficiency and accuracy only achieved by multiple agents, (ii) the complementary competences of the individual agents, or (iii) the collective resources of multiple agents.  
+Autonomous agents interacting and operating towards a common task, rely on shared information and consequently emerging knowledge in order to achieve the underlying goals efficiently. Coordinating and organising this information exchange within the network of agents is required for improve the collaboration among them further~\cite{jennings1996coordination}. Through this coordination, agents may overcome problems requiring (i) efficiency and accuracy only achieved by multiple agents, (ii) the complementary competencies of the individual agents, or (iii) the collective resources of multiple agents.  
 
 Various phenomena in the real world are not evenly distributed across the environment such as watershed, wild fires, traffic, human crowd movement, or wild life movement from insects, fish, birds, and mammals.
 To acquire appropriate information about such phenomena, we also need to distribute the sensors accordingly to cover all aspects sufficiently. While manual deployment will mitigate the problem, not all phenomena are known exactly \emph{a priori} and would require maintenance and adjustment during runtime. Even worse, with phenomena able to change their location, size, and shape---as it is the case with crowds, wild life, or wild fires---an adaptation of the collective sensors is required in order to ensure all necessary information is acquired. 
@@ -855,16 +855,21 @@ Interesting observations arise when we use different scenarios from the training
  Starting from a division into two zones, 
  we notice that even in this case, the informed version finds a better configuration than the GNN counterpart. 
 %
-It exhibits both higher overall coverage and manages to divide the system into two equally covered parts. 
+It exhibits both higher overall coverage and manages to divide the system into two equally covered parts.
+%
+Indeed, observing the \Cref{fig:resCoverage}, we notice that the informed version maintains a balanced coverage between the two zones, 
+ with a difference of less than 5\% between the two parts, maintaining a fair division of the phenomenon.
 %
 In contrast, the uninformed version also maintains a fair division but with significantly different coverage between the two parts, 
- indicating an imbalance among the nodes in one of the zones.
+ indicating a wrong placement among the nodes in one of the zones.
+%
+This is a consequence of the uninformed version's inability to encode the necessary information to divide the agents into two zones, therefore it is not able to generalise.
 %
 Finally, the moving scenario emphasizes how the informed version generates a more robust policy for new scenarios. 
  Indeed, we observe that the informed version maintains higher coverage and a greater number of agents on the target phenomenon compared to the other two solutions.
 %
 The uninformed GNN version, however, 
- fails to generalize its movement behaviour, as evidenced by the simulations where the agents, once reaching the target zone, stop moving due to tracking issues.
+ fails again to generalize its movement behaviour, as evidenced by the simulations where the agents, once reaching the target zone, stop moving due to tracking issues.
 
 In conclusion, the results demonstrate how the proposed idea can generate more robust controllers. 
  By guiding information flow in \acp{GNN}, 
@@ -913,7 +918,7 @@ Nevertheless, we acknowledge the crucial role of \acp{GNN}.
   \end{subfigure}
   \caption{Qualitative test results of the proposed approach. 
   The agents go towards the phenomenon and try to cover it without collapsing into a single point.
-  the grey area represents the area covered by the robots (last figure on the right).}
+  the grey area represents the area covered by the agents (last figure on the right).}
   \label{fig:simulations}
 \end{figure}
 
