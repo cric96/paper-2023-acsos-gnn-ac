@@ -244,7 +244,7 @@ The programming model is ruled by the \emph{field calculus}~\cite{DBLP:conf/esoc
 %
 Field calculus includes main operators for expressing \emph{spatio-temporal} compotations that allow for 
 \emph{i)} the progression of values over time, achieved by transforming a field computed in a previous round into a new field; 
-\emph{ii)} the exchange of data with neighbouring fields, where received data is accessed by adjacent fields; and 
+\emph{ii)} the exchange of data with neighbouring fields (typically referred as \lstinline|nbr|), where received data is accessed by adjacent fields; and 
 \emph{iii)} the conditional division of computation into distinct domains of collective computation. 
 %
 %We avoid presenting here the full details of these operators since they are not essential to the contribution. 
@@ -295,10 +295,14 @@ For the sake of simplicity,
 %\lukas{Over time this graph $G$ can change and therefore we define $G_t$ as the graph $G$ at a specific time $t$.} 
 %
 Given $f_v$, %a feature vector associated with each node $v \in V$, 
- the goal of a \ac{GNN} is to learn the node embedding $h_v$ for each node $v \in V$. The node embedding $h_v$ describes the node in the network and summarises the geometric properties of the graph in this location, allowing for comparison of various nodes in the graph.
- In modern \acp{GNN}, the node embedding $h_v$ is computed by aggregating information from the node's neighbours $\mathcal{N}_G(v)$,
-  and then combining it with the node's current embedding $h_v$.
- The graph is further partitioned into layers with the node $v$ at its bottom layer $0$. With each traversal of an edge $e \in E$ from $v$, the number of layers increased
+ the goal of a \ac{GNN} is to learn the node embedding $h_v$ for each node $v \in V$. 
+ The node embedding $h_v$ describes the node in the network and summarises the geometric properties of the graph in this location, allowing for comparison of various nodes in the graph.
+%
+In modern \acp{GNN}, the node embedding $h_v$ is computed by aggregating information from the node's neighbours $\mathcal{N}_G(v)$,
+ and then combining it with the node's current embedding $h_v$.
+%
+The graph is further partitioned into layers with the node $v$ at its bottom layer $0$. 
+ With each traversal of an edge $e \in E$ from $v$, the number of layers increased
 Formally, a \ac{GNN} can be defined by two phases:
 \begin{equation}
 a_{v}^{(k)}=\operatorname{AGGREGATE}^{(k)}\left(\left\{h_{u}^{(k-1)}: u \in \mathcal{N}_G(v)\right\}\right)   
@@ -316,17 +320,18 @@ The differential part comes into play in the $\operatorname{COMBINE}$ function,
  which is usually a differentiable function such as a neural network layer.
 %
 $\operatorname{AGGREGATE} $ instead is a function that aggregates the information from the neighbours of a node $v$
-  and it could be a simple sum, max or sum of products. More complex aggregation functions are available~\cite{pellegrini2020learning}.
+ and it could be a simple sum, max or sum of products. 
+ More complex aggregation functions are available~\cite{pellegrini2020learning}.
 %
 Thereafter, we express the application of a \ac{GNN} to a graph $G_f$ as:
 \begin{equation}
-    GNN(G_f) = \{h_v^{(k)}: v \in V, k \in \mathbb{N}\}
+GNN(G_f) = \{h_v^{(k)}: v \in V, k \in \mathbb{N}\}
 \end{equation} 
-This formulation allows GNNs to effectively process and extract features from graph-structured data by iteratively aggregating and transforming information from the node's neighbours.
-\lukas{do we need definitions of $o_v$, $h_v^*$ over time $t$?}
+This formulation allows \acp{GNN} to effectively process and extract features from graph-structured data by iteratively aggregating and transforming information from the node's neighbours.
+%\lukas{do we need definitions of $o_v$, $h_v^*$ over time $t$?}
 
 \acp{GNN} are used in several application areas such as social network analysis, chemistry, and physics.
-In this paper, we use GNNs to learn a local behaviour for each agent in a multi-agent system (more details in Section~\ref{sec:approach}).
+ In this paper, we use \acp{GNN} to learn a local behaviour for each agent in a multi-agent system (more details in Section~\ref{sec:approach}).
 \subsection{Many-Agent Reinforcement Learning}
 %\ga{plan: we could discuss briefly about standard approach (few agents), and mean-field approach (many agents). 
 %This will lead to our approach, which is a combination of DQN (or any Deep RL approach) and GNN.}
@@ -344,7 +349,7 @@ One interesting application of \ac{RL} is when there are multiple learning agent
  Such scenarios are referred to as multi-agent reinforcement learning (MARL)~\cite{zhang2019marl}. 
 %
 In particular, in this work, we consider homogenous \ac{MAARL}~\cite{yang2021many}, 
- where the set of agents $N \gg 2$ and each agent is interchangeable and indistinguishable.
+ where the set of agents is large ($N \gg 2$) and each agent is interchangeable and indistinguishable.
 %
 This research area is relevant in the context of large-scale systems 
  where collective intelligence emerges from local and repeated interaction of simple entities, like in swarm robotics.
@@ -459,7 +464,7 @@ However, in these works, communication was left entirely to the neural network,
   %\lukas{also, i think we can have the AC and GNN box a bit smaller but increase the size of the networks slightly - and put it on column width ot save space}
 }
 \end{figure}
-In this section, we discuss the components involved in our proposed solution (i.e., architecture) and how these components interact with each other to bring the system to perform the collective behaviour (i.e dynamics). Finally, we will detail the learning algorithm designed and used to synthesise the policy (i.e., learning algorithm).
+In this section, we discuss the components involved in our proposed solution (i.e., architecture) and how these components interact with each other to bring the system to perform the collective behaviour (i.e dynamics). Finally, we will detail the learning algorithm designed and used to synthesise the policy.
 \subsection{Architecture and System dynamics}
 %\ga{Plan: 
 %  discussion about the typical AC evaluation model, specifying how GNN (with 1-hop information diffusion)
@@ -483,7 +488,7 @@ From this field, we construct the feature vector $f_v$ for each node $v$ in $G_t
 %
 The policy $\pi_{gnn}$ is then evaluated for each node using $f_v$ as input, 
  producing an action $a^v_t$ that will then modify the global state of the system.
- \ga{todo: put pseudo code to express this dynamics}
+ %\ga{todo: put pseudo code to express this dynamics}
 %
 While the graph, containing the aggregate information, 
  might appear as global knowledge, 
@@ -664,7 +669,7 @@ In particular, the angles are quantized to 20 degrees, and for the velocities, w
 \lukas{should stay here but this is the explicit implementation of the field:}
 Each agent will produce a computation field with which they will try to approximate the direction of the phenomenon of interest. 
 %
-The program in question is a simple application of block G, where the source is the maximum value of the neighbourhood. 
+The program $\Gamma$ in question is a simple application of block G, where the source is the maximum value of the neighbourhood. 
 This can be expressed in Scafi as follows:
 \begin{lstlisting}[mathescape=true]
 val source = maxHood(nbr(sense($\zeta$))) == sense($\zeta$)
@@ -675,7 +680,7 @@ where \texttt{maxHood} is a function that returns the maximum value of the neigh
 \texttt{sense} is a function that returns the value of the sensor, and
 \texttt{nbrRange} is a function that returns an approximate direction for each agent in the neighbourhood.
 %
-this value will then be fed into the \ac{GNN} to compute the action to be performed.
+This value will then be fed into the $\pi_{GNN}$ to compute the action to be performed.
  %\lukas{not sure if this paragraph should be its own subsection. or at least it needs  different title.}
 
  
