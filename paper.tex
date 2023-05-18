@@ -839,17 +839,14 @@ The coverage is defined as the percentage of the phenomenon covered by the agent
 %
 Specifically, we can measure the coverage as the intersection over the union of the phenomenon and the agents' view range.
 %
-Formally, first, we define the overall area covered by the agents as:
+Formally, first, we define the overall coverage for a certain time step as:
 \begin{equation*}
 \Omega = \bigcup_{v \in V} \omega_v
-\end{equation*}
-
-Finally, we define the coverage as:
-\begin{equation*}
+\quad 
 C = \frac{|\Omega \cap \mathcal{P}|}{|\mathcal{P}|}
 \end{equation*}
-where $\mathcal{P}$ is the area of the phenomenon.
-This is computed for each step of the simulation. 
+where $\mathcal{P}$ is the area of the phenomenon and $\Omega$ is the area covered by the agents.
+%This is computed for each step of the simulation. 
 In the training phases, 
  we measure the average coverage in each episode, and the total reward obtained by the agents at each episode of the simulation. 
 %
