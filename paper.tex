@@ -112,7 +112,7 @@ In this context, two main approaches have been proposed for creating distributed
  \emph{manual design}, in which programmers build the controllers directly, and 
  \emph{automatic design}, which involves synthesizing programs using machine learning methods.
 %
-In this paper, we consider a new \emph{hybrid} approach called  \emph{Field-Informed reinforcement learning} (FIRL). We utilise manually designed \emph{computational fields} (globally distributed data structures) to manage the interaction between agents. Using \emph{Deep Q-learning} in combination with \emph{Graph Neural Networks} we enable the agents to learn the necessary local behaviour automatically to solve collective tasks. 
+In this paper, we consider a new \emph{hybrid} approach called  \emph{Field-Informed reinforcement learning} (FIRL). We utilise manually designed \emph{computational fields} (globally distributed data structures) to manage global agent coordination. Then, using \emph{Deep Q-learning} in combination with \emph{Graph Neural Networks} we enable the agents to learn the necessary local behaviour automatically to solve collective tasks, relying on those fields through local perception.
 %
 This allows us to create distributed controllers informed by a collective knowledge 
  that has been distilled during learning, but that uses only local information at runtime.
@@ -168,8 +168,8 @@ In manual design, programmers build the controllers directly,
 %
 In automatic design, machine learning methods like \ac{MARL} and evolutionary algorithms are used to synthesize programs or policies for the agents from the high-level task or goal descriptions.
 %
-Both approaches have advantages and disadvantages. 
- Manual design allows programmers to specify desired properties for the system declaratively. However, manual design can be tedious and error-prone.
+Both approaches have advantages and disadvantages.
+ Manual design allows programmers to specify desired properties for the system declaratively, however, it can be tedious and error-prone.
 %
 Automatic design can overcome these limitations by learning from data and experience. 
  However, automatic design can also suffer from several challenges, such as learning the right representation for agent communication.
@@ -186,6 +186,8 @@ Specifically, we propose a solution called \ac{FIRL} that utilises aggregate com
 The main contribution of \ac{FIRL} is that it allows us to create distributed controllers that are informed by a collective knowledge that has been distilled during training, but that use only local information when deployed. This way, \ac{FIRL} can achieve a balance between manual design and automatic design, combining the benefits of both approaches while mitigating their drawbacks.
 %% Perhaps to much detail 
 \ac{FIRL} can also be seen as a way of bridging the gap between symbolic and sub-symbolic AI methods, by integrating declarative programming with deep learning.
+%
+Conceptually, \ac{FIRL} leverages the ideas of \emph{behaviour implicit communication} \cite{DBLP:journals/ijaci/CastelfranchiPT10} \cite{DBLP:conf/e4mas/TummoliniCRVO04}, whereby intelligent agents (here trained by DQN) achieve collective goals by learning how to use signs they left in the environment (here made of fields): much like ants collectively rely on pheromones they produce \cite{DBLP:journals/anor/Parunak97}.
 
 We employ this approach in a swarm-like system setting where agents are tasked to cover phenomena detected in their environment. Over time, the agents have to converge over the each phenomenon in order to cover it appropriately as illustrated in \Cref{fig:simulations}.
 \begin{figure}[t]
