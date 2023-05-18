@@ -778,12 +778,14 @@ As the reward function is defined as a regret,
 %
 The loss function is defined as:
 \begin{equation*}
-L = \begin{cases}
+L_\delta = \begin{cases}
   \frac{1}{2} (y - \hat{y})^2 & \text{if } |y - \hat{y}| < \delta \\
   \delta (|y - \hat{y}| - \frac{1}{2} \delta) & \text{otherwise,} 
  \end{cases}
 \end{equation*}
-where $y$ is the expected location, $\hat{y}$ represents the ground truth, and $\delta$ is a dedicated threshold. \lukas{what is the value of $\delta$ in the training?}
+where $\delta$ is a hyperparameter that determines the threshold between the two loss functions and $y$ and $\hat{y}$ are the target and predicted values, respectively.
+This function is used to penalise the agent if the action taken is too far from the optimal action. 
+\lukas{what is the value of $\delta$ in the training?}
 \lukas{also: $\delta$ is used as a function and as a value?}
 %
 We use the RMSprop optimiser with a learning rate of 0.0001.
