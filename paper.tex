@@ -868,35 +868,36 @@ Furthermore, we note that \ac{GNN} combined with \ac{DQN} and graph replay buffe
 This is because relying solely on \ac{MLP} and basic deep learning leads to non-stationary and unstable learning, 
  as evident from the wider confidence interval of the reward over training time.
 
-Focusing now on the test phase, % in~\Cref{fig:test}
- we observe that the field-informed version achieves higher coverage than the other approaches in all scenarios since it shows the ability of our solution to generalize to situations--see \Cref{fig:simulations}. 
+Focusing now on the results of the test phase, highlighted in  \Cref{fig:test},
+ we observe that the field-informed version achieves higher coverage than the other approaches in all scenarios since it shows the ability of our solution to generalize to situations. 
 % 
 We observe that the field-informed version successfully moves the nodes closer to the target phenomenon, 
  distributing them evenly without collapsing into a single central point. 
  \Cref{fig:test} quantitatively presents the results across various previously described scenarios.
 
-The \ac{GNN} versions demonstrate the capability to transfer the learned experience to the test phase whereas the MLP version fails to generalize. 
+For all experiments, both \ac{GNN} versions demonstrate the capability to transfer the learned experience to the test phase whereas the MLP version fails to generalize. 
 %
-It is worth noting that, in the static configuration, 
+It is worth noting that, in the \emph{Zone Fixed} experiment, % (left graph in \Cref{fig:test}), 
  once the desired configuration is achieved in the static case, 
  the nodes cease to move, maintaining the found configuration.
 %
-Interesting observations arise when we use different scenarios from the training phase. 
- Starting from a division into two zones, 
- we notice that even in this case, the informed version finds a better configuration than the GNN counterpart. 
+Interesting observations arise when we use scenarios different from the training phase. 
+% Starting from a division into two zones, 
+In the \emph{Two Zones} experiment,
+ we notice that our approach using field-information finds a better configuration than the simple GNN counterpart. 
 %
-It exhibits both higher overall coverage and manages to divide the system into two equally covered parts.
+It exhibits both higher overall coverage and manages to divide the system into two equally covered parts. 
 %
 Indeed, observing the \Cref{fig:resCoverage}, we notice that the informed version maintains a balanced coverage between the two zones, 
- with a difference of less than 5\% between the two parts, maintaining a fair division of the phenomenon.
+ with a difference of less than 5\% between the two parts, maintaining a fair division of the phenomena.
 %
 In contrast, the uninformed version also maintains a fair division but with significantly different coverage between the two parts, 
  indicating a wrong placement among the nodes in one of the zones.
 %
 This is a consequence of the uninformed version's inability to encode the necessary information to divide the agents into two zones, therefore it is not able to generalise.
 %
-Finally, the moving scenario emphasizes how the informed version generates a more robust policy for new scenarios. 
- Indeed, we observe that the informed version maintains higher coverage and a greater number of agents on the target phenomenon compared to the other two solutions.
+Finally, the \emph{Moving} experiment emphasizes how the informed version generates a more robust policy for new scenarios. 
+ Indeed, we observe that the our approach using field-informed reinforcement learning maintains higher coverage and a greater number of agents on the target phenomenon compared to the other two solutions.
 %
 The uninformed GNN version, however, 
  fails again to generalize its movement behaviour, as evidenced by the simulations where the agents, once reaching the target zone, stop moving due to tracking issues.
@@ -909,7 +910,7 @@ Nevertheless, we acknowledge the crucial role of \acp{GNN}.
  Our modified version of DQN, combined with \acp{GNN}, 
  enables the discovery of robust behaviours in a few episodes, 
  which is challenging to capture with \acp{MLP} combined with \ac{DQN}, even if we use field information.
- \lukas{add short discussion on 'new' figure 6}
+% \lukas{add short discussion on 'new' figure 6}
 \begin{figure}
   \centering
   \hfill
@@ -958,12 +959,12 @@ Nevertheless, we acknowledge the crucial role of \acp{GNN}.
   \centering
   \begin{subfigure}[b]{0.9\linewidth}
     \includegraphics[width=\linewidth]{imgs/coverage-test.pdf}
-    \caption{Coverage in the three types of scenarios}
+    \caption{Ratio of coverage of the phenomena in the three types of experiments. Our field-informed reinforcement learning approach can outperform other approaches lacking field information.}
     \label{fig:coverage-test}
   \end{subfigure}
   \begin{subfigure}[b]{0.9\linewidth}
     \includegraphics[width=\linewidth]{imgs/inside-test}
-    \caption{Number of agents inside the phenomenon in the three types of scenarios}
+    \caption{Number of agents inside the phenomenon in the three types of experiments}
     \label{fig:inside-test}
   \end{subfigure}
 	\caption{Quantative test results in the three types of scenarios.
@@ -976,12 +977,12 @@ Nevertheless, we acknowledge the crucial role of \acp{GNN}.
 	\centering
   	\begin{subfigure}[b]{0.85\linewidth}
     \includegraphics[width=\linewidth]{imgs/inside-two-test}
-    \caption{Two zones scenario: agent inside each phenomenon}
+    \caption{\emph{Two Zones} experiment: aggregated number of agent inside each phenomenon}
     \label{fig:inside-two-test}
   \end{subfigure}
   \begin{subfigure}[b]{0.85\linewidth}
     \includegraphics[width=\linewidth]{imgs/coverage-two-test}
-    \caption{Two zones scenario: coverage of each area}
+    \caption{\emph{Two Zones} experiment: ratio of covered to uncovered area both phenomena}
     \label{fig:coverage-two-test}
   \end{subfigure} 
   \caption{Coverage of two zones using the different modes of the controller.}
