@@ -463,22 +463,20 @@ Starting from this definition, the environment $\mathbb{E}$ is defined as a tupl
 \end{itemize}
 In swarMDP, the neighbourhood is not directly defined, but it is implicitly defined by the observation model $\xi$.
 In our specific case, the agents can only interact with 1-hop neighbourhoods and are not directly influenced by other agent observations. We can therefore restrict the observation model as follows:
-\begin{equation}
+\begin{equation*}
 \xi(v): \{s_j, j \in \mathcal{N}^v\} \rightarrow O
-\end{equation}
-\begin{equation}
+\qquad
 \xi = \{\xi(v), v \in \mathcal{P}\}
-\end{equation}
+\end{equation*}
 where $\mathcal{N}^v$ is the set of neighbours of $v$.
 
 This model can be used then to express the evolution of the system in time.
 Specifically, starting from a global state $\mathcal{S}^P_t$, the next state $\mathcal{S}^P_{t+1}$ is defined as:
-\begin{equation}
+\begin{equation*}
 \mathcal{A}^P_t = \pi(\xi(S^P_t))
-\end{equation}
-\begin{equation}
+\qquad
 \mathcal{S}^P_{t+1} = \mathcal{T}(\mathcal{S}^P_t, \mathcal{A}^P_t)
-\end{equation}
+\end{equation*}
 Given a time $t$, the system can be also represented as a graph $G_t = (V_t, E_t)$, 
   where $E_t$ is built from $\mathcal{N}$.
   Each node is then decorated with the local observation perceived at the time $t$: $o^v_t \in O$. 
