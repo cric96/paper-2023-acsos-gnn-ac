@@ -259,9 +259,9 @@ At the end of each control loop iteration,
 %This general model can be adapted to several different scenarios, such as a network of sensors, a network of robots (e.g., swarm robotics), or a network of mobile phones.
 Examples of such large-scale systems can be a network of robots (e.g., swarm robotics), camera and IoT networks, or a network of mobile phones.
 %
-Our goal is to find a \emph{homogeneously} distributed controller $\pi$ (i.e., the same controller for the whole system) that, 
- starting from \emph{only} local configurations, leads 
- the system to achieve a certain \emph{collective} requirements through \emph{cooperation}, 
+Our goal is to find a \emph{homogeneous} distributed controller $\pi$, namely the same controller for all agents of the system:
+ starting from \emph{only} local configurations, it leads 
+ the system to achieve a certain \emph{collective} requirement through \emph{cooperation}, 
  such as spatial area coverage, phenomena tracking, and robot aggregation~\cite{DBLP:journals/firai/SchranzUSE20}.
 %
 The homogeneity of the controller is a key requirement to ensure the \emph{scalability} of the approach, 
@@ -272,7 +272,7 @@ The homogeneity of the controller is a key requirement to ensure the \emph{scala
 %\ga{discussion about field used as a coordination mechanism in multi-agent systems. Introduction to AC}
 The field-based coordination approaches utilise a concept of \emph{computational fields} 
  (or simply \emph{fields}), 
- which are \emph{distributed} data structures that associate locations with values and evolve over time. 
+ which are \emph{distributed} data structures that associate each location with a computational value that evolves over time. 
 %
 \emph{Aggregate computing}~\cite{Beal2015Computer}, a modern field-coordination approach, is rooted in earlier work on \emph{artificial potential fields}~\cite{DBLP:conf/icra/Warren89} and \emph{co-fields}~\cite{DBLP:journals/pervasive/MameiZL04}. 
 % 
@@ -283,9 +283,9 @@ The fields map a set of individual agents to computational values,
 %
 Fields are computed locally but subject to a global viewpoint, 
  enabling emergent collective behaviour through the interplay of the \emph{system model} (i.e., structure and dynamics of the systems)
- and the \emph{programming model} (i.e., how collective behaviours are expressed) known as field calculus~\cite{DBLP:conf/esocc/ViroliDB13,DBLP:journals/corr/ViroliADPB16,DBLP:journals/tocl/AudritoVDPB19}.
-%
-The system model is structurally similar to \emph{swarm-like systems}, 
+ and the \emph{programming model} (i.e., how collective behaviours are expressed).
+
+On the one hand, the system model is structurally similar to \emph{swarm-like systems}, 
  as it is composed of a set of \emph{agents} 
  that interact with each other through a \emph{network} of \emph{neighbourhood relations}.
 %
@@ -298,10 +298,10 @@ The dynamics of each agent follow a local control loop called \emph{round}
 \end{enumerate}
 The proactive and iterative execution of the round by each agent leads to the emergence of collective behaviour specified by the program.
 
-The programming model is ruled by the \emph{field calculus}~\cite{DBLP:conf/esocc/ViroliDB13,DBLP:journals/corr/ViroliADPB16,DBLP:journals/tocl/AudritoVDPB19}, 
+On the other hand, the programming model is ruled by the \emph{field calculus}~\cite{DBLP:conf/esocc/ViroliDB13,DBLP:journals/corr/ViroliADPB16,DBLP:journals/tocl/AudritoVDPB19},  
  a core language that allows the expression of collective behaviours through the composition of \emph{functions} operating on fields.
 %
-Field calculus includes main operators for expressing \emph{spatio-temporal} compotations that allow for 
+Field calculus includes main operators for expressing \emph{spatio-temporal} computations that allow for 
 \emph{i)} the progression of values over time, achieved by transforming a field computed in a previous round into a new field; 
 \emph{ii)} the exchange of data with neighbouring fields (typically referred to as \lstinline|nbr|), where received data is accessed by adjacent fields; and 
 \emph{iii)} the conditional division of computation into distinct domains of collective computation. 
