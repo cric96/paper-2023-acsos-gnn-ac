@@ -298,7 +298,7 @@ The dynamics of each agent follow a local control loop called \emph{round}
 \end{enumerate}
 The proactive and iterative execution of the round by each agent leads to the emergence of collective behaviour specified by the program.
 
-On the other hand, the programming model is ruled by the \emph{field calculus}~\cite{DBLP:conf/esocc/ViroliDB13,DBLP:journals/corr/ViroliADPB16,DBLP:journals/tocl/AudritoVDPB19},  
+On the other hand, the programming model is ruled by the \emph{field calculus}~\cite{DBLP:conf/saso/ViroliBDP15,DBLP:journals/tocl/AudritoVDPB19},  
  a core language that allows the expression of collective behaviours through the composition of \emph{functions} operating on fields.
 %
 Field calculus includes main operators for expressing \emph{spatio-temporal} computations that allow for 
@@ -318,14 +318,12 @@ This operator generates a numerical field that represents the minimum distance f
 %
 In other words, it maps a Boolean field (where ``true'' indicates the presence of a source agent and ``false'' indicates its absence) to a distance field that indicates the proximity to the nearest source. 
 %
-In ScaFi~\cite{casadei2022scafi} %(a scala implementation of aggregate computing)
- it is simply expressed as:
+In the ScaFi~\cite{casadei2022scafi} implementation of field calculus is defined by function:
 \begin{lstlisting}
 def gradient(source: Boolean): Double
 \end{lstlisting}
 Along the gradient, it is possible to cast information within the system, accumulating value during the field expansion. 
-This pattern is called \emph{gradient-cast} (or \emph{G}) and is a fundamental building block for the coordination of swarm-like systems.
-It is expressed as: 
+This pattern is called \emph{gradient-cast} (or \emph{G}):
 \begin{lstlisting}
 def G[V](source: Boolean, value: V, acc: V => V): V
 \end{lstlisting}
@@ -333,6 +331,8 @@ def G[V](source: Boolean, value: V, acc: V => V): V
 where \texttt{source} is a Boolean field indicating the presence of a source agent, 
  \texttt{value} is the value to be cast, and 
  \texttt{acc} is the accumulation function that is applied to the value during the cast.
+%
+This is a fundamental building block for the coordination of swarm-like systems: in fact, the resulting system can be used to broadcast information, or route towards selected nodes.
 
 %\lukas{Lukas to review this section again.}
 \subsection{Graph Neural Networks}
@@ -343,8 +343,8 @@ where \texttt{source} is a Boolean field indicating the presence of a source age
 %Whereas \ac{CNN} is designed to be used with image and spatial-like data (e.g., audio), 
  \ac{GNN} is a novel neural network model used to process graph-structured data with deep learning approaches.
 %
-Let $G = (V, E)$ a graph  
-where $E$ defines the neighbourhood relations for each participating node, 
+Let $G = (V, E)$ be a graph  
+where $E\subseteq V\times V$ defines the neighbourhood relations for each participating node, 
 and $V$ identifies the nodes present in the graph. %at that time.  \lukas{no time in the definition}
 % 
 Each node $v \in V$ is associated with an observation (or feature set) $f_v$.
@@ -362,7 +362,7 @@ In modern \acp{GNN}, the node embedding $h_v$ is computed by aggregating informa
  and then combining it with the node's current embedding $h_v$.
 %
 The graph is further partitioned into layers with the node $v$ at its bottom layer $0$. 
- With each traversal of an edge $e \in E$ from $v$, the number of layers increased
+ With each traversal of an edge $e \in E$ from $v$, the number of layers increases.
 Formally, a \ac{GNN} can be defined by two phases:
 \begin{equation}
 a_{v}^{(k)}=\operatorname{AGGREGATE}^{(k)}\left(\left\{h_{u}^{(k-1)}: u \in \mathcal{N}_G(v)\right\}\right)   
@@ -385,7 +385,7 @@ $\operatorname{AGGREGATE} $ instead is a function that aggregates the informatio
 %
 Thereafter, we express the application of a \ac{GNN} to a graph $G_f$ as:
 \begin{equation}
-GNN(G_f) = \{h_v^{(k)}: v \in V, k \in \mathbb{N}\}
+\mathit{GNN}(G_f) = \{h_v^{(k)}: v \in V, k \in \mathbb{N}\}
 \end{equation} 
 This formulation allows \acp{GNN} to effectively process and extract features from graph-structured data by iteratively aggregating and transforming information from the node's neighbours.
 %\lukas{do we need definitions of $o_v$, $h_v^*$ over time $t$?}
@@ -398,7 +398,7 @@ This formulation allows \acp{GNN} to effectively process and extract features fr
 
  \Ac{RL} has gained a lot of interest recently, 
  thanks to its successful application in various scenarios, 
- ranging from video games (such as Alpha Go~\cite{Silver2016Go} and Atari~\cite{Atari2016DQN}) 
+ ranging from video games (such as Alpha Go~\cite{Silver2016Go} and Atari~\cite{mnih2015playing}) 
  to chatbots (like ChatGPT~\cite{ChatGPT2023}). 
 % 
 In \ac{RL}, an \emph{agent} (i.e., a smart entity capable of making decisions) 
@@ -416,7 +416,7 @@ This research area is relevant in the context of large-scale systems
 %
 In such many-agent scenarios, 
  the implementation of fully decentralized learning is often unfeasible due to the large number of learning agents, 
- which renders the system non-stationary and difficult to manage. 
+ which makes the system non-stationary and difficult to manage. 
 %
 Conversely, a centralized controller capable of coordinating 
  the entire system may not be a viable solution due to scalability concerns. 
@@ -447,15 +447,14 @@ These approaches have shown promising results in various domains, such as multi-
  and decentralised control, and are actively being researched and developed for further applications.
 \subsection{Problem formalisation}
 Given the homogeneity, large system scale, and the \emph{locality} (i,e., each agent can only observe its neighbours), 
- the problem can be modelled through the SwarMDP model~\cite{DBLP:conf/atal/SosicKZK17} -- 
- an extension of the \ac{DecPOMDP}~\cite{Decpomdp2000} model for swarm-like systems.
+ the problem can be modelled through the SwarMDP model~\cite{DBLP:conf/atal/SosicKZK17}---an extension of the \ac{DecPOMDP}~\cite{Decpomdp2000} model for swarm-like systems.
 % 
 A SwarMDP is characterised by a \emph{swarming agent} ($\mathbb{A}$) and the dynamics of the environment ($\mathbb{E}$).
 Specifically, $\mathbb{A}$ is a tuple ($\mathcal{S}, \mathcal{O}, \mathcal{A}, \mathcal{R}, \pi$) where:
 \begin{itemize}
   \item $\mathcal{S, O, A}$ are the set of local states, observations (or features), and actions, respectively;
   \item $\mathcal{R}: \mathcal{S} \rightarrow \mathbb{R}$ is the reward function, which is influenced by the environment;
-  \item $\pi: \mathcal{O} \rightarrow \mathcal{A}$ is the policy function, which maps the observations to the actions. It could be deterministic or stochastic.
+  \item $\pi: \mathcal{O} \rightarrow \mathcal{A}$ is the policy function, which maps the observations to the actions: it could be deterministic or stochastic.
 \end{itemize}
 Starting from this definition, the environment $\mathbb{E}$ is defined as a tuple ($\mathcal{P}, \mathbb{A}, \mathcal{T}, \xi$), where:
 \begin{itemize}
@@ -465,14 +464,14 @@ Starting from this definition, the environment $\mathbb{E}$ is defined as a tupl
   \item $\xi: \mathcal{S^P} \rightarrow \mathcal{O^P}$ is the global observation model of the systems.
 \end{itemize}
 In swarMDP, the neighbourhood is not directly defined, but it is implicitly defined by the observation model $\xi$.
-In our specific case, the agents can only interact with 1-hop neighbourhoods and are not directly influenced by other agent observations. We can therefore restrict the observation model as follows:
+In our specific case, the agents can only interact with 1-hop neighbours and are not directly influenced by other agent observations. We can therefore restrict the observation model as follows:
 \begin{equation*}
 \xi(v): \{s_j, j \in \mathcal{N}^v\} \rightarrow O
 \qquad
 \xi = \{\xi(v), v \in \mathcal{P}\}
 \end{equation*}
 where $\mathcal{N}^v$ is the set of neighbours of $v$.
-
+%
 This model can be used then to express the evolution of the system in time.
 Specifically, starting from a global state $\mathcal{S}^P_t$, the next state $\mathcal{S}^P_{t+1}$ is defined as:
 \begin{equation*}
@@ -490,7 +489,7 @@ Given a time $t$, the system can be also represented as a graph $G_t = (V_t, E_t
 % and \emph{automatic design}~\cite{brambilla2013swarm}, which employs machine learning techniques to synthesise distributed controllers. 
 %
 %Our work lies between these two approaches, specifically in the areas of field-based coordination and \ac{MAARL} with the use of \acp{GNN}.
-As mentioned above, our work falls between automatic and manual approaches, specifically in the areas of field-based coordination and \ac{MAARL} with the use of \acp{GNN}.
+As mentioned above, our work falls in between automatic and manual approaches, specifically in the areas of field-based coordination and \ac{MAARL} with the use of \acp{GNN}.
 %
 Compared to earlier works on field-based coordination, 
  our approach builds on the concept of co-fields~\cite{DBLP:journals/pervasive/MameiZL04}, 
