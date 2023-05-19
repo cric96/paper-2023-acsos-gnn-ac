@@ -796,16 +796,12 @@ R^{C}_{v} = 1 - \frac{d_{min}}{\omega}
 where $d_{min}$ describes and minimum distance of the agent to its neighbourhood. 
 %
 %\lukas{should this be $1-R^C_v$? or do we want to favour the highest average distance?}
-The final reward function for an agent $v$ is defined as:
+The final reward function $R_{v}$ for an agent $v$ is defined as:
 \begin{equation*}
-R_{v} = \frac{R^a_{v} + R^{\mathcal{N}}_{v} + R^{C}_{v}}{3}
+R_{v} = (\frac{R^a_{v} + R^{\mathcal{N}}_{v} + R^{C}_{v}}{3}) - 1
 \end{equation*}
 Specifically, we decided to express the signal as a \emph{regret}
   as it is a more general measure of the quality of the action taken by the agent.
-It is simplify evaluated as:
-\begin{equation*}
-R^e_{v} = R_v - 1
-\end{equation*}
 %
 \subsection{Training Phase}
 Before we can evaluate our approach, the underlying neural networks have to be fine-tuned in a dedicated training phase.
