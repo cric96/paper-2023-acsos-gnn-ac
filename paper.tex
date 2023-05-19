@@ -827,17 +827,17 @@ The neural network structure used consists of a layer of SuperGAT~\cite{DBLP:jou
 The hidden size was set to 256.
 %
 As the reward function is defined as a regret, 
- we decided to use the Huber loss function, %~\cite{??}, 
- which is a combination of the $L_1$ and $L_2$ loss functions.
+ we decided to use the Huber loss function with $\delta = 1$, %~\cite{??}, 
+ %which is a combination of the $L_1$ and $L_2$ loss functions.
 %
-The loss function is defined as:
-\begin{equation*}
-L_\delta = \begin{cases}
-  \frac{1}{2} (y - \hat{y})^2 & \text{if } |y - \hat{y}| < \delta \\
-  \delta \cdot (|y - \hat{y}| - \frac{1}{2} \delta) & \text{otherwise,} 
- \end{cases}
-\end{equation*}
-where $\delta$ is a hyperparameter that determines the threshold between the two loss functions (fixed to 1 in our experiemnt) and $y$ and $\hat{y}$ are the target and predicted values, respectively.
+%The loss function is defined as:
+%\begin{equation*}
+%L_\delta = \begin{cases}
+%  \frac{1}{2} (y - \hat{y})^2 & \text{if } |y - \hat{y}| < \delta \\
+%  \delta \cdot (|y - \hat{y}| - \frac{1}{2} \delta) & \text{otherwise,} 
+% \end{cases}
+%\end{equation*}
+%where $\delta$ is a hyperparameter that determines the threshold between the two loss functions (fixed to 1 in our experiemnt) and $y$ and $\hat{y}$ are the target and predicted values, respectively.
 This function is used to penalise the agent if the action taken is too far from the optimal action. 
 %\lukas{what is the value of $\delta$ in the training?}
 %\lukas{also: $\delta$ is used as a function and as a value?}
