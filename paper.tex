@@ -9,6 +9,7 @@
 \usepackage{amsfonts}
 \usepackage{xcolor}
 \usepackage{acronym}
+\usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{subcaption}
 \usepackage{bbm}
@@ -513,14 +514,14 @@ However, in these works, communication was left entirely to the neural network,
 \begin{figure}
 	\centering
   \includegraphics[width=.98\linewidth]{imgs/architecture.pdf}
-  \label{fig:architecture}
+
   \caption{High-level description of \ac{FIRL} approach. 
-  For each time step $t$, a graph is constructed from the environment, and it will associate each node with a local feature (hexagons in the picture). 
-  Using this feature, an aggregate program computes spatio-temporal information that enhances the feature set of each agent, depicted as colours in the middle graph. 
+  For each time step $t$, a graph is constructed from the environment, and it will associate each node with a local feature $o^v_t$ (hexagons in the picture). 
+  Using this feature, an aggregate program computes spatio-temporal information that enhances the feature set of each agent producing $f_v$, depicted as colours in the middle graph. 
   Finally, utilizing the GNN, actions are computed for each agent in the system to be performed against the environment, enabling advancement in the simulations according to swarMDP rules.
   %\lukas{should we have numbers at each step in the figure (and then referring in the caption and text)?}
   %\lukas{also, i think we can have the AC and GNN box a bit smaller but increase the size of the networks slightly - and put it on column width ot save space}
-}
+}  \label{fig:architecture}
 \end{figure}
 In this section, we discuss the components involved in our proposed solution (i.e., architecture) and how these components interact with each other to bring the system to perform the collective behaviour (i.e dynamics). Finally, we will detail the learning algorithm designed and used to synthesise the policy.
 \subsection{Architecture and System dynamics}
@@ -528,7 +529,7 @@ In this section, we discuss the components involved in our proposed solution (i.
 %  discussion about the typical AC evaluation model, specifying how GNN (with 1-hop information diffusion)
 %  can be easily integrated with this distributed model
 %}
-The proposed solution consists mainly of two parts, 
+The proposed solution, summarised in \Cref{fig:architecture}, consists mainly of two parts, 
 \emph{i)} the aggregate program used to create part of the observation and 
 \emph{ii)} the policy $\pi_{gnn}$ learned through \ac{GNN}-based approach. 
 %
@@ -702,10 +703,10 @@ As a simulation environment, we use Alchemist~\cite{alchemist},
 For the \ac{GNN}, we use the implementation provided by PyTorch Geometric~\cite{Fey/Lenssen/2019}, 
  which is a library for deep learning on graphs built on top of PyTorch~\cite{torch}.
 Finally, we use ScaFi~\cite{casadei2022scafi} as the aggregate programming language to support our field-informed approach.
-The evaluation is performed in two stages, first the neural networks are trained in an explicit training phase before extensively evaluated in the testing stage.
-
+The evaluation is performed in two stages, first the neural networks are trained in an explicit training phase before being extensively evaluated in the testing stage.
+The simulations are publicly available at \url{https://github.com/AggregateComputing/experiment-2023-acsos-field-informed-rl}.
 \subsection{Scenario}
-Figure~\ref{fig:scenarios} presents the three different types of scenarios utilised within the evaluation. The first type of experiments considers a single phenomenon at a static location (i.e., \emph{Zone Fixed}), the second type of experiment considers two phenomena in two independent but static locations (i.e., \emph{Two Zones}), and the third type of experiment considers a moving phenomenon (i.e., \emph{Moving}). All phenomena are modelled as a Gaussian distribution. Importantly, only the left scenario illustrated in Figure~\ref{fig:static} was used for training the neural networks. 
+\Cref{fig:scenarios} presents the three different types of scenarios utilised within the evaluation. The first type of experiments considers a single phenomenon at a static location (i.e., \emph{Zone Fixed}), the second type of experiment considers two phenomena in two independent but static locations (i.e., \emph{Two Zones}), and the third type of experiment considers a moving phenomenon (i.e., \emph{Moving}). All phenomena are modelled as a Gaussian distribution. Importantly, only the left scenario illustrated in Figure~\ref{fig:static} was used for training the neural networks. 
 Furthermore, all three types of scenarios contain a set of $\mathcal{P} = 25$ agents placed in a 2D grid large 1000x1000 meters. % and a single, stationary phenomenon with a  
 Each agent can perceive the presence
  of the phenomenon of interest through an installed sensor $\zeta_v$ with $v \in \mathbb{V}$. 
@@ -728,7 +729,7 @@ In particular, the angles are quantized to 20 degrees, and for the velocities, w
 
 For the aggregated information, each agent will produce a computation field with which they will try to approximate the direction of the phenomenon of interest. 
 %
-
+%
 %The specific program in question is a simple application of block G, where the source is the maximum value of the neighbourhood. 
 The program $\Gamma$ in question is a simple application of block G, where the source is the maximum value of the neighbourhood. 
 This can be expressed in Scafi as follows:
@@ -911,7 +912,7 @@ In the training phases,
 %
 We also measure the number of agents that are within the phenomenon at each step of the simulation.
 This will be a measure of how well the agents are tracking the phenomenon.
-\ga{todo improve the description of the coverage}
+%\ga{todo improve the description of the coverage}
 
 \subsection{Discussion and Results}
 The results of the training process are summarized in \Cref{fig:training}. 
