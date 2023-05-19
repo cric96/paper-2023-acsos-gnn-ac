@@ -689,9 +689,9 @@ This is because, even though the actions are produced using only local and neigh
 %\ga{Plan: we should discuss the robot aggregation scenario, specifying the state space, the action space, and the reward function.
 %I dunno if it makes sense to discuss the variants (i.e., fixed area, two areas and moving area). We will see.}
 To test the effectiveness of the proposed approach, 
- we decided to experiment with a case study related to swarm robotics, 
- specifically the tracking and coverage of a spatio-temporal phenomenon, cf. tracking a wildfire 
- or monitoring the water levels in a canal with multiple autonomous agents embodied in embedded devices (e.g., drones or IoT devices). The individual agents do not have any knowledge of the initial phenomenon itself (i.e., shape, size, location, velocity,...).
+ we experiment with a case study related to swarm robotics, 
+ specifically, tracking and coverage of a spatio-temporal phenomenon---cf. tracking a wildfire 
+ or monitoring the water levels in a canal with multiple autonomous agents embodied in embedded devices (e.g., drones or IoT devices). The individual agents do not have any knowledge of the initial phenomenon itself (i.e., shape, size, location, velocity, and so on).
  %
 Initially, 
   we perform the training phase using a stationary phenomenon before expanding towards a moving phenomenon in the test phase. 
@@ -750,15 +750,15 @@ This value will then be fed into the $\pi_{GNN}$ to compute the action to be per
 \subsection{Goal}
  The objective of this scenario is threefold:
 \begin{enumerate}
-\item Maximise the number of agents within the phenomena
-\item Minimise the number of agents without a neighbourhood
-\item Maximise the coverage of the system
+\item maximise the number of agents within the phenomena;
+\item minimise the number of agents without neighbours;
+\item maximise the coverage of the system.
 \end{enumerate}
  
 As we are modelling a reinforcement learning system, 
  these three components must be encoded in a reward function 
  that provides an estimate of the current action taken by a given agent.
- 
+% 
 % Regarding the first point, the reward function is simple and is defined as:
 Formally, we define the reward of an agent being within the phenomenon as
  \begin{equation*}
@@ -825,11 +825,11 @@ In our training process,
 $\gamma$ was set to 0.99, 
  as we want to give more value to future returns, 
  aiming to achieve good coverage by continuously tracking the phenomenon. 
-The neural network structure used consists of a layer of SuperGAT~\cite{DBLP:journals/corr/abs-2204-04879} -- A \ac{GNN} based on attention mechanisms -- and a layer of MLP. 
+The neural network structure used consists of a layer of SuperGAT~\cite{DBLP:journals/corr/abs-2204-04879} -- a \ac{GNN} based on attention mechanisms -- and a layer of MLP. 
 The hidden size was set to 256.
 %
 As the reward function is defined as a regret, 
- we decided to use the Huber loss function with $\delta = 1$, %~\cite{??}, 
+ we decided to use the Huber loss function with $\delta = 1$. %~\cite{??}, 
  %which is a combination of the $L_1$ and $L_2$ loss functions.
 %
 %The loss function is defined as:
