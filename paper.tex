@@ -370,7 +370,7 @@ h_{v}^{(k)}=\operatorname{COMBINE}^{(k)}\left(h_{v}^{(k-1)}, a_{v}^{(k)}\right)
 where $h_{v}^{k}$ is the embedding of node $v$ within the $k$-th layer, 
  $\mathcal{N}_G(v)$ is the set of neighbours of node $v$ computed from $E$.
 %
-$h_v{v}^0$ is the initial embedding of node $v$ and it is usually set to the node's feature vector $f_v$.
+$h_v^0$ is the initial embedding of node $v$ and it is usually set to the node's feature vector $f_v$.
 %
 The differential part comes into play in the $\operatorname{COMBINE}$ function, 
  which is usually a differentiable function such as a neural network layer.
@@ -483,12 +483,13 @@ Given a time $t$, the system can be also represented as a graph $G_t = (V_t, E_t
   Each node is then decorated with the local observation perceived at the time $t$: $o^v_t \in O$. 
   Therefore, this graph can be used for being processed by a \ac{GNN} as done in~\cite{DBLP:conf/corl/TolstayaGPP0R19,tolstaya2020learning,DBLP:conf/icra/GosrichMLPYR022} if we set $f_v = o^v_t$.
 \subsection{Motivation}
-The definition of distributed controllers for intelligent systems can be divided into two major approaches: 
- \emph{manual design}, where the application is conceived and described through a programming language, 
- and \emph{automatic design}~\cite{brambilla2013swarm}, which employs machine learning techniques to synthesise distributed controllers. 
+%The definition of distributed controllers for intelligent systems can be divided into two major approaches: 
+% \emph{manual design}, where the application is conceived and described through a programming language, 
+% and \emph{automatic design}~\cite{brambilla2013swarm}, which employs machine learning techniques to synthesise distributed controllers. 
 %
-Our work lies between these two approaches, specifically in the areas of field-based coordination and \ac{MAARL} with the use of \acp{GNN}.
-
+%Our work lies between these two approaches, specifically in the areas of field-based coordination and \ac{MAARL} with the use of \acp{GNN}.
+As mentioned the above, our work falls between automatic and manual approaches, specifically in the areas of field-based coordination and \ac{MAARL} with the use of \acp{GNN}.
+%
 Compared to earlier works on field-based coordination, 
  our approach builds on the concept of co-fields~\cite{DBLP:journals/pervasive/MameiZL04}, 
  where agents exploit the field as a stigmergic medium to receive system-wide information and apply reasoning to this data.
@@ -583,7 +584,8 @@ i.e., to function globally over the entire graph and locally only over the neigh
 Importantly, each agent only has local information from itself and its neighbourhood to utilise in the \ac{GNN}.
 % \lukas{Global information is not available to the agent, right? The agent only provide locally aggregated information (resulting from the AC part)?}
 %
-As value-based algorithm we relied on \ac{DQN}~\cite{mnih2015playing} \ga{to introduce in many rl??} with two major modifications (see \Cref{alg:dqn}): 
+As value-based algorithm we relied on \ac{DQN}~\cite{mnih2015playing} %\ga{to introduce in many rl??} 
+with two major modifications (see \Cref{alg:dqn}): 
 \begin{enumerate}
   \item experience replay stores experiences in the form of \emph{graphs} decorated with features (e.g., observations, actions, rewards, etc.),
   \item the neural network used to compute the Q function is based on a \ac{GNN} with an \ac{MLP} downstream.
