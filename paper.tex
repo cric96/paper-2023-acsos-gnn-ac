@@ -31,7 +31,7 @@
 \lstset{language=Pascal}
 \begin{document}
 %
-\title{Field-informed Reinforcement Learning for Learning Large-Scale Collective Tasks} %% Todo improve
+\title{Field-informed Reinforcement Learning Collective Tasks with Graph Neural Networks} %% Todo improve
 % or: Field-Informed Reinforcement Learning: A Scalable and Effective Method for Collective Intelligence
 % or: A Novel Approach to Reinforcement Learning for Adaptive Collective Systems
 %
@@ -161,7 +161,7 @@ One domain where these challenges are particularly evident is Cyber-Physical Swa
 Examples of CPSs include swarm robotics~\cite{brambilla2013swarm}, smart cities~\cite{bajovic2021marvel}, sensor networks~\cite{pianini2022collective}, and social systems~\cite{zhou2019cyber}. 
  In these systems, agents need to adapt to dynamic and uncertain situations, while ensuring the achievement of global objectives that may not be directly observable or measurable by individual agents.
 
-A key question in designing swarm-like systems is how to create distributed controllers for the agents that enable them to perform complex collective tasks. 
+A key question in designing swarm-like systems is how to create distributed controllers for the agents that enable them to perform complex \emph{collective} tasks. 
  Two main approaches have been proposed for this problem: manual design and automatic design. 
 %
 In manual design, programmers build the controllers directly, 
@@ -185,6 +185,7 @@ Specifically, we propose a solution called \ac{FIRL} that utilises aggregate com
 %We further combine this with reinforcement learning techniques to respond to changing conditions in the environment. 
 %
 The main contribution of \ac{FIRL} is that it allows us to create distributed controllers that are informed by a collective knowledge that has been distilled during training, but that use only local information when deployed. This way, \ac{FIRL} can achieve a balance between manual design and automatic design, combining the benefits of both approaches while mitigating their drawbacks.
+Moreover, the learned policies have the potential to scale to different network topologies due to the inherent nature of GNNs and aggregate computations.
 %% Perhaps to much detail 
 \ac{FIRL} can also be seen as a way of bridging the gap between symbolic and sub-symbolic AI methods, by integrating declarative programming with deep learning.
 %
