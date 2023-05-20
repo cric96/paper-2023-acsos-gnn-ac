@@ -483,7 +483,8 @@ Specifically, starting from a global state $\mathcal{S}^P_t$, the next state $\m
 Given a time $t$, the system can be also represented as a graph $G_t = (V_t, E_t)$, 
   where $E_t$ is built from $\mathcal{N}$.
   Each node is then decorated with the local observation perceived at the time $t$: $o^v_t \in O$. 
-  Therefore, this graph can be used for being processed by a \ac{GNN} as done in~\cite{DBLP:conf/corl/TolstayaGPP0R19,tolstaya2020learning,DBLP:conf/icra/GosrichMLPYR022} if we set $f_v = o^v_t$.
+  This graph can be used both to compute computational fields and as input for a GNN, as done in previous work~\cite{DBLP:conf/corl/TolstayaGPP0R19,tolstaya2020learning,DBLP:conf/icra/GosrichMLPYR022}.
+  % if we set $f_v = o^v_t$.
 \subsection{Motivation}
 %The definition of distributed controllers for intelligent systems can be divided into two major approaches: 
 % \emph{manual design}, where the application is conceived and described through a programming language, 
