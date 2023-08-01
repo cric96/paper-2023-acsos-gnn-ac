@@ -75,6 +75,7 @@ lukas.esterle@ece.au.dk}
 \newcommand{\ga}[1]{\meta{red}{GA}{#1}}
 \newcommand{\lukas}[1]{\meta{purple}{Lukas}{#1}}
 \newcommand{\mv}[1]{\meta{green}{MV}{#1}}
+\newcommand{\review}[1]{\textcolor{red}{#1}}
 %% ACRONYMS
 \acrodef{DecPOMDP}[DecPOMDP]{decentralized partially observable Markov decision processes}
 \acrodef{RL}[RL]{reinforcement learning}
@@ -781,7 +782,7 @@ The second element in the objective function ensures cohesion among the agents.
  In this case, the reward is defined as:
  \begin{equation*}
  R^{\mathcal{N}}_{v} = \begin{cases}
-  1 & \text{if } \mathcal{N} > 0 \\
+  1 & \text{if } |\mathcal{N}| > 0 \\
   0 & \text{otherwise} 
  \end{cases}
  \end{equation*}
@@ -920,7 +921,9 @@ This will be a measure of how well the agents are tracking the phenomenon.
 %\ga{todo improve the description of the coverage}
 
 \subsection{Discussion and Results}
-The results of the training process are summarized in \Cref{fig:training}. 
+The results of the training process are summarized in \Cref{fig:training}.
+% 
+\review{In the charts, the line represents the average value of the metric, while the shaded area represents the standard deviation.}
 %
 Specifically, we observe that the proposed version achieves higher coverage and total reward compared to other approaches. 
 %
@@ -990,7 +993,7 @@ Nevertheless, we acknowledge the crucial role of \acp{GNN}.
     \caption{Reward during training}
     \label{fig:reward}
   \end{subfigure}
-  \caption{Training results of field-informed \ac{RL}. 
+  \caption{Training results of field-informed \ac{RL}.
   Our solution is able to cover the phenomenon better than the baselines and it reaches a higher reward. 
   }
   \label{fig:training}
@@ -1026,7 +1029,7 @@ Nevertheless, we acknowledge the crucial role of \acp{GNN}.
   \end{subfigure}
   \begin{subfigure}[b]{0.85\linewidth}
     \includegraphics[width=\linewidth]{imgs/coverage-two-test}
-    \caption{\emph{Two Zones} experiment: ratio of covered to the uncovered area both phenomena}
+    \caption{\emph{Two Zones} experiment: ratio of covered to the uncovered zones both phenomena}
     \label{fig:coverage-two-test}
   \end{subfigure} 
   \caption{Coverage of two zones using the different modes of the controller.}
