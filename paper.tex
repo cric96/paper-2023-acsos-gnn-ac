@@ -75,7 +75,7 @@ lukas.esterle@ece.au.dk}
 \newcommand{\ga}[1]{\meta{red}{GA}{#1}}
 \newcommand{\lukas}[1]{\meta{purple}{Lukas}{#1}}
 \newcommand{\mv}[1]{\meta{green}{MV}{#1}}
-\newcommand{\review}[1]{\textcolor{red}{#1}}
+\newcommand{\review}[1]{{#1}}
 %% ACRONYMS
 \acrodef{DecPOMDP}[DecPOMDP]{decentralized partially observable Markov decision processes}
 \acrodef{RL}[RL]{reinforcement learning}
@@ -185,7 +185,7 @@ Specifically, we propose a solution called \ac{FIRL} that utilises aggregate com
  The \ac{DQN} provides then the appropriate actions for the agent to achieve their tasks.
 %We further combine this with reinforcement learning techniques to respond to changing conditions in the environment. 
 %
-The main contribution of \ac{FIRL} is that it allows us to create distributed controllers that are informed by a collective knowledge that has been distilled during training, but that use only local information when deployed. This way, \ac{FIRL} can achieve a balance between manual design and automatic design, combining the benefits of both approaches while mitigating their drawbacks.
+The main contribution of \ac{FIRL} is that it allows us to \emph{create distributed controllers that are informed by a collective knowledge that has been distilled during training, but that use only local information when deployed}. This way, \ac{FIRL} can achieve a balance between manual design and automatic design, combining the benefits of both approaches while mitigating their drawbacks.
 Moreover, the learned policies have the potential to scale with size and adapt to different network topologies due to the inherent nature of GNNs and aggregate computations.
 %% Perhaps to much detail 
 \ac{FIRL} can also be seen as a way of bridging the gap between symbolic and sub-symbolic AI methods, by integrating declarative programming with deep learning.
@@ -361,28 +361,35 @@ Given $f_v$, %a feature vector associated with each node $v \in V$,
  The node embedding $h_v$ describes the node in the network and summarises the geometric properties of the graph in this location, allowing for comparison of various nodes in the graph.
 %
 In modern \acp{GNN}, the node embedding $h_v$ is computed by aggregating information from the node's neighbours $\mathcal{N}_G(v)$,
- and then combining it with the node's current embedding $h_v$.
+ and then combining it with the node's current embedding $h_v$ in a process called \emph{message passing}~\cite{DBLP:conf/icml/GilmerSRVD17}.
 %
-The graph is further partitioned into layers with the node $v$ at its bottom layer $0$. 
- With each traversal of an edge $e \in E$ from $v$, the number of layers increases.
-Formally, a \ac{GNN} can be defined by two phases:
+The \acp{GNN} is partitioned into several message passing layer $k$
+ where each of them is responsible for computing the node embedding $h_v^{(k)}$ for each node $v \in V$.
+ %With each traversal of an edge $e \in E$ from $v$, the number of layers increases.
+Formally, a \ac{GNN} can be defined by three phases:
 \begin{equation}
-a_{v}^{(k)}=\operatorname{AGGREGATE}^{(k)}\left(\left\{h_{u}^{(k-1)}: u \in \mathcal{N}_G(v)\right\}\right)   
+m^{(k)}_{uv} = \psi^{(k)}\left(h_u^{(k-1)}, h_v^{(k-1)}, e^{(k-1)}_{uv}\right) 
 \end{equation}
 
 \begin{equation}
-h_{v}^{(k)}=\operatorname{COMBINE}^{(k)}\left(h_{v}^{(k-1)}, a_{v}^{(k)}\right)
+a^{(k)}_u = \bigoplus^{(k)}\left(\left\{m^{(k)}_{uv}: v \in \mathcal{N}_G(u)\right\}\right)
+\end{equation}
+
+\begin{equation}
+h_u^{(k)} = \phi^{(k)}\left(h_u^{(k-1)}, a^{(k)}_u\right)
 \end{equation}
 where $h_{v}^{k}$ is the embedding of node $v$ within the $k$-th layer, 
  $\mathcal{N}_G(v)$ is the set of neighbours of node $v$ computed from $E$.
 %
-$h_v^0$ is the initial embedding of node $v$ and it is usually set to the node's feature vector $f_v$.
+$h_v^0$ is the initial embedding of node $v$, and it is usually set to the node's feature vector $f_v$.
 %
-The differential part comes into play in the $\operatorname{COMBINE}$ function, 
+The differential part comes into play in the $\psi$ and $\phi$ functions, 
  which is usually a differentiable function such as a neural network layer.
 %
-$\operatorname{AGGREGATE} $ instead is a function that aggregates the information from the neighbours of a node $v$
- and it could be a simple sum, max or sum of products. 
+The $\psi$ function is called \emph{message function}, and it is responsible for computing the message $m_{uv}^{(k)}$ from node $u$ to node $v$.
+The $\phi$ function is called \emph{update function}, and it is responsible for updating the node embedding $h_v^{(k)}$ of node $v$.
+$bigoplus $ instead is a function that aggregates the information from the neighbours of a node $v$
+ and it could be a simple sum, max or sum of products and it should be permutation invariant. 
  More complex aggregation functions are available~\cite{pellegrini2020learning}.
 %
 Thereafter, we express the application of a \ac{GNN} to a graph $G_f$ as:
@@ -763,13 +770,10 @@ As we are modelling a reinforcement learning system,
  that provides an estimate of the current action taken by a given agent.
 % 
 % Regarding the first point, the reward function is simple and is defined as:
-Formally, we define the reward of an agent being within the phenomenon as
- \begin{equation*}
- R^a_{v} = \begin{cases}
-  1 & \text{if } \zeta_v > 0 \\
-  0 & \text{otherwise.} 
- \end{cases}
- \end{equation*}
+Formally, we define the reward of an agent being within the phenomenon as:
+$
+  R^a_{v} = 1 \text{ if } \zeta_v > 0 \text{ else } 0
+$.
 Namely, an agent is considered within the phenomena as soon as the drone can sense the phenomenon.
 %
 This will lead the system to prefer a configuration in which every agent is present within the phenomenon.
@@ -780,29 +784,26 @@ The second element in the objective function ensures cohesion among the agents.
  limiting the ability of the agents to move appropriately in the environment.
 % they are not able to move in the environment due to the reduced observability of the system. 
  In this case, the reward is defined as:
- \begin{equation*}
- R^{\mathcal{N}}_{v} = \begin{cases}
-  1 & \text{if } |\mathcal{N}| > 0 \\
-  0 & \text{otherwise} 
- \end{cases}
- \end{equation*}
- 
+$
+R^{\mathcal{N}}_{v} = 1 \text{ if } |\mathcal{N}| > 0 \text{ else } 0
+$.
+
 Finally, to maximise the coverage, 
   we define a reward function that favours the maximum distance between the agents
   equal to the coverage range $\omega$. This will minimise multiple agents covering a common area.
 %
 This means that the average distance will tend towards the one expressed by the viewing range of each agent:
 % 
-\begin{equation*}
+$
 R^{C}_{v} = 1 - \frac{d_{min}}{\omega}
-\end{equation*}
-where $d_{min}$ describes and minimum distance of the agent to its neighbourhood. 
+$.
+Where $d_{min}$ describes and minimum distance of the agent to its neighbourhood. 
 %
 %\lukas{should this be $1-R^C_v$? or do we want to favour the highest average distance?}
 The final reward function $R_{v}$ for an agent $v$ is defined as:
-\begin{equation*}
+$
 R_{v} = (\frac{R^a_{v} + R^{\mathcal{N}}_{v} + R^{C}_{v}}{3}) - 1
-\end{equation*}
+$.
 Specifically, we decided to express the signal as a \emph{regret}
   as it is a more general measure of the quality of the action taken by the agent.
 %
@@ -820,7 +821,7 @@ In this case, we chose to use an exponential epsilon decay, defined as:
 \begin{equation*}
 \epsilon = \epsilon_{min} + (\epsilon_{max} - \epsilon_{min}) \cdot e^{-\lambda \cdot e}
 \end{equation*}
-where e is the current episode number. 
+Where e is the current episode number. 
 This leads to a high number of random actions at the beginning and gradually shifts towards exploitation in the later episodes. 
 %
 In our training process, 
@@ -905,7 +906,7 @@ The coverage is defined as the percentage of the phenomenon covered by the agent
 %
 Specifically, we can measure the coverage as the intersection over the union of the phenomenon and the agents' view range.
 %
-Formally, first, we define the overall coverage for a certain time step as:
+Formally, we define the overall coverage for a certain time step as:
 \begin{equation*}
 \Omega = \bigcup_{v \in V} \omega_v
 \quad 
@@ -923,7 +924,7 @@ This will be a measure of how well the agents are tracking the phenomenon.
 \subsection{Discussion and Results}
 The results of the training process are summarized in \Cref{fig:training}.
 % 
-\review{In the charts, the line represents the average value of the metric, while the shaded area represents the standard deviation.}
+\review{In the charts, the line represents the average value of a metric of interest, while the shaded area represents its standard deviation.}
 %
 Specifically, we observe that the proposed version achieves higher coverage and total reward compared to other approaches. 
 %
@@ -993,8 +994,8 @@ Nevertheless, we acknowledge the crucial role of \acp{GNN}.
     \caption{Reward during training}
     \label{fig:reward}
   \end{subfigure}
-  \caption{Training results of field-informed \ac{RL}.
-  Our solution is able to cover the phenomenon better than the baselines and it reaches a higher reward. 
+  \caption{Training results of FIRL.
+  It can cover the phenomenon better than the baselines and it reaches a higher reward. 
   }
   \label{fig:training}
 \end{figure}
@@ -1006,7 +1007,7 @@ Nevertheless, we acknowledge the crucial role of \acp{GNN}.
   \centering
   \begin{subfigure}[b]{0.9\linewidth}
     \includegraphics[width=\linewidth]{imgs/coverage-test.pdf}
-    \caption{Ratio of coverage of the phenomena in the three types of experiments. Our \ac{FIRL} approach can outperform other approaches lacking field information.}
+    \caption{Ratio of coverage of the phenomena. Our \ac{FIRL} approach can outperform other approaches lacking field information.}
     \label{fig:coverage-test}
   \end{subfigure}
   \begin{subfigure}[b]{0.9\linewidth}
@@ -1014,12 +1015,11 @@ Nevertheless, we acknowledge the crucial role of \acp{GNN}.
     \caption{Number of agents inside the phenomenon in the three types of experiments}
     \label{fig:inside-test}
   \end{subfigure}
-	\caption{Quantative test results in the three types of scenarios.
-	 	We can see that the proposed approach is able to cover and track the phenomenon better than the baselines.
+	\caption{Quantitative test results.
+	 	The proposed approach can cover and track the phenomenon better than the baselines.
 	}
 	\label{fig:test}
 \end{figure*}
-
 \begin{figure*}
 	\centering
   	\begin{subfigure}[b]{0.85\linewidth}
