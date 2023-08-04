@@ -185,7 +185,7 @@ Specifically, we propose a solution called \ac{FIRL} that utilises aggregate com
  The \ac{DQN} provides then the appropriate actions for the agent to achieve their tasks.
 %We further combine this with reinforcement learning techniques to respond to changing conditions in the environment. 
 %
-The main contribution of \ac{FIRL} is that it allows us to \emph{create distributed controllers that are informed by a collective knowledge that has been distilled during training, but that use only local information when deployed}. This way, \ac{FIRL} can achieve a balance between manual design and automatic design, combining the benefits of both approaches while mitigating their drawbacks.
+The main contribution of \ac{FIRL} is the \emph{definition of distributed controllers that are informed by collective knowledge that has been distilled during training, but that use only local information when deployed}. This way, \ac{FIRL} can achieve a balance between manual design and automatic design, combining the benefits of both approaches while mitigating their drawbacks.
 Moreover, the learned policies have the potential to scale with size and adapt to different network topologies due to the inherent nature of GNNs and aggregate computations.
 %% Perhaps to much detail 
 \ac{FIRL} can also be seen as a way of bridging the gap between symbolic and sub-symbolic AI methods, by integrating declarative programming with deep learning.
@@ -384,11 +384,11 @@ where $h_{v}^{k}$ is the embedding of node $v$ within the $k$-th layer,
 $h_v^0$ is the initial embedding of node $v$, and it is usually set to the node's feature vector $f_v$.
 %
 The differential part comes into play in the $\psi$ and $\phi$ functions, 
- which is usually a differentiable function such as a neural network layer.
+ which is usually a differentiable function such as a neural network.
 %
 The $\psi$ function is called \emph{message function}, and it is responsible for computing the message $m_{uv}^{(k)}$ from node $u$ to node $v$.
 The $\phi$ function is called \emph{update function}, and it is responsible for updating the node embedding $h_v^{(k)}$ of node $v$.
-$bigoplus $ instead is a function that aggregates the information from the neighbours of a node $v$
+$\bigoplus $ instead is a function that aggregates the information from the neighbours of a node $v$
  and it could be a simple sum, max or sum of products and it should be permutation invariant. 
  More complex aggregation functions are available~\cite{pellegrini2020learning}.
 %
@@ -412,13 +412,13 @@ This formulation allows \acp{GNN} to effectively process and extract features fr
 % 
 In \ac{RL}, an \emph{agent} (i.e., a smart entity capable of making decisions) 
  performs \emph{actions} in an \emph{environment} (i.e., everything outside the agent) according to a \emph{policy}, 
- to maximise long-term \emph{reward signal} (or minimise a \emph{regret}).
+ to maximise long-term \emph{reward signal}. %(or minimise a \emph{regret}).
 
 One interesting application of \ac{RL} is when there are multiple learning agents involved. 
  Such scenarios are referred to as multi-agent reinforcement learning (MARL)~\cite{zhang2019marl}. 
 %
-In particular, in this work, we consider homogenous \ac{MAARL}~\cite{yang2021many}, 
- where the set of agents is large ($N \gg 2$) and each agent is interchangeable and indistinguishable.
+In particular, in this work, we consider \emph{homogenous \ac{MAARL}}~\cite{yang2021many}, 
+ where the set of agents is large ($N \gg 2$) and each agent is \emph{interchangeable} and \emph{indistinguishable}.
 %
 This research area is relevant in the context of large-scale systems 
  where collective intelligence emerges from local and repeated interaction of simple entities, like in swarm robotics.
@@ -429,11 +429,11 @@ In such many-agent scenarios,
 %
 Conversely, a centralized controller capable of coordinating 
  the entire system may not be a viable solution due to scalability concerns. 
- To address this challenge, a practical solution is the adoption of \ac{CTDE}.
+ To address this challenge, a practical solution is the adoption of \emph{\ac{CTDE}} approach.
 %
-The idea is to learn a policy at simulation time where there is a collective view of the system, 
- and then at runtime use the policy found with global information. 
-This approach allows policies that are influenced by global information but only require local information to function at runtime. 
+The idea is to learn a policy at simulation time when there is a collective view of the system, 
+ and then at runtime use that policy but only with local observations. 
+%This approach creates policies that are influenced by global information but only require local information to function at runtime. 
 %
 The typical approach in such cases is based on actor-critic systems~\cite{DBLP:conf/nips/LoweWTHAM17,wu2022more,song2022ctds,song2022centralized},
   where the \emph{actor} is the distributed policy (with only local information) and the critic is a neural network that takes the overall system state.
@@ -488,10 +488,11 @@ Specifically, starting from a global state $\mathcal{S}^P_t$, the next state $\m
 \qquad
 \mathcal{S}^P_{t+1} = \mathcal{T}(\mathcal{S}^P_t, \mathcal{A}^P_t)
 \end{equation*}
-Given a time $t$, the system can be also represented as a graph $G_t = (V_t, E_t)$, 
-  where $E_t$ is built from $\mathcal{N}$.
+Given a time $t$, the system can be also represented as a graph $G^t = {V^t, E^t}$, 
+  where $E^t$ is built from $\mathcal{N}$.
   Each node is then decorated with the local observation perceived at the time $t$: $o^v_t \in O$. 
-  This graph can be used both to compute computational fields and as input for a GNN, as done in previous work~\cite{DBLP:conf/corl/TolstayaGPP0R19,tolstaya2020learning,DBLP:conf/icra/GosrichMLPYR022}.
+%
+This graph can be used both to compute computational fields and, as done in previous work~\cite{DBLP:conf/corl/TolstayaGPP0R19,tolstaya2020learning,DBLP:conf/icra/GosrichMLPYR022}, can be the input for a GNN.
   % if we set $f_v = o^v_t$.
 \subsection{Motivation}
 %The definition of distributed controllers for intelligent systems can be divided into two major approaches: 
@@ -505,7 +506,7 @@ Compared to earlier works on field-based coordination,
  our approach builds on the concept of co-fields~\cite{DBLP:journals/pervasive/MameiZL04}, 
  where agents construct and exploit the field as a ``digital sign'' \cite{DBLP:journals/ijaci/CastelfranchiPT10} to receive system-wide information and apply reasoning to this data.
 %  
-We present a subsequent approach where agent intelligence is synthesised through \ac{MAARL} and the use of \ac{GNN} to learn a local representation from the neighbourhood.
+We present a subsequent approach where agent intelligence is synthesised through \ac{MAARL} and \ac{GNN} is used to learn a local representation from the neighbourhood.
 %
 By learning a smart policy directly in the environment, the agent becomes capable of adapting its behaviour to new situations.
 
@@ -543,13 +544,13 @@ The proposed solution, summarised in \Cref{fig:architecture}, consists mainly of
 \emph{i)} the aggregate program used to create part of the observation and 
 \emph{ii)} the policy $\pi_{gnn}$ learned through \ac{GNN}-based approach. 
 %
-Let $\Gamma$ be the aggregate program that takes a graph $G_t$ decorated by $o^v_t$, 
+Let $\Gamma$ be the aggregate program that takes a graph $G^t$ decorated by $o^v_t$, 
  representing the participating agents and their neighbourhood relations at time $t$, as input. 
 % \lukas{$G_t$ is not defined. also, not sure what `runs against' means - take $G_t$ as input?}
 %\ga{In the problem formalization, I defined $G_t$, but it may be more appropriate to define it directly in the GNN, as suggested. I made this choice since GNNs typically only receive a graph as input, without regard for time, I included the definition of $G_t$ in the problem formalization as it pertains to the dynamics of the overall system. Specifically, when discussing the system's dynamics at a given time t, it's necessary to define the corresponding graph. I hope this clarifies my reasoning. Let me know!}
 %
-The evaluation of $\Gamma$ produces a field value $\theta^v_t$ for each node $v$ in $G_t$. 
-From this field, we construct the feature vector $f_v$ for each node $v$ in $G_t$ as follows:
+The evaluation of $\Gamma$ produces a field value $\theta^v_t$ for each node $v$ in $G^t$. 
+From this field, we construct the feature vector $f_v$ for each node $v$ in $G^t$ as follows:
  $f_v = (\theta^v_t, o^v_t)$.
 %  \lukas{we used $o_v$ to describe the observation of node $v$ in section II.C - so this would not include field information, right?}
 % \lukas{we have not introduced $G'_t$ yet}
@@ -561,7 +562,7 @@ The policy $\pi_{gnn}$ is then evaluated for each agent using $f_v$ as input,
 %
 While the graph, containing the aggregate information, 
  might appear as global knowledge, 
- this is not the case as the information is never aggregated globally. 
+ this is not the case as the information is \emph{never} aggregated globally. 
 The individual agents only combine information from their local neighbourhood.
 %
 In fact, the program $\Gamma$ is proactively executed at every agent, 
@@ -741,14 +742,14 @@ For the aggregated information, each agent will produce a computation field with
 %
 %
 %The specific program in question is a simple application of block G, where the source is the maximum value of the neighbourhood. 
-The program $\Gamma$ in question is a simple application of block G, where the source is the maximum value of the neighbourhood. 
-This can be expressed in Scafi as follows:
+The program $\Gamma$ in question is a simple application of block \lstinline|G|, where the source is the maximum value of the neighbourhood. 
+This can be expressed in ScaFi as follows:
 \begin{lstlisting}[mathescape=true]
 val source = maxHood(nbr(sense($\zeta$))) == sense($\zeta$)
 G(source, Point3D.Zero, _ + nbrVector())
 \end{lstlisting}
 where \texttt{maxHood} is a function that returns the maximum value of the neighbourhood, 
- \texttt{nbr} is a function that returns the value of the neighbourhood, 
+ \texttt{nbr} is a function that a neighbourhood field of values (in this case, the sensor value $\zeta$),
 \texttt{sense} is a function that returns the value of the sensor, and
 \texttt{nbrRange} is a function that returns an approximate direction for each agent in the neighbourhood.
 %
@@ -771,9 +772,9 @@ As we are modelling a reinforcement learning system,
 % 
 % Regarding the first point, the reward function is simple and is defined as:
 Formally, we define the reward of an agent being within the phenomenon as:
-$
-  R^a_{v} = 1 \text{ if } \zeta_v > 0 \text{ else } 0
-$.
+\begin{equation}
+R^a_{v} = 1 \text{ if } \zeta_v > 0 \text{ else } 0  
+\end{equation}
 Namely, an agent is considered within the phenomena as soon as the drone can sense the phenomenon.
 %
 This will lead the system to prefer a configuration in which every agent is present within the phenomenon.
@@ -784,9 +785,9 @@ The second element in the objective function ensures cohesion among the agents.
  limiting the ability of the agents to move appropriately in the environment.
 % they are not able to move in the environment due to the reduced observability of the system. 
  In this case, the reward is defined as:
-$
+\begin{equation*}
 R^{\mathcal{N}}_{v} = 1 \text{ if } |\mathcal{N}| > 0 \text{ else } 0
-$.
+\end{equation*}
 
 Finally, to maximise the coverage, 
   we define a reward function that favours the maximum distance between the agents
@@ -794,16 +795,16 @@ Finally, to maximise the coverage,
 %
 This means that the average distance will tend towards the one expressed by the viewing range of each agent:
 % 
-$
+\begin{equation*}
 R^{C}_{v} = 1 - \frac{d_{min}}{\omega}
-$.
+\end{equation*}
 Where $d_{min}$ describes and minimum distance of the agent to its neighbourhood. 
 %
 %\lukas{should this be $1-R^C_v$? or do we want to favour the highest average distance?}
 The final reward function $R_{v}$ for an agent $v$ is defined as:
-$
-R_{v} = (\frac{R^a_{v} + R^{\mathcal{N}}_{v} + R^{C}_{v}}{3}) - 1
-$.
+\begin{equation*}
+ R_{v} = (\frac{R^a_{v} + R^{\mathcal{N}}_{v} + R^{C}_{v}}{3}) - 1  
+\end{equation*}
 Specifically, we decided to express the signal as a \emph{regret}
   as it is a more general measure of the quality of the action taken by the agent.
 %
@@ -818,9 +819,9 @@ For each episode,
  The feature set used by the \ac{GNN} created for each agent consists of the vector computed by the aggregated program and the value of the local sensor $\zeta$.
 %
 In this case, we chose to use an exponential epsilon decay, defined as:
-\begin{equation*}
+$
 \epsilon = \epsilon_{min} + (\epsilon_{max} - \epsilon_{min}) \cdot e^{-\lambda \cdot e}
-\end{equation*}
+$.
 Where e is the current episode number. 
 This leads to a high number of random actions at the beginning and gradually shifts towards exploitation in the later episodes. 
 %
@@ -896,7 +897,7 @@ without leveraging the graph structure. Moreover, we increase the batch size to 
 %The \ac{GNN} instead of using the field information, use directly the position of nodes and the local sensor value as input features.
 The \ac{GNN} alone, without using the field information, apply the position of agents and the local sensor value directly as input features within the \ac{DQN}.
 %
-These baselines are used to verify the effectiveness of the components used in the field-informed \ac{RL}. 
+These baselines are used to verify the effectiveness of the components used in the FIRL. 
 %
 Indeed the \ac{MLP} baseline is used to verify the effectiveness of the \ac{GNN} in the proposed approach, while the \ac{GNN} baseline is used to verify the effectiveness of the field information in the proposed approach.
 \subsection{Metrics}
