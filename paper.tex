@@ -105,19 +105,22 @@ lukas.esterle@ece.au.dk}
 %
 Coordinating a multi-agent system of intelligent situated agents is a traditional research problem, 
 impacted by the challenges posed by the very notion of distributed intelligence.
-These problems arise from agents acquiring information locally, sharing their knowledge, and acting accordingly in their environment in order to achieve a common, global goal.
+These problems arise from agents acquiring information locally, sharing their knowledge, and acting accordingly in their environment to achieve a common, global goal.
 %
-Individual agents need to control how they share their knowledge in order to not overburden the network or other agents with unnecessary information.
-These problems are even more evident in large-scale collective adaptive systems, where agent interactions are necessarily proximity-based, thus making the emergence of controlled global collective behaviour harder.
+%Individual agents need to control how they share their knowledge to not overburden the network or other agents with unnecessary information.
+These issues are even more evident in large-scale collective adaptive systems, 
+ where agent interactions are necessarily proximity-based, thus making the emergence of controlled global collective behaviour harder.
 
 In this context, two main approaches have been proposed for creating distributed controllers out of macro-level task/goal descriptions: 
  \emph{manual design}, in which programmers build the controllers directly, and 
  \emph{automatic design}, which involves synthesizing programs using machine learning methods.
 %
-In this paper, we consider a new \emph{hybrid} approach called  \emph{Field-Informed reinforcement learning} (FIRL). We utilise manually designed \emph{computational fields} (globally distributed data structures) to manage global agent coordination. Then, using \emph{Deep Q-learning} in combination with \emph{Graph Neural Networks} we enable the agents to learn the necessary local behaviour automatically to solve collective tasks, relying on those fields through local perception.
+In this paper, we consider a new \emph{hybrid} approach called  \emph{Field-Informed reinforcement learning} (FIRL). We utilise manually designed \emph{computational fields} (globally distributed data structures) to manage global agent coordination. 
 %
-This allows us to create distributed controllers informed by a collective knowledge 
- that has been distilled during learning, but that uses only local information at runtime.
+Then, using \emph{Deep Q-learning} in combination with \emph{Graph Neural Networks} we enable the agents to learn the necessary local behaviour automatically to solve collective tasks, relying on those fields through local perception.
+%
+%This allows us to create distributed controllers informed by a collective knowledge 
+% that has been distilled during learning, but that uses only local information at runtime.
 % 
 We demonstrate the effectiveness of this new approach in simulated use cases 
  where tracking and covering tasks for swarm robotics are successfully solved. 
